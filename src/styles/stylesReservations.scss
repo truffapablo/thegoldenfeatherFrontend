@@ -1,0 +1,31 @@
+$goldenFeatherBlue: #263032;
+$goldenFeatherGold: #C59B5F;
+$goldenFeatherWhite:#FDF9F6;
+
+
+.sidebarlink{
+    background-color: $goldenFeatherBlue;
+    color: $goldenFeatherWhite!important;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+
+    &:hover{
+        background-color: $goldenFeatherGold;
+        color: $goldenFeatherBlue!important;
+    }
+}
+
+.btn-reserve {
+    background-color: $goldenFeatherGold;
+    color: $goldenFeatherWhite!important;
+    border: 1px solid $goldenFeatherGold;
+
+    &:hover{
+        background-color: $goldenFeatherBlue;
+        color: $goldenFeatherGold!important;
+    }
+}
+
+.cpointer {
+    cursor: pointer;
+}

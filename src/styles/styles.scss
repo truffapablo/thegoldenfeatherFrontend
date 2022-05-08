@@ -1,0 +1,59 @@
+
+$white: #fff;
+$google-blue: #4285f4;
+$button-active-blue: #1669f2;
+
+$goldenFeatherBlue: #263032;
+$goldenFeatherGold: #C59B5F;
+$goldenFeatherWhite:#FDF9F6;
+
+body {
+    //background-color: $goldenFeatherBlue;
+}
+
+.gf-blue {
+  background-color: $goldenFeatherBlue;
+}
+.gf-border-b {
+  border-bottom: 3px solid $goldenFeatherGold;
+}
+
+.gf-border-r {
+  border-right: 3px solid $goldenFeatherGold;
+}
+
+.gf-bg-white {
+  background-color: $goldenFeatherWhite;
+}
+
+#profile-name {
+    color: $goldenFeatherGold!important;
+    cursor: pointer;
+}
+#profile-name:hover {
+    color: $goldenFeatherWhite!important;
+}
+
+.gf-active{
+    color: $goldenFeatherWhite!important;
+}
+
+.nav-cf {
+    width: 100vw;
+    background-color: $goldenFeatherBlue;
+}
+
+nav a, .navbar-nav a, nav .nav-link {
+    color: $goldenFeatherGold;
+    transition: all 0.3s ease-in-out;
+}
+
+nav a:hover, .navbar-nav a:hover, nav .nav-link:hover {
+    color: $goldenFeatherWhite;
+}
+
+
+
+
+
+

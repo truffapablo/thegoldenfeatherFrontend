@@ -1,0 +1,30 @@
+$goldenFeatherBlue: #263032;
+$goldenFeatherGold: #C59B5F;
+$goldenFeatherWhite:#FDF9F6;
+
+
+#gf-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gf-logo-img {
+    width: 100px;
+    height: auto;
+    margin: auto;
+}
+
+.gf-logo-title {
+    text-transform: uppercase;
+    padding-bottom: 3px;
+    border-bottom: 3px solid $goldenFeatherGold;
+    text-align: center;
+    color: $goldenFeatherWhite;
+}
+
+.gf-logo-subtitle {
+    text-transform: uppercase;
+    text-align: center;
+    color: $goldenFeatherWhite;
+}

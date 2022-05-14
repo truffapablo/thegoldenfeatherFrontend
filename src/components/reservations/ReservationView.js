@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react'
-import { ErrorBoundary } from 'react-error-boundary';
+import React from 'react'
+
 import { NavLink, Outlet} from 'react-router-dom';
-import { Error } from '../error/Error';
+
 
 export const ReservationView = () => {
 
   return (
-    <div className='container mt-5'>
-      <div className='row'>
+    <div className='container-fluid px-4 custom-view'>
+      <div className='row mt-5'>
           <div className='col-md-12'>
           <ul className="nav nav-tabs">
             <li className="nav-item">
@@ -20,9 +20,7 @@ export const ReservationView = () => {
               <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='custom'>Reserva personalizada</NavLink> 
             </li>
           </ul> 
-                <ErrorBoundary FallbackComponent={Error}>
-                  <Outlet />   
-                </ErrorBoundary>
+              <Outlet />   
           </div>
             
       </div>

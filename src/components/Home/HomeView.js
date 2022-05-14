@@ -6,7 +6,7 @@ export const HomeView = () => {
 
   return (
         
-    <div className='container mt-5'>
+    <div>
       <Home/>
     </div>
   )

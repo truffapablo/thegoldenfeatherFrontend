@@ -5,7 +5,7 @@ import { Routes, Route, useNavigate} from "react-router-dom";
 import { EventView } from '../components/events/EventView';
 import { LoginView } from '../components/login/LoginView';
 
-import { Navbar } from '../components/ui/Navbar';
+import { MainNavbar, Navbar } from '../components/ui/MainNavbar';
 
 
 import { HomeView } from '../components/Home/HomeView';
@@ -26,12 +26,16 @@ import { EventList } from '../components/events/EventList';
 import { EventNew } from '../components/events/EventNew';
 import { EventById } from '../components/events/EventById';
 import { EventEdit } from '../components/events/EventEdit';
-import { ErrorBoundary } from 'react-error-boundary';
-import { Error } from '../components/error/Error';
+
 import { ReservationCustom } from '../components/reservations/ReservationCustom';
 import { getCustomReservations } from '../actions/customReservation';
 import { CustomReservationById } from '../components/reservations/CustomReservationById';
 import { ReservationCustomEdit } from '../components/reservations/ReservationCustomEdit';
+
+
+import { Footer } from '../components/ui/Footer';
+import { Sidenav } from '../components/ui/Sidenav';
+import { ClientSidenav } from '../components/ui/ClientSidenav';
 
 
 
@@ -63,55 +67,53 @@ export const AppRouter = () => {
 
   return (
     <div className="App">
-      {
-        uid && <Navbar/>
-      } 
-      <Routes>
+       
+       <MainNavbar/>
 
-
-
-        <Route path="/" exact element={<LoginView />} />
-        <Route path="login" element={<LoginView />} />
-        <Route path="register" element={<RegisterView/>} />
-
-          
-        <Route path="/dashboard" element={<RequireAuth/>}>
-
-            <Route path='reservations' element={<ReservationView/>}>
+        <div id="layoutSidenav">
+       {
+          uid ? <Sidenav/> : <ClientSidenav/>
+       }
       
-                
+        <div id="layoutSidenav_content">
+        <Routes>
+
+          <Route path="/" exact element={<HomeView />} />
+          <Route path="login" element={<LoginView />} />
+          <Route path="register" element={<RegisterView/>} />
+
+          <Route path="/dashboard" element={<RequireAuth/>}>
+              <Route path='reservations' element={<ReservationView/>}>       
                 <Route index element={<ReservationList />}/>  
                 <Route path="new" element={<ReservationNew />} />
                 <Route path="custom" element={<ReservationCustom />} />
                 <Route path="list" element={<ReservationList />} />  
-                
                 <Route path=":id" element={<ReservationById />} />
                 <Route path=":id/custom" element={<CustomReservationById />} />
-                
                 <Route path=":id/edit" element={<ReservationEdit />} />
                 <Route path=":id/custom-edit" element={<ReservationCustomEdit />} />
-          
-            </Route>
-            
-            <Route path='events' element={<EventView/>}>
-                
+              </Route>
+    
+              <Route path='events' element={<EventView/>}>
                 <Route index element={<EventList />}/>  
                 <Route path="new" element={<EventNew />} />
                 <Route path="list" element={<EventList />} />  
                 <Route path=":id" element={<EventById />} />
                 <Route path=":id/edit" element={<EventEdit />} />
-
-            </Route>
-
-            <Route path="events" element={<EventView />} />
-            <Route path="reports" element={<ReportView />} />
-        </Route>
+              </Route>
+              
+              <Route path="reports" element={<ReportView />} />
+          </Route>
 
 
-        <Route path="*" element={<h1>NOT FOUND</h1>} />
+          <Route path="*" element={<h1>NOT FOUND</h1>} />
 
-
-      </Routes>
+        </Routes>
+            <Footer/>
+        </div>
+        </div>
+      
+      
         
 
     </div>

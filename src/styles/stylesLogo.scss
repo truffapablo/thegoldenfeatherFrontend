@@ -21,10 +21,14 @@ $goldenFeatherWhite:#FDF9F6;
     border-bottom: 3px solid $goldenFeatherGold;
     text-align: center;
     color: $goldenFeatherWhite;
+    font-family: 'timelessregular';
 }
 
 .gf-logo-subtitle {
     text-transform: uppercase;
     text-align: center;
     color: $goldenFeatherWhite;
+    font-family: 'timelessregular';
+    font-size: 1em;
+    letter-spacing: 4px;
 }

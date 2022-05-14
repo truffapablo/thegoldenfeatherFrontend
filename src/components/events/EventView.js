@@ -3,7 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 
 export const EventView = () => {
   return (
-    <div className='container mt-5'>
+    <div className='container-fluid mt-5'>
       <div className='row'>
           <div className='col-md-12'>
           <ul className="nav nav-tabs">

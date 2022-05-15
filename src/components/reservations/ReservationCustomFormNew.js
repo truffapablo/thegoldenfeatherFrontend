@@ -26,7 +26,7 @@ export const ReservationCustomFormNew = () => {
     peopleQuantity: '',
     roomNumber: '',
     price: '',
-    commission: '',
+    commission: '0',
   });
 
 

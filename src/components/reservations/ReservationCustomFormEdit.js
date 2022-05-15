@@ -29,7 +29,7 @@ export const ReservationCustomFormEdit = () => {
     email: reservation.email || '',
     phone: reservation.phone || '',
     price: reservation.price || '',
-    commission: reservation.commission || '',
+    commission: reservation.commission || '0',
     date: convertDate(reservation.date,'YYYY-MM-DD'),
     time: reservation.time,
     peopleQuantity: reservation.peopleQuantity,

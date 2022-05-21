@@ -3,17 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { getLogsByReservationId } from '../../actions/logs';
-import { cancelReservation } from '../../actions/reservation';
+import { cancelReservation, confirmReservation } from '../../actions/reservation';
 import { convertDate } from '../../helpers/convertDate';
+import { reservationStatus} from './reservationStatus';
+
 
 
 export const ReservationById = () => {
 
-  const { list, customList } = useSelector(state => state.reservations);
+  const { list } = useSelector(state => state.reservations);
   const {id} = useParams();
-  const [reservationType, setReservationType] = useState('');
-  
+ 
   const reservation = list.find(reservation => reservation.id === id);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -72,8 +74,19 @@ export const ReservationById = () => {
         cancelButtonText: 'Abortar!',
       }).then((result) => {
         if (result.value) {
-          dispatch(cancelReservation({id}));
-          navigate('/dashboard/reservations');
+          console.log(id);
+          dispatch(cancelReservation({id})).then(data => {
+            if (data) {
+              Swal.fire({
+                title: 'Reserva cancelada',
+                text: 'La reserva ha sido cancelada',
+                icon: 'success',
+                confirmButtonColor: '#263032',
+              })
+              navigate('/dashboard/reservations');
+             
+            }
+          });
         }
       })
     }
@@ -81,19 +94,50 @@ export const ReservationById = () => {
     const edit = () => {
       navigate(`/dashboard/reservations/${id}/edit`);
     }
+
+    const confirm = () => {
+      Swal.fire({
+        title: '¿Queres confirmar esta reserva?',
+        text: "Confirmar una reserva sirve para garantizar la misma.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#263032',
+        cancelButtonColor: '#C59B5F',
+        confirmButtonText: 'Sí, confirmar!',
+        cancelButtonText: 'Cancelar!',
+      }).then((result) => {
+        if (result.value) {
+        
+          dispatch(confirmReservation({id})).then(data => {
+            if (data) {
+              Swal.fire({
+                title: 'Reserva confirmada',
+                text: 'La reserva ha sido confirmada',
+                icon: 'success',
+                confirmButtonColor: '#263032',
+              })
+              navigate('/dashboard/reservations');
+            }
+          });
+
+        }
+      })
+
+    }
     
 
   return (
     
     <div className='container mt-5 animate__animated animate__fadeIn'>
-       <h2>Reserva # {reservation.confirmation}</h2>
+       <h2>Reserva #{reservation.confirmation}</h2>
        <div className='row'>
           <div className='col-md-10'>
           <ul>
             <li>Evento: {reservation.event.title}</li>
             <li>Fecha: {convertDate(reservation.date)}</li>
-            <li>Horario: {reservation.time}hs</li>
-            <li>Precio: {reservation.event.price} {reservation.event.currency}</li>
+            <li>Horario: {reservation.event.start}hs</li>
+            <li>Precio por persona: {reservation.event.price} {reservation.event.currency}</li>
+            <li>Precio total: {reservation.event.price * reservation.peopleQuantity} {reservation.event.currency}</li>
             <hr/>
             <li>Huesped: {reservation.firstName} {reservation.lastName}</li>
             <li>Habitación: #{reservation.roomNumber}</li>
@@ -107,12 +151,23 @@ export const ReservationById = () => {
             <li className='mt-3'><a href='#' onClick={loadLogs}>Ver log de la reserva</a></li>
           </ul>
           </div>
-          <div className='col-md-2'>
-            <div className='d-grid gap-2'>
-              <button className="btn btn-reserve btn-block" onClick={edit}>Editar</button>
-              <button className="btn btn-reserve btn-block" onClick={cancel}>Cancelar</button>
+          {
+            reservation.status !== reservationStatus.reservationCancelled &&
+            <div className='col-md-2'>
+              <div className='d-grid gap-2'>
+                {
+                  reservation.status !== reservationStatus.reservationConfirmed &&
+                  <button className="btn btn-reserve btn-block" onClick={confirm}>Confirmar</button>
+                }
+                {
+                  reservation.status !== reservationStatus.reservationConfirmed &&
+                  <button className="btn btn-reserve btn-block" onClick={edit}>Editar</button>
+                  
+                }
+                <button className="btn btn-reserve btn-block" onClick={cancel}>Cancelar</button>
+              </div>
             </div>
-          </div>
+          }
        </div>
     </div>
   )

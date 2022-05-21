@@ -62,12 +62,30 @@ export const cancelReservation = ({id}) => {
     }
 }
 
+export const confirmReservation = ({id}) => {
+    
+    return async (dispatch) => {
+        try {
+            const resp = await fetchWithToken(`reservations/${id}/confirm`, {}, 'PATCH');
+            const data = await resp.json();
+            if (data.ok) {
+                dispatch(reservationConfirm(data.reservation));
+                return true;
+            }else{
+                return false;
+            }
+        } catch (error) {
+            console.log('Error',error);
+            return false;
+        }
+    }
+}
+
 export const updateReservation = (id, reservation) => {
     return async (dispatch) => {
             try {
                 const resp = await fetchWithToken(`reservations/${id}`, reservation, 'PUT');
                 const data = await resp.json();
-                console.log(data);
                 if (data.ok) {
                     dispatch(reservationUpdate(data.reservation));
                     return true;
@@ -81,6 +99,8 @@ export const updateReservation = (id, reservation) => {
             }
     }
 }
+
+
 
 
 
@@ -121,6 +141,13 @@ const reservationcancel = (reservation) => {
 const reservationUpdate = (reservation) => {
     return {
         type: types.reservationUpdate,
+        payload: reservation
+    }
+}
+
+const reservationConfirm = (reservation) => {
+    return {
+        type: types.reservationConfirm,
         payload: reservation
     }
 }

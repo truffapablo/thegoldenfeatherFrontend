@@ -69,11 +69,20 @@ export const reservationReducer = (state = initialState, action) => {
                 list: state.list.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
             }
             
-            case types.reservationUpdateCustom:
-                return {
+        case types.reservationUpdateCustom:
+            return {
+            ...state,
+            customList: state.customList.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
+        }
+
+        case types.reservationConfirm:
+            return {
                 ...state,
-                customList: state.customList.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
-            }
+                list: state.list.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
+        }
+
+
+
     
         default:return state;
     }

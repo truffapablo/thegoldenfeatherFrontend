@@ -10,17 +10,17 @@ import { removeError, setError} from '../../actions/ui';
 import { validateReservation } from '../../helpers/reservationHelper';
 import { useForm } from '../../hooks/useForm';
 import { convertDate } from '../../helpers/convertDate';
+import { eventPriceHasChanged } from '../../helpers/eventPriceHasChanged';
 export const ReservationFormEdit = () => {
     const { msgError } = useSelector(state => state.ui);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {list} = useSelector(state => state.events);
-    const [evId, setEvId] = useState(list[0].id);
+    
     const reList  = useSelector(state => state.reservations);
     const {id} = useParams();
 
     const reservation = reList.list.find(reservation => reservation.id === id);
-    const [eventTime, setEventTime] = useState('');
 
     const [ formValues, handleInputChange, reset ] = useForm({
     
@@ -29,7 +29,7 @@ export const ReservationFormEdit = () => {
     email: reservation.email || '',
     phone: reservation.phone || '',
     date: convertDate(reservation.date,'YYYY-MM-DD'),
-    time: reservation.time,
+    time: '',
     peopleQuantity: reservation.peopleQuantity,
     roomNumber: reservation.roomNumber,
     event: reservation.event._id,
@@ -39,38 +39,75 @@ export const ReservationFormEdit = () => {
   const { event, firstName, lastName, date, peopleQuantity, roomNumber, time, email, phone} = formValues;
 
   useEffect(() => {
-      setEventTime(list.find(ev => ev.id === event).start);
-      handleInputChange({
-        target: {
-            name: 'time',
-            value: list.find(ev => ev.id === event).start
-        }
-    });
+
+       if(list.length == 0 || list === undefined || list === null) {
+        
+           Swal.fire({
+                title: 'No hay eventos',
+                text: 'La reserva no puede ser editada ya que su evento no existe o no hay eventos.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
+            navigate('/dashboard/events');
+       }else{
+            let eventExists = list.find(ev => ev.id === event);
+            
+            if(eventExists){
+                handleInputChange({
+                    target: {
+                        name: 'time',
+                        value: eventExists.start
+                    }
+                });
+            }else{
+                handleInputChange({
+                    target: {
+                        name: 'time',
+                        value: list[0].start
+                    }
+                });
+                handleInputChange({
+                    target: {
+                        name: 'event',
+                        value: list[0].id
+                    }
+                });
+            }
+           
+       }
+
+       console.log('useEffect -- list');
+
+  } , [list]);
+
+  useEffect(() => {
+    let eventExists = list.find(ev => ev.id === event);
+    if(eventExists){
+        handleInputChange({
+            target: {
+                name: 'time',
+                value: eventExists.start
+            }
+        });
+        
+    }
+    console.log('useEffect -- event');
   } , [event]);
 
 
   const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formValues);
+
         dispatch(removeError());
         const errors = validateReservation(formValues);
         dispatch(setError(errors));
-        
+
         if(Object.keys(errors).length === 0) {
 
             dispatch(removeError());
 
-            const editedReservation = {
-                event,
-                firstName,
-                lastName,
-                peopleQuantity,
-                roomNumber,
-                email,
-                phone,
-                date,
-                time: moment(time, 'HH:mm').format('HH:mm'),
-            }
+            const editedReservation = {event, firstName, lastName, peopleQuantity, roomNumber, email, phone, date, time}
+
             dispatch(updateReservation(id,editedReservation))
             .then(response => {
                 if(response) {
@@ -93,7 +130,7 @@ export const ReservationFormEdit = () => {
                     });
                 }
             })
-            
+  
 
         }else{
             console.log(errors);
@@ -105,7 +142,7 @@ export const ReservationFormEdit = () => {
       
 
   return (
-
+    <div>
     <form onSubmit={handleSubmit} className="row g-3 animate__animated animate__fadeIn">
         <div className="form-group">
         <label htmlFor="event">Evento:</label>
@@ -161,5 +198,6 @@ export const ReservationFormEdit = () => {
         <button type="submit" className="btn btn-primary btn-reserve">Editar</button>
         
     </form>
+    </div>
   )
 }   

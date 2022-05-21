@@ -22,6 +22,63 @@ export const getEvents = () => {
     }
 }
 
+
+export const createEvent = (event) => {
+
+    return async(dispatch) => {
+        try {
+            const resp = await fetchWithToken('events', event, 'POST');
+            const data = await resp.json();
+            if (data.ok) {
+                dispatch(addEvent(data.event));
+                return true
+            }
+        } catch (error) {
+            console.log('Error',error);
+            return false
+        }   
+    }
+
+}
+
+export const updateEvent = (id, event) => {
+        
+        return async(dispatch) => {
+            try {
+                const resp = await fetchWithToken(`events/${id}`, event, 'PUT');
+                const data = await resp.json();
+                if (data.ok) {
+                    dispatch(editEvent(data.event));
+                    return true
+                }
+            } catch (error) {
+                console.log('Error',error);
+                return false
+            }   
+        }
+    
+}
+
+export const deleteEvent = (id) => {
+    
+    return async(dispatch) => {
+        try {
+            const resp = await fetchWithToken(`events/${id}`, {}, 'DELETE');
+            const data = await resp.json();
+            console.log(data);
+            if (data) {
+                dispatch(removeEvent(id));
+                return true
+            }
+        } catch (error) {
+            console.log('Error',error);
+            return false
+        }  
+    }
+}
+
+
+
 export const setEventActive = (event) => {
     return (dispatch) => {
         dispatch(setActive(event));
@@ -53,5 +110,26 @@ const setActive = (event) => {
     return {
         type: types.eventSetActive,
         payload: event
+    }
+}
+
+const addEvent = (event) => {
+    return {
+        type: types.eventAdd,
+        payload: event
+    }
+}
+
+const editEvent = (event) => {
+    return {
+        type: types.eventUpdate,
+        payload: event
+    }
+}
+
+const removeEvent = (id) => {
+    return {
+        type: types.eventDelete,
+        payload: id
     }
 }

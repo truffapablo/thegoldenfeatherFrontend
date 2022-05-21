@@ -29,6 +29,17 @@ export const Sidenav = () => {
                                     <NavLink className="nav-link" to="dashboard/reservations/custom">Reserva Personalizada</NavLink>
                                 </nav>
                             </div>
+                            <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#eventCollapse" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div className="sb-nav-link-icon"><i className="fas fa-columns"></i></div>
+                                Eventos
+                                <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
+                            </a>
+                            <div className="collapse" id="eventCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav className="sb-sidenav-menu-nested nav">
+                                    <NavLink className="nav-link" to="dashboard/events/list">Lista</NavLink>
+                                    <NavLink className="nav-link" to="dashboard/events/new">Nuevo Evento</NavLink>
+                                </nav>
+                            </div>
                            
                         </div>
                     </div>

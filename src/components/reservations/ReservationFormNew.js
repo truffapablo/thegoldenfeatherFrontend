@@ -8,7 +8,6 @@ import { startNewReservation } from '../../actions/reservation';
 import { removeError, setError} from '../../actions/ui';
 import { validateReservation } from '../../helpers/reservationHelper';
 import { useForm } from '../../hooks/useForm';
-import { InputForm } from './InputForm';
 import { SelectEvent } from './SelectEvent';
 export const ReservationFormNew = () => {
   
@@ -19,41 +18,73 @@ export const ReservationFormNew = () => {
 
     const {list} = useSelector(state => state.events);
   
-    const [evId, setEvId] = useState(list[0].id);
-    const [eventTime, setEventTime] = useState(list.find(ev => ev.id === evId).start);
-
     const [ formValues, handleInputChange, reset ] = useForm({
     firstName: '',
     lastName: '',
     email:'',
     phone: '',
     date: '',
-    time: eventTime,
+    time: '',
     peopleQuantity: '',
     roomNumber: '',
-    event: evId,
+    event: '',
   });
 
 
   const { event, firstName, lastName, date, peopleQuantity, roomNumber, time, email, phone} = formValues;
 
   useEffect(() => {
+    if(list.length == 0 || list === undefined || list === null) {
+        
+        Swal.fire({
+             title: 'No hay eventos',
+             text: 'No se puede crear una reserva de evento sin eventos. Por favor, cree un evento.',
+             icon: 'info',
+             confirmButtonText: 'Aceptar'
+         });
+         navigate('/dashboard/events/new');
+    }else{
+
+        handleInputChange({
+            target: {
+                name: 'time',
+                value: list[0].start
+            }
+        });
+        handleInputChange({
+            target: {
+                name: 'event',
+                value: list[0].id
+            }
+        });
+     
+    }
+   
+
+  } , [list]);
+
+  useEffect(() => {
+      if(list && list.length > 0) {
     
-    setEventTime(list.find(ev => ev.id === event).start);
-
-    handleInputChange({
-        target: {
-            name: 'time',
-            value: list.find(ev => ev.id === event).start
+        let eventExists = list.find(ev => ev.id === event);
+        
+        if(eventExists){
+            handleInputChange({
+                target: {
+                    name: 'time',
+                    value: eventExists.start
+                }
+            });
+            
         }
-    });
-
+    }
 
   } , [event]);
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(formValues);
         
         dispatch(removeError());
         const errors = validateReservation(formValues);
@@ -146,7 +177,7 @@ export const ReservationFormNew = () => {
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="time">Horario</label>
-            <input type="time" disabled className="form-control" name="time" value={eventTime} id="time" placeholder="Horario" onChange={handleInputChange}/>
+            <input type="time" disabled className="form-control" name="time" value={time} id="time" placeholder="Horario" onChange={handleInputChange}/>
             { msgError!==null && msgError.time && <div className="alert alert-danger">{msgError.time}</div> }
         </div>
         <div className="form-group col-md-6">

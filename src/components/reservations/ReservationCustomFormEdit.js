@@ -31,7 +31,7 @@ export const ReservationCustomFormEdit = () => {
     price: reservation.price || '',
     commission: reservation.commission || '0',
     date: convertDate(reservation.date,'YYYY-MM-DD'),
-    time: reservation.time,
+    time: '',
     peopleQuantity: reservation.peopleQuantity,
     roomNumber: reservation.roomNumber,
 

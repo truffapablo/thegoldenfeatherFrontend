@@ -16,6 +16,7 @@ export const types = {
     reservationDelete: '[Reservation] Delete',
     reservationUpdate: '[Reservation] Update',
     reservationCancel: '[Reservation] Cancel',
+    reservationConfirm: '[Reservation] Confirm',
     
     reservationAddCustom: '[Reservation] Add Custom',
     reservationSetCustom: '[Reservation] Set Custom',

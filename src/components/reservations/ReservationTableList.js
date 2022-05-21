@@ -37,7 +37,7 @@ export const ReservationTableList = ({list, customList}) => {
                         <td>#{reservation.roomNumber}</td>
                         <td>{reservation.event.title}</td>
                         <td>{convertDate(reservation.date)}</td>
-                        <td>{reservation.time}hs</td>
+                        <td>{reservation.event.start}hs</td>
                     </tr>
                 )
             })

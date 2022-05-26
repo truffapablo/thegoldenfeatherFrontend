@@ -25,6 +25,7 @@ export const ReservationTableList = ({list, customList}) => {
             <th scope="col">Evento</th>
             <th scope="col">Fecha</th>
             <th scope="col">Horario</th>
+            <th scope="col">Estado</th>
             </tr>
         </thead>
         <tbody> 
@@ -38,6 +39,7 @@ export const ReservationTableList = ({list, customList}) => {
                         <td>{reservation.event.title}</td>
                         <td>{convertDate(reservation.date)}</td>
                         <td>{reservation.event.start}hs</td>
+                        <td>{reservation.status}</td>
                     </tr>
                 )
             })
@@ -52,6 +54,7 @@ export const ReservationTableList = ({list, customList}) => {
                         <td>{reservation.event}</td>
                         <td>{convertDate(reservation.date)}</td>
                         <td>{reservation.time}hs</td>
+                        <td>{reservation.status}</td>   
                     </tr>
                 )
             })

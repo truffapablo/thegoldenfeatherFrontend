@@ -17,11 +17,14 @@ export const types = {
     reservationUpdate: '[Reservation] Update',
     reservationCancel: '[Reservation] Cancel',
     reservationConfirm: '[Reservation] Confirm',
+    reservationComplete: '[Reservation] Complete',
     
     reservationAddCustom: '[Reservation] Add Custom',
     reservationSetCustom: '[Reservation] Set Custom',
     reservationUpdateCustom: '[Reservation] Update Custom',
     reservationCancelCustom: '[Reservation] Cancel Custom',
+    reservationConfirmCustom: '[Reservation] Confirm Custom',
+    reservationCompleteCustom: '[Reservation] Complete Custom',
     
     reservationStartLoading: '[Reservation] Start Loading',
     reservationFinishLoading: '[Reservation] Finish Loading',

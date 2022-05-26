@@ -86,6 +86,43 @@ export const cancelCustomReservation = ({id}) => {
     }
 }
 
+export const confirmCustomReservation = ({id}) => {
+    
+    return async (dispatch) => {
+        try {
+            const resp = await fetchWithToken(`custom-reservations/${id}/confirm`, {}, 'PATCH');
+            const data = await resp.json();
+            if (data.ok) {
+                dispatch(reservationCustomConfirm(data.reservation));
+                return true;
+            }else{
+                return false;
+            }
+        } catch (error) {
+            console.log('Error',error);
+            return false;
+        }
+    }
+}
+
+export const completeCustomReservation = ({id}) => {
+    return async (dispatch) => {
+        try {
+            const resp = await fetchWithToken(`custom-reservations/${id}/complete`, {}, 'PATCH');
+            const data = await resp.json();
+            if (data.ok) {
+                dispatch(reservationCustomComplete(data.reservation));
+                return true;
+            }else{
+                return false;
+            }
+        } catch (error) {
+            console.log('Error',error);
+            return false;
+        }
+    }
+}
+
 
 const addCustomReservation = (reservation) => {
     return {
@@ -111,6 +148,20 @@ const reservationCancelCustom = (reservation) => {
 const reservationCustomUpdate  = (reservation) => {
     return {
         type: types.reservationUpdateCustom,
+        payload: reservation
+    }
+}
+
+const reservationCustomConfirm = (reservation) => {
+    return {
+        type: types.reservationConfirmCustom,
+        payload: reservation
+    }
+}
+
+const reservationCustomComplete = (reservation) => {
+    return {
+        type: types.reservationCompleteCustom,
         payload: reservation
     }
 }

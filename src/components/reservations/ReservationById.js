@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { getLogsByReservationId } from '../../actions/logs';
-import { cancelReservation, confirmReservation } from '../../actions/reservation';
+import { cancelReservation, completeReservation, confirmReservation } from '../../actions/reservation';
 import { convertDate } from '../../helpers/convertDate';
 import { reservationStatus} from './reservationStatus';
 
@@ -74,7 +74,6 @@ export const ReservationById = () => {
         cancelButtonText: 'Abortar!',
       }).then((result) => {
         if (result.value) {
-          console.log(id);
           dispatch(cancelReservation({id})).then(data => {
             if (data) {
               Swal.fire({
@@ -125,6 +124,33 @@ export const ReservationById = () => {
 
     }
     
+    const complete = () => {
+      Swal.fire({
+        title: '¿Queres completar la reserva?',
+        text: "No podrás revertir esto",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#263032',
+        cancelButtonColor: '#C59B5F',
+        confirmButtonText: 'Sí, completar!',
+        cancelButtonText: 'Abortar!',
+      }).then((result) => {
+        if (result.value) {
+          dispatch(completeReservation({id})).then(data => {
+            if (data) {
+              Swal.fire({
+                title: 'Reserva completada',
+                text: 'La reserva ha sido completada',
+                icon: 'success',
+                confirmButtonColor: '#263032',
+              })
+              navigate('/dashboard/reservations');
+            }
+          });
+        }
+      })
+    }
+
 
   return (
     
@@ -157,14 +183,27 @@ export const ReservationById = () => {
               <div className='d-grid gap-2'>
                 {
                   reservation.status !== reservationStatus.reservationConfirmed &&
+                  reservation.status !== reservationStatus.reservationCompleted &&
+                  reservation.status !== reservationStatus.reservationCancelled &&
                   <button className="btn btn-reserve btn-block" onClick={confirm}>Confirmar</button>
                 }
                 {
                   reservation.status !== reservationStatus.reservationConfirmed &&
+                  reservation.status !== reservationStatus.reservationCompleted &&
+                  reservation.status !== reservationStatus.reservationCancelled &&
                   <button className="btn btn-reserve btn-block" onClick={edit}>Editar</button>
                   
                 }
-                <button className="btn btn-reserve btn-block" onClick={cancel}>Cancelar</button>
+                {
+                  reservation.status == reservationStatus.reservationConfirmed &&
+                  <button className="btn btn-reserve btn-block" onClick={complete}>Completar</button>
+                }
+                {
+                  reservation.status !== reservationStatus.reservationCompleted &&
+                  reservation.status !== reservationStatus.reservationCancelled &&
+                  <button className="btn btn-reserve btn-block" onClick={cancel}>Cancelar</button>
+                }
+                
               </div>
             </div>
           }

@@ -81,6 +81,25 @@ export const confirmReservation = ({id}) => {
     }
 }
 
+export const completeReservation = ({id}) => {
+    return async (dispatch) => {
+        try {
+            const resp = await fetchWithToken(`reservations/${id}/complete`, {}, 'PATCH');
+            const data = await resp.json();
+            if (data.ok) {
+                dispatch(reservationComplete(data.reservation));
+                return true;
+            }else{
+                return false;
+            }
+        } catch (error) {
+            console.log('Error',error);
+            return false;
+        }
+    }
+}
+
+
 export const updateReservation = (id, reservation) => {
     return async (dispatch) => {
             try {
@@ -148,6 +167,13 @@ const reservationUpdate = (reservation) => {
 const reservationConfirm = (reservation) => {
     return {
         type: types.reservationConfirm,
+        payload: reservation
+    }
+}
+
+const reservationComplete = (reservation) => {
+    return {
+        type: types.reservationComplete,
         payload: reservation
     }
 }

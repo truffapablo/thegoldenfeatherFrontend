@@ -3,6 +3,7 @@ import { authReducer } from '../reducers/authReducer';
 import { eventReducer } from '../reducers/eventReducer';
 import { logReducer } from '../reducers/logReducer';
 import { reservationReducer } from '../reducers/reservationReducer';
+import { searchReducer } from '../reducers/searchReducer';
 import { uiReducer } from '../reducers/uiReducer';
 
 export const store = configureStore({
@@ -12,5 +13,6 @@ export const store = configureStore({
     reservations: reservationReducer,
     events: eventReducer,
     logs: logReducer,
+    search: searchReducer,
   },
 });

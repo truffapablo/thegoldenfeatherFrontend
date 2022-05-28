@@ -30,6 +30,13 @@ export const types = {
     reservationFinishLoading: '[Reservation] Finish Loading',
     reservationSet: '[Reservation] Set reservation list',
 
+    transferReservationAdd: '[Transfer] Add',
+    transferReservationDelete: '[Transfer] Delete',
+    transferReservationUpdate: '[Transfer] Update',
+    transferReservationCancel: '[Transfer] Cancel',
+    transferReservationConfirm: '[Transfer] Confirm',
+    transferReservationComplete: '[Transfer] Complete',
+
 
     eventAdd: '[Event] Add',
     eventDelete: '[Event] Delete',
@@ -46,5 +53,9 @@ export const types = {
     logFinishLoading: '[Log] Finish Loading',
     logSet: '[Log] Set log list',
 
+
+    navBarStartSearching: '[Navbar] Start searching',
+    navBarFinishSearching: '[Navbar] Finish searching',
+    navBarSetSearch: '[Navbar] Set search',
 
 }

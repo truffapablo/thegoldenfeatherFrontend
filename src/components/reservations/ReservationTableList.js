@@ -13,6 +13,9 @@ export const ReservationTableList = ({list, customList}) => {
     const customDetails = (id) => {
         navigate(`/dashboard/reservations/${id}/custom`);
     }
+
+  
+
   return (
     <div className='mt-5 table-responsive'>
         <h2>Reservas</h2>

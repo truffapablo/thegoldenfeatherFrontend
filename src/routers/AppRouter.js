@@ -36,6 +36,8 @@ import { ReservationCustomEdit } from '../components/reservations/ReservationCus
 import { Footer } from '../components/ui/Footer';
 import { Sidenav } from '../components/ui/Sidenav';
 import { ClientSidenav } from '../components/ui/ClientSidenav';
+import { ReservationTransfer } from '../components/reservations/ReservationTransfer';
+import { SearchView } from '../components/search/SearchView';
 
 
 
@@ -87,6 +89,7 @@ export const AppRouter = () => {
                 <Route index element={<ReservationList />}/>  
                 <Route path="new" element={<ReservationNew />} />
                 <Route path="custom" element={<ReservationCustom />} />
+                <Route path="transfer" element={<ReservationTransfer />} />
                 <Route path="list" element={<ReservationList />} />  
                 <Route path=":id" element={<ReservationById />} />
                 <Route path=":id/custom" element={<CustomReservationById />} />
@@ -100,6 +103,10 @@ export const AppRouter = () => {
                 <Route path="list" element={<EventList />} />  
                 <Route path=":id" element={<EventById />} />
                 <Route path=":id/edit" element={<EventEdit />} />
+              </Route>
+
+              <Route path='search' element={<SearchView/>}>
+                
               </Route>
               
               <Route path="reports" element={<ReportView />} />

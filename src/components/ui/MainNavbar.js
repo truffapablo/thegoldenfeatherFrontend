@@ -1,9 +1,22 @@
-import React from 'react'
+
+import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { logout } from '../../actions/auth';
+import { navSearch } from '../../actions/search';
 
 export const MainNavbar= () => {
+    
+    const [searchValue, setSerchValue] = React.useState('');
+    const buscador = useRef(null);
+
+    const handleInputSearch = (e) => {
+        setSerchValue(e.target.value);
+    }
+
+    const {list, customList} = useSelector(state => state.reservations);
+    
 
     const {uid} = useSelector(state => state.auth);
     const navigate = useNavigate();
@@ -14,6 +27,8 @@ export const MainNavbar= () => {
 
     }
 
+    const placeholder = 'confirmación, evento, huesped...';
+
     const handleMenu = (e) => {
         e.preventDefault();
         
@@ -21,7 +36,29 @@ export const MainNavbar= () => {
         localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
       }
 
-    
+    const searchByConfirmation = (searchValue) => {
+        return list.find(reservation => reservation.confirmation == searchValue) || customList.find(reservation => reservation.confirmation == searchValue);
+    }
+
+    const search = (e) => {
+        e.preventDefault();
+        if(!searchValue.length > 0){
+            return;
+        }
+        dispatch(navSearch(searchValue,[list, customList])).then(res => {
+            if(res){
+                navigate(`/dashboard/search`);
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: `No se encontró nada con el término "<b>${searchValue}</b>"`,
+                    })
+            }
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
   return (
     <>
@@ -33,10 +70,10 @@ export const MainNavbar= () => {
             <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!" onClick={handleMenu}><i className="fas fa-bars"></i></button>
             {
                 uid &&
-            <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div className="input-group">
-                    <input className="form-control" type="text" placeholder="Buscar reserva..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button className="btn btn-primary" id="btnNavbarSearch" type="button"><i className="fas fa-search"></i></button>
+            <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" onSubmit={search}>
+                <div ref={buscador} className="input-group" title={placeholder}>
+                    <input className="form-control me-1 inputSearch" type="text" name="searchValue" value={searchValue} onChange={handleInputSearch} placeholder={placeholder} aria-label="Buscar por..." aria-describedby="btnNavbarSearch" />
+                    <button className="btn btn-primary" id="btnNavbarSearch" type="submit"><i className="fas fa-search"></i></button>
                 </div>
             </form>
             }

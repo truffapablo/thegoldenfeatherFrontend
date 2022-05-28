@@ -1,0 +1,46 @@
+$white: #fff;
+$google-blue: #4285f4;
+$button-active-blue: #1669f2;
+
+$goldenFeatherBlue: #263032;
+$goldenFeatherGold: #C59B5F;
+$goldenFeatherWhite:#FDF9F6;
+
+.search-ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: $goldenFeatherWhite;
+}
+
+.gf-search-card {
+    background-color: $goldenFeatherBlue;
+    padding: 1em;
+    cursor: pointer;
+    transition: all .3s ease;
+    margin-bottom: 1em;
+
+    &:hover {
+       color: $goldenFeatherGold;
+    }
+}
+
+
+
+.gf-search-card-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 2px solid $goldenFeatherGold;
+    padding-bottom: .5em;
+}
+
+.gf-search-card-body {
+    margin-top: 1em;
+}
+
+.inputSearch {
+    transition: all .3s ease;
+    width: 300px!important;
+}

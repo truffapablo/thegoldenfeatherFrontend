@@ -19,6 +19,9 @@ export const ReservationView = () => {
             <li className="nav-item">
               <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='custom'>Reserva personalizada</NavLink> 
             </li>
+            <li className="nav-item">
+              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='transfer'>Reserva de Transfer</NavLink> 
+            </li>
           </ul> 
               <Outlet />   
           </div>

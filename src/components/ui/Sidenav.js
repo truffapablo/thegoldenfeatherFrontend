@@ -47,8 +47,8 @@ export const Sidenav = () => {
                             </a>
                             <div className="collapse" id="transferCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav className="sb-sidenav-menu-nested nav">
-                                    <NavLink className="nav-link" to="dashboard/events/list">Lista</NavLink>
-                                    <NavLink className="nav-link" to="dashboard/events/new">Nuevo Transfer</NavLink>
+                                    <NavLink className="nav-link" to="dashboard/transfers/list">Lista</NavLink>
+                                    <NavLink className="nav-link" to="dashboard/transfers/new">Nuevo Transfer</NavLink>
                                 </nav>
                             </div>
                            

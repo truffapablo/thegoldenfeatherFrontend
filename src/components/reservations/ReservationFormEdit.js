@@ -76,8 +76,6 @@ export const ReservationFormEdit = () => {
            
        }
 
-       console.log('useEffect -- list');
-
   } , [list]);
 
   useEffect(() => {

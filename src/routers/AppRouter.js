@@ -38,6 +38,12 @@ import { Sidenav } from '../components/ui/Sidenav';
 import { ClientSidenav } from '../components/ui/ClientSidenav';
 import { ReservationTransfer } from '../components/reservations/ReservationTransfer';
 import { SearchView } from '../components/search/SearchView';
+import { TransferView } from '../components/transfers/TransferView';
+import { TransferList } from '../components/transfers/TransferList';
+import { TransferNew } from '../components/transfers/TransferNew';
+import { TransferById } from '../components/transfers/TransferById';
+import { TransferEdit } from '../components/transfers/TransferEdit';
+import { getTransfers } from '../actions/transfer';
 
 
 
@@ -56,6 +62,7 @@ export const AppRouter = () => {
         dispatch(getReservations());
         dispatch(getCustomReservations());
         dispatch(getEvents());
+        dispatch(getTransfers());
         navigate('dashboard/reservations');
     }
 
@@ -85,6 +92,7 @@ export const AppRouter = () => {
           <Route path="register" element={<RegisterView/>} />
 
           <Route path="/dashboard" element={<RequireAuth/>}>
+              
               <Route path='reservations' element={<ReservationView/>}>       
                 <Route index element={<ReservationList />}/>  
                 <Route path="new" element={<ReservationNew />} />
@@ -105,8 +113,13 @@ export const AppRouter = () => {
                 <Route path=":id/edit" element={<EventEdit />} />
               </Route>
 
-              <Route path='search' element={<SearchView/>}>
-                
+              <Route path='search' element={<SearchView/>} />
+
+              <Route path='transfers' element={<TransferView/>}>
+                <Route index element={<TransferList />}/>
+                <Route path="new" element={<TransferNew />} />
+                <Route path="list" element={<TransferList />} />  
+                <Route path=":id/edit" element={<TransferEdit />} />
               </Route>
               
               <Route path="reports" element={<ReportView />} />

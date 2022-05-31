@@ -1,16 +1,55 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { deleteTransfer } from '../../actions/transfer';
 
 export const TransferList = () => {
 
     const navigate = useNavigate();
     const {list} = useSelector(state => state.transfers);
+    const dispatch = useDispatch();
     
-    const details = (id) => {
-        console.log(id);
+    const transferEdit = (id) => {
+        
         navigate(`/dashboard/transfers/${id}/edit`);
-    } 
+    }
+
+    const transferDelete = (id) => {
+            
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#263032',
+                cancelButtonColor: '#C59B5F',
+                confirmButtonText: 'Sí, borrarlo'
+            }).then((result) => {
+
+                if (result.value) {
+
+                    dispatch(deleteTransfer(id)).then((response) => {
+                        if(response) {
+                            Swal.fire({
+                                title: 'Borrado',
+                                text: 'El transfer se ha borrado correctamente',
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then(() => {
+                                navigate('/dashboard/transfers/list');
+                            });
+                        }else{
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'No se ha podido borrar el transfer',
+                            });
+                        }
+                    });
+                }
+                
+            })
+    }
 
   return (
     <div className='mt-5 table-responsive animate__animated animate__fadeIn'>
@@ -34,7 +73,10 @@ export const TransferList = () => {
                                 <td>{transfer.destination}</td>
                                 <td>${transfer.price}</td>
                                 <td>${transfer.commission}</td>
-                                <td><a className='cpointer' onClick={()=>{details(transfer.id)}}>Editar</a></td>
+                                <td>
+                                    <a className='cpointer' onClick={()=>{transferEdit(transfer.id)}}>Editar</a> |
+                                    <a className='cpointer' onClick={()=>{transferDelete(transfer.id)}}>Eliminar</a> 
+                                </td>
                             </tr> 
                         )
                     })

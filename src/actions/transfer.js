@@ -61,6 +61,33 @@ export const updateTransfer  = (id, transfer) => {
     }
 }
 
+export const deleteTransfer = (id) => {
+    return async (dispatch) => {
+        try {
+            console.log('ID---->',id);
+            const resp = await fetchWithToken(`transfer/${id}`, {}, 'DELETE');
+            const data = await resp.json();
+            if (data.ok) {
+                dispatch(transferDelete(id));
+                return true;
+            }else{
+                return false;
+            }
+        } catch (error) {
+            console.log('Error',error);
+            return false;
+        }
+    }
+}
+
+
+const transferDelete = (id) => {
+    return {
+        type: types.transferDelete,
+        payload: id
+    }
+}
+
 const addTransfer = (transfer) => {
     return {
         type: types.transferAdd,

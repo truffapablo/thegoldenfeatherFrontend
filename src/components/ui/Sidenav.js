@@ -27,6 +27,7 @@ export const Sidenav = () => {
                                     <NavLink className="nav-link" to="dashboard/reservations/list">Lista</NavLink>
                                     <NavLink className="nav-link" to="dashboard/reservations/new">Reservar Evento</NavLink>
                                     <NavLink className="nav-link" to="dashboard/reservations/custom">Reserva Personalizada</NavLink>
+                                    <NavLink className="nav-link" to="dashboard/reservations/transfer">Reservar Transfer</NavLink>
                                 </nav>
                             </div>
                             <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#eventCollapse" aria-expanded="false" aria-controls="collapseLayouts">

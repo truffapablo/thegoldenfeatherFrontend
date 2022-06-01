@@ -8,7 +8,7 @@ export const TransferReservationSelect = ({handleTransferChange, transfer, trans
           <select className="form-control" id="selectTransfer" name='transfer' value={transfer} onChange={handleTransferChange}>
               {
                   transferList.map(transfer => (
-                      <option key={transfer.id} value={transfer.id}>{transfer.origin} - {transfer.destination}</option>
+                      <option key={transfer.id} value={transfer.id}>{transfer.origin} - {transfer.destination} - ${transfer.price + transfer.commission}</option>
                   ))
               }
               <option value="other">Otros</option>

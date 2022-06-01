@@ -15,7 +15,7 @@ export const TransferFormNew = () => {
         origin:'',
         destination:'',
         price:'',
-        commission:'',
+        commission:'0',
     });
 
     const {origin, destination, price, commission} = formValues;

@@ -16,6 +16,9 @@ export function validateTransfer(transfer){
     if(typeof parseFloat(price) !== 'number') errors.price = 'El precio debe ser un número';
     if(typeof parseFloat(commission) !== 'number') errors.commission = 'La comisión debe ser un número';
 
+    if(parseFloat(price) < 0) errors.price = 'El precio no puede ser negativo';
+    if(parseFloat(commission) < 0) errors.commission = 'La comisión no puede ser negativa';
+
     return errors;
 
 }

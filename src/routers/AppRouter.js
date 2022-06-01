@@ -44,6 +44,7 @@ import { TransferNew } from '../components/transfers/TransferNew';
 import { TransferById } from '../components/transfers/TransferById';
 import { TransferEdit } from '../components/transfers/TransferEdit';
 import { getTransfers } from '../actions/transfer';
+import { getTransferReservations } from '../actions/transferReservation';
 
 
 
@@ -63,6 +64,7 @@ export const AppRouter = () => {
         dispatch(getCustomReservations());
         dispatch(getEvents());
         dispatch(getTransfers());
+        dispatch(getTransferReservations())
         navigate('dashboard/reservations');
     }
 

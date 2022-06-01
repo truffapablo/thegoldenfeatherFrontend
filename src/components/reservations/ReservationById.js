@@ -162,8 +162,8 @@ export const ReservationById = () => {
             <li>Evento: {reservation.event.title}</li>
             <li>Fecha: {convertDate(reservation.date)}</li>
             <li>Horario: {reservation.event.start}hs</li>
-            <li>Precio por persona: {reservation.event.price} {reservation.event.currency}</li>
-            <li>Precio total: {reservation.event.price * reservation.peopleQuantity} {reservation.event.currency}</li>
+            <li>Precio por persona: {reservation.event.price + reservation.event.commission} {reservation.event.currency}</li>
+            <li>Precio total: {(reservation.event.price + reservation.event.commission) * reservation.peopleQuantity} {reservation.event.currency}</li>
             <hr/>
             <li>Huesped: {reservation.firstName} {reservation.lastName}</li>
             <li>Habitación: #{reservation.roomNumber}</li>

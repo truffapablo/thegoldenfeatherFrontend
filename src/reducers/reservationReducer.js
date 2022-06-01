@@ -3,6 +3,7 @@ import { types } from "../types/types";
 const initialState = {
     list: [],
     customList:[],
+    transferList: [],
     active: null,
     loading: true,
 }
@@ -99,8 +100,30 @@ export const reservationReducer = (state = initialState, action) => {
             customList: state.customList.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
         }
 
+        case types.transferReservationSet:
+            return {
+                ...state,
+                transferList: action.payload,
+            }
 
+        case types.transferReservationFinishLoading:
+            return {
+                ...state,
+                loading: false,
+            }
 
+        case types.transferReservationStartLoading:
+            return {
+                ...state,
+                loading: true,
+            }
+
+        case types.transferReservationAdd:
+            return {
+                ...state,
+                transferList: [...state.transferList, action.payload],
+            }
+        
     
         default:return state;
     }

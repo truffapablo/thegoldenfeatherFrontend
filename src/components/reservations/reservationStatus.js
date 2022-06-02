@@ -7,4 +7,5 @@ export const reservationStatus = {
     reservationUpdated:      'Reserva actualizada',
     reservationCancelled:    'Reserva cancelada',
     reservationCompleted:    'Reserva completada',
+
 }

@@ -1,15 +1,53 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import { cancelTransferReservation } from "../../actions/transferReservation";
 import { convertDate } from "../../helpers/convertDate";
-
+import { reservationStatus} from './reservationStatus';
 export const TransferReservationById = () => {
 
     const {id} = useParams();
     const {transferList} = useSelector(state => state.reservations);
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const transfer = transferList.find(transfer => transfer.id === id);
-    console.log(transfer);
+
+    const complete = (e) => {}
+    const cancel = () => {
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: "No podrás revertir esto",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#263032',
+          cancelButtonColor: '#C59B5F',
+          confirmButtonText: 'Sí, cancelar!',
+          cancelButtonText: 'Abortar!',
+        }).then((result) => {
+          if (result.value) {
+            dispatch(cancelTransferReservation(id)).then(data => {
+              if (data) {
+                Swal.fire({
+                  title: 'Reserva cancelada',
+                  text: 'El transfer ha sido cancelado',
+                  icon: 'success',
+                  confirmButtonColor: '#263032',
+                })
+                navigate('/dashboard/reservations');
+               
+              }
+            });
+          }
+        })
+      }
+    const confirm = (e) => {}
+    const edit = (e) => {}
+
+
+
     return (
         <div className='container mt-5 animate__animated animate__fadeIn'>
             <h2>Transfer #{transfer.confirmation}</h2>
@@ -30,6 +68,36 @@ export const TransferReservationById = () => {
                         <li>Estado: {transfer.status}</li>
                     </ul>
                 </div>
+                {
+            transfer.status !== reservationStatus.reservationCancelled &&
+            <div className='col-md-2'>
+              <div className='d-grid gap-2'>
+                {
+                  transfer.status !== reservationStatus.reservationConfirmed &&
+                  transfer.status !== reservationStatus.reservationCompleted &&
+                  transfer.status !== reservationStatus.reservationCancelled &&
+                  <button className="btn btn-reserve btn-block" onClick={confirm}>Confirmar</button>
+                }
+                {
+                  transfer.status !== reservationStatus.reservationConfirmed &&
+                  transfer.status !== reservationStatus.reservationCompleted &&
+                  transfer.status !== reservationStatus.reservationCancelled &&
+                  <button className="btn btn-reserve btn-block" onClick={edit}>Editar</button>
+                  
+                }
+                {
+                  transfer.status == reservationStatus.reservationConfirmed &&
+                  <button className="btn btn-reserve btn-block" onClick={complete}>Completar</button>
+                }
+                {
+                  transfer.status !== reservationStatus.reservationCompleted &&
+                  transfer.status !== reservationStatus.reservationCancelled &&
+                  <button className="btn btn-reserve btn-block" onClick={cancel}>Cancelar</button>
+                }
+                
+              </div>
+            </div>
+          }
             </div>
 
         </div>

@@ -9,7 +9,7 @@ export const getTransferReservations = () => {
             const resp = await fetchWithToken('transfer-reservation');
             const data = await resp.json();
             if (data.ok) {
-                dispatch(setTransferReservations(data.transfers));
+                dispatch(setTransferReservations(data.transferR));
                 dispatch(transferReservationFinishLoading());
             }
         } catch (error) {
@@ -27,9 +27,27 @@ export const createTransferReservation = (transfer) => {
             const resp = await fetchWithToken('transfer-reservation', transfer, 'POST');
             const data = await resp.json();
             if (data.ok) {
-                dispatch(addTransferReservation(data.transfer));
+                dispatch(addTransferReservation(data.transferR));
                 return true;
 
+            }else{
+                return false;
+            }
+        } catch (error) {
+            console.log('Error',error);
+            return false;
+        }
+    }
+}
+
+export const cancelTransferReservation = (id) => {
+    return async (dispatch) => {
+        try {
+            const resp = await fetchWithToken(`transfer-reservation/${id}`, {}, 'DELETE');
+            const data = await resp.json();
+            if (data.ok) {
+                dispatch(transferReservationCancel(data.transferR));
+                return true;
             }else{
                 return false;
             }
@@ -65,3 +83,10 @@ const addTransferReservation = (transferReservation) => {
         payload: transferReservation
     }
 } 
+
+const transferReservationCancel = (transferReservation) => {
+    return {
+        type: types.transferReservationCancel,
+        payload: transferReservation
+    }
+}

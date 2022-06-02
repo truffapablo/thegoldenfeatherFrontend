@@ -124,6 +124,12 @@ export const reservationReducer = (state = initialState, action) => {
                 transferList: [...state.transferList, action.payload],
             }
         
+        case types.transferReservationCancel:
+            return {
+                ...state,
+                transferList: state.transferList.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
+            }
+        
     
         default:return state;
     }

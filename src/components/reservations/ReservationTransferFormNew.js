@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { createTransferReservation } from '../../actions/transferReservation';
 import { removeError, setError } from '../../actions/ui';
 import { validateTransferReservation } from '../../helpers/reservationHelper';
@@ -12,6 +14,8 @@ import { TransferReservationOtherInputs } from './TransferReservationOtherInputs
 import { TransferReservationSelect } from './TransferReservationSelect';
 
 export const ReservationTransferFormNew = () => {
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -65,11 +69,30 @@ export const ReservationTransferFormNew = () => {
       
       const errors = validateTransferReservation(formValues);
       dispatch(setError(errors));
-      console.log(Object.keys(errors));
+
       if(Object.keys(errors).length === 0) {
-        console.log('a validar...',formValues);
-        return 
-        dispatch(createTransferReservation(formValues));
+        dispatch(createTransferReservation(formValues))
+        .then(response => {
+          if(response) {
+
+              Swal.fire({
+                  title: 'Transfer creado',
+                  text: 'La reserva se ha creado correctamente',
+                  icon: 'success',
+                  confirmButtonText: 'Ok'
+              }).then(() => {
+                  reset();
+                  navigate('/dashboard/reservations');
+              });
+          }else{
+              Swal.fire({
+                  title: 'Error',
+                  text: 'No se ha podido crear la reserva',
+                  icon: 'error',
+                  confirmButtonText: 'Ok'
+              });
+          }
+      })
       }
 
     }else{
@@ -90,6 +113,27 @@ export const ReservationTransferFormNew = () => {
 
       if(Object.keys(objErrors).length === 0){
         dispatch(createTransferReservation(objToValidate))
+        .then(response => {
+          if(response) {
+
+              Swal.fire({
+                  title: 'Transfer creado',
+                  text: 'La reserva se ha creado correctamente',
+                  icon: 'success',
+                  confirmButtonText: 'Ok'
+              }).then(() => {
+                  reset();
+                  navigate('/dashboard/reservations');
+              });
+          }else{
+              Swal.fire({
+                  title: 'Error',
+                  text: 'No se ha podido crear la reserva',
+                  icon: 'error',
+                  confirmButtonText: 'Ok'
+              });
+          }
+      })
       } 
     }
 

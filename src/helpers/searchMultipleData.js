@@ -36,10 +36,12 @@ const searchByConfirmation = (item, searchValue) => {
 
 const searchByEvent = (item, searchValue) => {
     return item.filter( (el) => {
-        if(el.event.title) {
-            return el.event.title.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
-        }else{
-            return el.event.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
+        if(el.event){
+            if(el.event.title) {
+                return el.event.title.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
+            }else{
+                return el.event.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
+            }
         }
     });
 }

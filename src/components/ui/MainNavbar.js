@@ -15,7 +15,7 @@ export const MainNavbar= () => {
         setSerchValue(e.target.value);
     }
 
-    const {list, customList} = useSelector(state => state.reservations);
+    const {list, customList, transferList} = useSelector(state => state.reservations);
     
 
     const {uid} = useSelector(state => state.auth);
@@ -45,7 +45,7 @@ export const MainNavbar= () => {
         if(!searchValue.length > 0){
             return;
         }
-        dispatch(navSearch(searchValue,[list, customList])).then(res => {
+        dispatch(navSearch(searchValue,[list, customList, transferList])).then(res => {
             if(res){
                 navigate(`/dashboard/search`);
             }else{

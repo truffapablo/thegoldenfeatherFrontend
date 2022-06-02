@@ -1,9 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { convertDate } from '../../helpers/convertDate';
 
-export const ReservationTableList = ({list, customList}) => {
+export const ReservationTableList = () => {
+
+    const { list, customList } = useSelector(state => state.reservations);
 
     const navigate = useNavigate();
 

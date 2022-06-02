@@ -45,6 +45,7 @@ import { TransferById } from '../components/transfers/TransferById';
 import { TransferEdit } from '../components/transfers/TransferEdit';
 import { getTransfers } from '../actions/transfer';
 import { getTransferReservations } from '../actions/transferReservation';
+import { TransferReservationById } from '../components/reservations/TransferReservationById';
 
 
 
@@ -105,6 +106,7 @@ export const AppRouter = () => {
                 <Route path=":id/custom" element={<CustomReservationById />} />
                 <Route path=":id/edit" element={<ReservationEdit />} />
                 <Route path=":id/custom-edit" element={<ReservationCustomEdit />} />
+                <Route path=":id/transfer" element={<TransferReservationById />} />
               </Route>
     
               <Route path='events' element={<EventView/>}>

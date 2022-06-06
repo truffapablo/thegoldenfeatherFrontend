@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { cancelTransferReservation } from "../../actions/transferReservation";
+import { cancelTransferReservation, completeTransferReservation, confirmTransferReservation } from "../../actions/transferReservation";
 import { convertDate } from "../../helpers/convertDate";
 import { reservationStatus} from './reservationStatus';
 export const TransferReservationById = () => {
@@ -15,7 +15,38 @@ export const TransferReservationById = () => {
 
     const transfer = transferList.find(transfer => transfer.id === id);
 
-    const complete = (e) => {}
+    const complete = (e) => {
+        
+        Swal.fire({
+            title: '¿Queres completar la reserva?',
+            text: "No podrás revertir esto",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#263032',
+            cancelButtonColor: '#C59B5F',
+            confirmButtonText: 'Sí, completar!',
+          cancelButtonText: 'Abortar!',
+        }).then((result) => {
+          if (result.value) {
+            dispatch(completeTransferReservation(id)).then(data => {
+              if (data) {
+                Swal.fire({
+                  title: 'Reserva completada',
+                  text: 'El transfer ha sido completado',
+                  icon: 'success',
+                  confirmButtonColor: '#263032',
+                })
+                navigate('/dashboard/reservations');
+               
+              }
+            });
+          }
+        })
+    }
+
+
+
+
     const cancel = () => {
         Swal.fire({
           title: '¿Estás seguro?',
@@ -43,8 +74,36 @@ export const TransferReservationById = () => {
           }
         })
       }
-    const confirm = (e) => {}
-    const edit = (e) => {}
+    const confirm = (e) => {
+      Swal.fire({
+        title: '¿Queres confirmar esta reserva?',
+        text: "Confirmar una reserva sirve para garantizar la misma.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#263032',
+        cancelButtonColor: '#C59B5F',
+        confirmButtonText: 'Sí, confirmar!',
+        cancelButtonText: 'Abortar!',
+      }).then((result) => {
+        if (result.value) {
+          dispatch(confirmTransferReservation(id)).then(data => {
+            if (data) {
+              Swal.fire({
+                title: 'Reserva confirmada',
+                text: 'El transfer ha sido confirmado',
+                icon: 'success',
+                confirmButtonColor: '#263032',
+              })
+              navigate('/dashboard/reservations');
+             
+            }
+          });
+        }
+      })
+    }
+    const edit = (e) => {
+      navigate(`/dashboard/reservations/${id}/transfer-edit`);
+    }
 
 
 

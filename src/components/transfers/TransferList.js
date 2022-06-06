@@ -19,7 +19,11 @@ export const TransferList = () => {
             
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: "Esta acción no se puede deshacer",
+                html: `<p>
+                Esta acción no se puede deshacer.
+                <br/>
+                Todas las reservas de transfer que no esten confirmadas y que tengan asociado el transfer serán canceladas.
+                </p>`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#263032',

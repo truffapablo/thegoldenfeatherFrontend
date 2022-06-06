@@ -40,6 +40,26 @@ export const createTransferReservation = (transfer) => {
     }
 }
 
+export const editTransferReservation = (id, transfer) => {
+    return async (dispatch) => {
+        
+        try {
+            const resp = await fetchWithToken(`transfer-reservation/${id}`, transfer, 'PUT');
+            const data = await resp.json();
+            if (data.ok) {
+                dispatch(transferReservationEdit(data.transferR));
+                return true;
+
+            }else{
+                return false;
+            }
+        } catch (error) {
+            console.log('Error',error);
+            return false;
+        }
+    }
+}
+
 export const cancelTransferReservation = (id) => {
     return async (dispatch) => {
         try {
@@ -56,6 +76,47 @@ export const cancelTransferReservation = (id) => {
             return false;
         }
     }
+}
+
+
+export const confirmTransferReservation = (id) => {
+
+    return async (dispatch) => {
+        try {
+            const resp = await fetchWithToken(`transfer-reservation/${id}/confirm`, {}, 'PATCH');
+            const data = await resp.json();
+            if (data.ok) {
+                dispatch(transferReservationConfirm(data.transferR));
+                return true;
+            }else{
+                return false;
+            }
+        } catch (error) {
+            console.log('Error',error);
+            return false;
+        }
+    }
+
+}
+
+export const completeTransferReservation = (id) => {
+
+    return async (dispatch) => {
+        try {
+            const resp = await fetchWithToken(`transfer-reservation/${id}/complete`, {}, 'PATCH');
+            const data = await resp.json();
+            if (data.ok) {
+                dispatch(transferReservationComplete(data.transferR));
+                return true;
+            }else{
+                return false;
+            }
+        } catch (error) {
+            console.log('Error',error);
+            return false;
+        }
+    }
+
 }
 
 const transferReservationStartLoading = () => {
@@ -90,3 +151,27 @@ const transferReservationCancel = (transferReservation) => {
         payload: transferReservation
     }
 }
+
+const transferReservationConfirm = (transferReservation) => {
+    return {
+        type: types.transferReservationConfirm,
+        payload: transferReservation
+    }
+}
+
+const transferReservationComplete = (transferReservation) => {
+    return {
+        type: types.transferReservationComplete,
+        payload: transferReservation
+    }
+}
+
+
+const transferReservationEdit = (transferReservation) => {
+    return {
+        type: types.transferReservationUpdate,
+        payload: transferReservation
+    }
+}
+
+

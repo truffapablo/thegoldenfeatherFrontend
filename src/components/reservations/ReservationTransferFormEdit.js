@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { createTransferReservation } from '../../actions/transferReservation';
+import { createTransferReservation, editTransferReservation } from '../../actions/transferReservation';
 import { removeError, setError } from '../../actions/ui';
+import { convertDate } from '../../helpers/convertDate';
 import { validateTransferReservation } from '../../helpers/reservationHelper';
 import { useForm } from '../../hooks/useForm';
 
@@ -13,21 +14,25 @@ import { InputFormPeopleAndRoomNumber } from './InputFormPeopleAndRoomNumber';
 import { TransferReservationOtherInputs } from './TransferReservationOtherInputs';
 import { TransferReservationSelect } from './TransferReservationSelect';
 
-export const ReservationTransferFormNew = () => {
+export const ReservationTransferFormEdit = () => {
 
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   const transferList = useSelector(state => state.transfers.list);
+  const transferReservationList = useSelector(state => state.reservations.transferList);
+  const {id} = useParams();
 
+  const transferR = transferReservationList.find(transferReservation => transferReservation.id === id);
+  
   const { msgError } = useSelector(state => state.ui);
 
   const otherOptions = useRef(null);
 
   
   const [transferValue, setTransferValue] = useState({
-    transfer:'',
+    transfer: '',
   });
 
   const {transfer} = transferValue;
@@ -37,28 +42,60 @@ export const ReservationTransferFormNew = () => {
     setTransferValue({
       [target.name]: target.value
     });
+    console.log(transferValue);
     reset();
     dispatch(removeError());
 
   }
 
   const [ formValues, handleInputChange, reset ] = useForm({
-    firstName: 'Pablo',
-    lastName: 'Truffa',
-    email: 'pablotruffa@email.com',
-    phone: '',
-    date: '2022-10-10',
-    time: '14:00',
-    peopleQuantity: '2',
-    roomNumber: '100',
-    origin: 'La Plata',
-    destination: 'Berazategui',
-    price: '3000',
-    commission: '300',
-    information: 'Llevan equipaje de mano',
+    firstName: transferR.firstName,
+    lastName: transferR.lastName,
+    email: transferR.email || '',
+    phone: transferR.phone || '',
+    date: convertDate(transferR.date,'YYYY-MM-DD'),
+    time: transferR.time,
+    peopleQuantity: transferR.peopleQuantity,
+    roomNumber: transferR.roomNumber,
+    origin: transferR.origin,
+    destination: transferR.destination,
+    price: transferR.price,
+    commission: transferR.commission,
+    information: transferR.information,
   });
 
   const { firstName, lastName, email, phone, date, time, peopleQuantity, roomNumber, origin, destination, price, commission, information } = formValues;
+
+
+  useEffect(() => {
+
+    if(transferR.transfer){
+
+      //Buscar si existe el transfer
+      const trasferInList = transferList.find(transfer => transfer.id === transferR.transfer);
+      
+      //Si todavia existe el transfer en la lista lo seteamos
+      if (trasferInList) {
+        setTransferValue({
+          transfer: trasferInList.id
+        });
+      }else{
+        //Si no existe el transfer lo seteamos como otro
+        setTransferValue({
+          transfer: 'other'
+        });
+      }
+    }else{
+        
+        setTransferValue({
+          transfer: 'other'
+        });
+    }
+
+
+  } , []);
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -71,13 +108,13 @@ export const ReservationTransferFormNew = () => {
       dispatch(setError(errors));
 
       if(Object.keys(errors).length === 0) {
-        dispatch(createTransferReservation({...formValues, transfer:null}))
+        dispatch(editTransferReservation(id, {...formValues, transfer:null}))
         .then(response => {
           if(response) {
 
               Swal.fire({
-                  title: 'Transfer creado',
-                  text: 'La reserva se ha creado correctamente',
+                  title: 'Transfer editado',
+                  text: 'La reserva se ha editado correctamente',
                   icon: 'success',
                   confirmButtonText: 'Ok'
               }).then(() => {
@@ -87,7 +124,7 @@ export const ReservationTransferFormNew = () => {
           }else{
               Swal.fire({
                   title: 'Error',
-                  text: 'No se ha podido crear la reserva',
+                  text: 'No se ha podido editar la reserva',
                   icon: 'error',
                   confirmButtonText: 'Ok'
               });
@@ -104,20 +141,22 @@ export const ReservationTransferFormNew = () => {
         destination: selectedTransfer.destination,
         price: selectedTransfer.price,
         commission: selectedTransfer.commission,
-        transfer: selectedTransfer.id,
+        transfer: selectedTransfer.id
       }
+      
+
       const objErrors = validateTransferReservation(objToValidate);
 
       dispatch(setError(objErrors));
 
       if(Object.keys(objErrors).length === 0){
-        dispatch(createTransferReservation(objToValidate))
+        dispatch(editTransferReservation(id, objToValidate))
         .then(response => {
           if(response) {
 
               Swal.fire({
-                  title: 'Transfer creado',
-                  text: 'La reserva se ha creado correctamente',
+                title: 'Transfer editado',
+                text: 'La reserva se ha editado correctamente',
                   icon: 'success',
                   confirmButtonText: 'Ok'
               }).then(() => {
@@ -127,7 +166,7 @@ export const ReservationTransferFormNew = () => {
           }else{
               Swal.fire({
                   title: 'Error',
-                  text: 'No se ha podido crear la reserva',
+                  text: 'No se ha podido editar la reserva',
                   icon: 'error',
                   confirmButtonText: 'Ok'
               });
@@ -139,24 +178,6 @@ export const ReservationTransferFormNew = () => {
     
 
   }
-
-  useEffect(() => {
-    if(transferList.length > 0) {
-
-      setTransferValue({
-        ...transfer,
-        transfer: transferList[0].id
-      });
-
-
-    }else{
-      setTransferValue({
-        ...transfer,
-        transfer: 'other'
-      });
-    }
-  } , []);
-
 
   return (
     <>
@@ -207,7 +228,7 @@ export const ReservationTransferFormNew = () => {
             <textarea name='information' className="form-control" value={information} placeholder="Información adicional" onChange={handleInputChange}></textarea>
             {msgError !== null && msgError.information && <small className="form-text text-danger">{msgError.information}</small>}
         </div>
-        <button type="submit" className="btn btn-primary btn-reserve">Reservar Transfer</button>
+        <button type="submit" className="btn btn-primary btn-reserve">Editar Transfer</button>
     </form>
     </>
   )

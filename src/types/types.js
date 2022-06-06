@@ -15,6 +15,7 @@ export const types = {
     reservationAdd:                     '[Reservation] Add',
     reservationDelete:                  '[Reservation] Delete',
     reservationUpdate:                  '[Reservation] Update',
+    reservationUpdateMany:              '[Reservation] Update Many',
     reservationCancel:                  '[Reservation] Cancel',
     reservationConfirm:                 '[Reservation] Confirm',
     reservationComplete:                '[Reservation] Complete',
@@ -33,6 +34,7 @@ export const types = {
     transferAdd:                        '[Transfer] Add',
     transferDelete:                     '[Transfer] Delete',
     transferUpdate:                     '[Transfer] Update',
+    transferUpdateMany:                 '[Transfer] Update Many',
     transferCancel:                     '[Transfer] Cancel',
     transferConfirm:                    '[Transfer] Confirm',
     transferComplete:                   '[Transfer] Complete',
@@ -55,6 +57,7 @@ export const types = {
     
     eventAdd:                           '[Event] Add',
     eventDelete:                        '[Event] Delete',
+    eventCancelReservation:             '[Event] Cancel Reservations',
     eventUpdate:                        '[Event] Update',
     eventCancel:                        '[Event] Update',
     eventSetActive:                     '[Event] Set active event',

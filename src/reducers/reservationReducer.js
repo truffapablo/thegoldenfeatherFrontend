@@ -58,6 +58,7 @@ export const reservationReducer = (state = initialState, action) => {
                 list: state.list.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
             }
         
+
         case types.reservationCancelCustom:
             return {
                 ...state,
@@ -69,7 +70,13 @@ export const reservationReducer = (state = initialState, action) => {
                 ...state,
                 list: state.list.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
             }
-            
+        
+        case types.reservationUpdateMany:
+            return {
+                ...state,
+                list: state.list.map(reservation => action.payload.find(reservationUpdate => reservationUpdate.id === reservation.id) ? action.payload.find(reservationUpdate => reservationUpdate.id === reservation.id) : reservation),
+            }
+
         case types.reservationUpdateCustom:
             return {
             ...state,
@@ -128,6 +135,30 @@ export const reservationReducer = (state = initialState, action) => {
             return {
                 ...state,
                 transferList: state.transferList.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
+            }
+
+        case types.transferReservationConfirm:
+            return {
+                ...state,
+                transferList: state.transferList.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
+            }
+
+        case types.transferReservationComplete:
+            return {
+                ...state,
+                transferList: state.transferList.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
+            }
+
+        case types.transferReservationUpdate:
+            return {
+                ...state,
+                transferList: state.transferList.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
+            }
+
+        case types.transferUpdateMany:
+            return {
+                ...state,
+                transferList: state.transferList.map(reservation => action.payload.find(reservationUpdate => reservationUpdate.id === reservation.id) ? action.payload.find(reservationUpdate => reservationUpdate.id === reservation.id) : reservation),
             }
         
     

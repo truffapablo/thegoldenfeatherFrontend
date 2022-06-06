@@ -89,7 +89,6 @@ export const ReservationFormEdit = () => {
         });
         
     }
-    console.log('useEffect -- event');
   } , [event]);
 
 

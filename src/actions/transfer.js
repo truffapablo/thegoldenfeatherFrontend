@@ -69,6 +69,14 @@ export const deleteTransfer = (id) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(transferDelete(id));
+                
+                if(data.transferReservationsCanceled.length > 0){
+                    dispatch({
+                        type: types.transferUpdateMany,
+                        payload: data.transferReservationsCanceled
+                    });
+                }
+                
                 return true;
             }else{
                 return false;

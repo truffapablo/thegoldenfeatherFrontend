@@ -43,19 +43,19 @@ export const ReservationTransferFormNew = () => {
   }
 
   const [ formValues, handleInputChange, reset ] = useForm({
-    firstName: 'Pablo',
-    lastName: 'Truffa',
-    email: 'pablotruffa@email.com',
+    firstName: '',
+    lastName: '',
+    email: '',
     phone: '',
-    date: '2022-10-10',
-    time: '14:00',
-    peopleQuantity: '2',
-    roomNumber: '100',
-    origin: 'La Plata',
-    destination: 'Berazategui',
-    price: '3000',
-    commission: '300',
-    information: 'Llevan equipaje de mano',
+    date: '',
+    time: '',
+    peopleQuantity: '',
+    roomNumber: '',
+    origin: '',
+    destination: '',
+    price: '',
+    commission: '',
+    information: '',
   });
 
   const { firstName, lastName, email, phone, date, time, peopleQuantity, roomNumber, origin, destination, price, commission, information } = formValues;

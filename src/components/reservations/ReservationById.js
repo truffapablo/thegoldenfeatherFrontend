@@ -164,6 +164,7 @@ export const ReservationById = () => {
             <li>Horario: {reservation.event.start}hs</li>
             <li>Precio por persona: {reservation.event.price + reservation.event.commission} {reservation.event.currency}</li>
             <li>Precio total: {(reservation.event.price + reservation.event.commission) * reservation.peopleQuantity} {reservation.event.currency}</li>
+            <li>Comisión: {reservation.event.commission * reservation.peopleQuantity} </li>
             <hr/>
             <li>Huesped: {reservation.firstName} {reservation.lastName}</li>
             <li>Habitación: #{reservation.roomNumber}</li>

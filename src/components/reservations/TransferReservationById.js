@@ -124,6 +124,7 @@ export const TransferReservationById = () => {
                         <li>Número de personas: {transfer.peopleQuantity}</li>
                         <hr/>
                         <li>Precio: ${transfer.price + transfer.commission}</li>
+                        <li>Comisión: ${transfer.commission}</li>
                         <li>Estado: {transfer.status}</li>
                     </ul>
                 </div>

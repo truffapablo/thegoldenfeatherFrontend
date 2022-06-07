@@ -47,6 +47,7 @@ import { getTransfers } from '../actions/transfer';
 import { getTransferReservations } from '../actions/transferReservation';
 import { TransferReservationById } from '../components/reservations/TransferReservationById';
 import { ReservationTransferEdit } from '../components/reservations/ReservationTransferEdit';
+import { PanelView } from '../components/panel/PanelView';
 
 
 
@@ -96,6 +97,8 @@ export const AppRouter = () => {
           <Route path="register" element={<RegisterView/>} />
 
           <Route path="/dashboard" element={<RequireAuth/>}>
+
+              <Route path="panel" element={<PanelView />} />         
               
               <Route path='reservations' element={<ReservationView/>}>       
                 <Route index element={<ReservationList />}/>  

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { cancelTransferReservation, completeTransferReservation, confirmTransferReservation } from "../../actions/transferReservation";
 import { convertDate } from "../../helpers/convertDate";
@@ -15,6 +15,10 @@ export const TransferReservationById = () => {
 
     const transfer = transferList.find(transfer => transfer.id === id);
 
+    if(!transfer){
+      <Navigate to='/'/>
+      return null
+    }
     const complete = (e) => {
         
         Swal.fire({

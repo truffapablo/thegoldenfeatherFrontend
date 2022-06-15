@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { cancelCustomReservation, completeCustomReservation, confirmCustomReservation } from '../../actions/customReservation';
 import { getLogsByReservationId } from '../../actions/logs';
@@ -17,7 +17,10 @@ export const CustomReservationById = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
+  if(!reservation || reservation.length == 0){
+    <Navigate to='/'/>
+    return null
+  }
 
   
   const loadLogs = async (e) => {

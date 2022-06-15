@@ -26,7 +26,7 @@ export const Home = () => {
                                     <h3 className="section-subheading text-muted">Te contamos todo lo que necesitas saber.</h3>
                                 </div>
                                 <div className="col-sm-12 col-md-6 text-center">
-                                    <p>The Golden Feather "La Pluma Dorada" es una herramienta para turismo y hotelería orientada al servicio de los huespedes de un hotel.</p>
+                                    <p>The Golden Feather "La Pluma Dorada" es una herramienta para turismo y hotelería orientada al servicio de los huéspedes de un hotel.</p>
                                     <p>La plataforma permite a los hoteles y hoteleros ofrecer un servicio de reservas de eventos y así poder llevar un seguimiento de las mismas.</p>
                                     <p>La plataforma es un CRM (Client Relationship Management ) y parte de sus funcionalidades es ofrecer la mayor cantidad de información a los usuarios y clientes de los eventos en proceso.</p>
                                 </div>
@@ -54,7 +54,7 @@ export const Home = () => {
                                         <i className="fas fa-columns fa-stack-1x fa-inverse"></i>
                                     </span>
                                     <h4 className="my-3">Eventos comisionables</h4>
-                                    <p className="text-muted">Cargar eventos de agencias, empresas de turismo y más para luego venderlos y ganar una comisión de manera rápida y facil.</p>
+                                    <p className="text-muted">Cargar eventos de agencias, empresas de turismo y más para luego venderlos y ganar una comisión de manera rápida y fácil.</p>
                                 </div>
                                 <div className="col-md-4">
                                     <span className="fa-stack fa-4x">
@@ -70,7 +70,7 @@ export const Home = () => {
                                         <i className="fas fa-chart-simple fa-stack-1x fa-inverse"></i>
                                     </span>
                                     <h4 className="my-3">Reportes y estadisticas</h4>
-                                    <p className="text-muted">Cuantas reservas tengo para mañana o cuantas comisiones gané? Los reportes nos detallan todo un panorama diario, mensual y anual de las reservas e ingresos.</p>
+                                    <p className="text-muted">Cuántas reservas tengo para mañana o cuantas comisiones gané? Los reportes nos detallan todo un panorama diario, mensual y anual de las reservas e ingresos.</p>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +87,7 @@ export const Home = () => {
                                 <div className="col-lg-8 mx-auto text-center">
                                     <h2 className="section-heading">Contactanos</h2>
                                     <hr className="my-4" />
-                                    <p className="mb-5">Si queres saber más dejanos tu email para ponernos en contacto.</p>
+                                    <p className="mb-5">Si quieres saber más déjanos tu email para ponernos en contacto.</p>
                                 </div>
                                 <div className="col-lg-8 mx-auto text-center">
                                     <form name="sentMessage" id="contactForm" noValidate="novalidate">

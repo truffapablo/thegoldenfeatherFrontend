@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { logout } from '../../actions/auth';
 import { navSearch } from '../../actions/search';
-
+import logo from './logo.png'
 export const MainNavbar= () => {
     
     const [searchValue, setSerchValue] = React.useState('');

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Navigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { getLogsByReservationId } from '../../actions/logs';
 import { cancelReservation, completeReservation, confirmReservation } from '../../actions/reservation';
@@ -15,9 +15,13 @@ export const ReservationById = () => {
   const {id} = useParams();
  
   const reservation = list.find(reservation => reservation.id === id);
-  
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  if(!reservation){
+    <Navigate to='/'/>
+    return null
+  }
 
 
 
@@ -97,7 +101,7 @@ export const ReservationById = () => {
     const confirm = () => {
       Swal.fire({
         title: '¿Queres confirmar esta reserva?',
-        text: "Confirmar una reserva sirve para garantizar la misma.",
+        html: "<p>Confirmar una reserva sirve para garantizar la misma. <br/><strong>No se podrá modificar una vez confirmada.</strong></p>",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#263032',

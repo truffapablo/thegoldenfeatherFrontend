@@ -62,7 +62,7 @@ export const AchievedIncome = () => {
 
         <div className="d-flex align-items-center">
         <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
-            <i class="fa-solid fa-sack-dollar fa-3x"></i>
+            <i className="fa-solid fa-sack-dollar fa-3x"></i>
         </div>
         <div className="ps-3">
             <h6>Cantidad: ${total}</h6>

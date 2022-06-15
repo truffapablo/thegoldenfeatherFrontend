@@ -1,29 +1,11 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { convertDate } from '../../helpers/convertDate'
 
-import { convertDate } from '../../helpers/convertDate';
-
-export const ReservationTableList = () => {
-
-    const { list, customList } = useSelector(state => state.reservations);
-
-    const navigate = useNavigate();
-
-    const details = (id) => {
-        navigate(`/dashboard/reservations/${id}`);
-    }   
-    const customDetails = (id) => {
-        navigate(`/dashboard/reservations/${id}/custom`);
-    }
-
-  
-
+export const ReservationTableList = ({allReservations, currentPage, limit, details, customDetails, transferDetails}) => {
   return (
-    <div className='mt-5 table-responsive'>
-        <h2>Reservas</h2>
-        <table className="table table-striped animate__animated animate__fadeIn">
-        <thead>
+    <>
+    <table className="table table-striped animate__animated animate__fadeIn" >
+            <thead>
             <tr>
             <th scope="col"># Confirmación</th>
             <th scope="col">Huesped</th>
@@ -33,43 +15,53 @@ export const ReservationTableList = () => {
             <th scope="col">Horario</th>
             <th scope="col">Estado</th>
             </tr>
-        </thead>
-        <tbody> 
-         {
-            list.map((reservation, index) => {
-                return (
-                    <tr key={index}>
-                        <th scope="row"><a className='cpointer' onClick={()=>{details(reservation.id)}}>{reservation.confirmation}</a></th>
+            </thead>
+            <tbody>
+              {
+                allReservations.slice((currentPage -1) * limit, currentPage * limit).map((reservation, index) => {
+                  return (
+                  <tr key={index}>
+                        {
+                          reservation.pattern === 'EVENT_RESERVATION' &&
+                          <th scope="row"><a className='cpointer' onClick={()=>{details(reservation.id)}}>{reservation.confirmation}</a></th>
+                        }
+                        {
+                          reservation.pattern === 'CUSTOM_RESERVATION' &&
+                          <th scope="row"><a className='cpointer' onClick={()=>{customDetails(reservation.id)}}>{reservation.confirmation}</a></th>
+                        }
+                        {
+                          reservation.pattern === 'TRANSFER_RESERVATION' &&
+                          <th scope="row"><a className='cpointer' onClick={()=>{transferDetails(reservation.id)}}>{reservation.confirmation}</a></th>
+                        }
                         <td>{reservation.firstName} {reservation.lastName}</td>
                         <td>#{reservation.roomNumber}</td>
-                        <td>{reservation.event.title}</td>
+                        {
+                          reservation.event ?
+                          reservation.event.title ?
+                          <td>{reservation.event.title}</td>
+                          :
+                          <td>{reservation.event}</td>
+                          :
+                          <td>Transfer</td>
+                        }
                         <td>{convertDate(reservation.date)}</td>
-                        <td>{reservation.event.start}hs</td>
+                        {
+                          reservation.event ?
+                          reservation.event.start ?
+                          <td>{reservation.event.start}</td>
+                          :
+                          <td>{reservation.time}</td>
+                          :
+                          <td>{reservation.time}</td>
+                        }
                         <td>{reservation.status}</td>
+
                     </tr>
-                )
-            })
-         }
-         {
-            customList.map((reservation, index) => {
-                return (
-                    <tr key={index}>
-                        <th scope="row"><a className='cpointer' onClick={()=>{customDetails(reservation.id)}}>{reservation.confirmation}</a></th>
-                        <td>{reservation.firstName} {reservation.lastName}</td>
-                        <td>#{reservation.roomNumber}</td>
-                        <td>{reservation.event}</td>
-                        <td>{convertDate(reservation.date)}</td>
-                        <td>{reservation.time}hs</td>
-                        <td>{reservation.status}</td>   
-                    </tr>
-                )
-            })
-         }
-         
-            
-         
-        </tbody>
-        </table>
-    </div>
+                  )
+                })
+              }
+            </tbody>
+            </table>
+    </>
   )
 }

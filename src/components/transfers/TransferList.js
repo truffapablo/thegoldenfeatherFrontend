@@ -58,7 +58,7 @@ export const TransferList = () => {
   return (
     <div className='mt-5 table-responsive animate__animated animate__fadeIn'>
     <h2>Transfers</h2>
-        <table className="table table-success table-striped">
+        <table className="table table-striped">
             <thead>
                 <tr>
                     <th>Origen</th>

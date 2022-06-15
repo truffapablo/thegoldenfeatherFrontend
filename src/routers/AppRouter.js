@@ -68,7 +68,7 @@ export const AppRouter = () => {
         dispatch(getEvents());
         dispatch(getTransfers());
         dispatch(getTransferReservations())
-        navigate('dashboard/reservations');
+        navigate('dashboard/panel');
     }
 
   } , [dispatch, uid]);

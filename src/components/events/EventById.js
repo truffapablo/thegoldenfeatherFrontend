@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { deleteEvent } from '../../actions/events';
 
@@ -12,6 +12,11 @@ export const EventById = () => {
   const event = list.find(event => event.id === id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  if(!event){
+    <Navigate to='/'/>
+    return null
+  }
 
   const edit = () => {
     navigate(`/dashboard/events/${id}/edit`);
@@ -56,6 +61,7 @@ export const EventById = () => {
             <li>Evento: {event.title}</li>
             <li>Descripción: {event.description}</li>
             <li>Precio: ${event.price} {event.currency}</li>
+            <li>Comisión: ${event.commission} {event.currency}</li>
             <li>Cronograma: {event.schedule}</li>
             <li>Empieza: {event.start}hs</li>
             <li>Termina: {event.end}hs</li>

@@ -13,6 +13,7 @@ export const types = {
     uiFinishLoading:                    '[UI] Finish Loading',
     
     reservationAdd:                     '[Reservation] Add',
+    reservationAddFuture:               '[Reservation] Add Future',
     reservationDelete:                  '[Reservation] Delete',
     reservationUpdate:                  '[Reservation] Update',
     reservationUpdateMany:              '[Reservation] Update Many',

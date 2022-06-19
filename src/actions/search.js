@@ -1,3 +1,4 @@
+import { fetchWithToken } from "../helpers/fetch";
 import { searchData } from "../helpers/searchMultipleData";
 import { types } from "../types/types";
 
@@ -22,6 +23,32 @@ export const navSearch = (param, arrayList = []) => {
         }
     }
 }
+
+export const advanceSearch = (filters) => {
+    return async (dispatch) => {
+
+        try {
+            
+            const resp = await fetchWithToken('search-reservations/advanced', filters, 'POST');
+            const data = await resp.json();
+            if (data.ok) {
+                console.log(data);
+                return true;
+            }else{
+                console.log(data);
+                return false;
+            }
+
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+
+
+    }
+
+}
+
 
 const startSearching = () => {
     return {

@@ -27,6 +27,12 @@ export const reservationReducer = (state = initialState, action) => {
                 list: [...state.list, action.payload],
             }
 
+        case types.reservationAddFuture:
+            return{
+                ...state,
+                loading: false,
+            }
+
         case types.reservationAddCustom:
             return{
                 ...state,

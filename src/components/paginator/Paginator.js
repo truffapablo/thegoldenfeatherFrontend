@@ -7,7 +7,7 @@ export const Paginator = ({handlePrev, handleNext, handlePage, currentPage, page
         <nav aria-label="Page navigation example">
                 <ul className="pagination">
                 {buttonsPrevAndNext.prev && <li className="page-item"><button className="page-link" onClick={()=>{handlePrev()}}>Atras</button></li>}
-                {Array.from({ length: pages }, (x, i) => (
+                {pages > 1 && Array.from({ length: pages }, (x, i) => (
                     <li 
                     key={i}
                     className="page-item"

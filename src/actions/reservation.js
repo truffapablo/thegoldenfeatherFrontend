@@ -22,6 +22,7 @@ export const getReservations = () => {
     }   
 }
 
+
 export const startNewReservation = (reservation) => {
 
     return async (dispatch) => {
@@ -30,7 +31,17 @@ export const startNewReservation = (reservation) => {
             const resp = await fetchWithToken('reservations', reservation, 'POST');
             const data = await resp.json();
             if (data.ok) {
-                dispatch(addReservation(data.reservation));
+
+                /**
+                 * Si la reserva es para el dia de hoy se pasa por el reducer de reservas
+                 */
+                if (reservation.date === new Date().toISOString().split('T')[0]) {
+                    dispatch(addReservation(data.reservation));
+                }else{
+                    dispatch({
+                        type: types.reservationAddFuture,
+                    })
+                }
                 return true;
 
             }else{

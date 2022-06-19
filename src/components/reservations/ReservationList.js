@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { convertDate } from '../../helpers/convertDate';
 import { Paginator } from '../paginator/Paginator';
+import { AdvanceSearchForm } from './AdvanceSearchForm';
 import { ReservationTableList } from './ReservationTableList';
 
 export const ReservationList = () => {
@@ -32,7 +33,7 @@ export const ReservationList = () => {
      /**
       * El limite es el numero de elementos que se mostraran en la lista
       */
-     const [limit, setLimit] = useState(8);
+     const [limit, setLimit] = useState(7);
  
      /**
       * Total de paginas a motrar
@@ -84,6 +85,7 @@ export const ReservationList = () => {
 
   return (
       <>
+        <AdvanceSearchForm/>
         <div className='mt-5 table-responsive'>
             <h2>Reservas</h2>
             <ReservationTableList

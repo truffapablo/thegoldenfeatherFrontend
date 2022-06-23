@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { convertDate } from '../../helpers/convertDate';
+import { today } from '../../helpers/today';
+import { types } from '../../types/types';
 import { Paginator } from '../paginator/Paginator';
 import { AdvanceSearchForm } from './AdvanceSearchForm';
 import { ReservationTableList } from './ReservationTableList';
@@ -10,10 +12,12 @@ import { ReservationTableList } from './ReservationTableList';
 export const ReservationList = () => {
 
     const { list, customList, transferList } = useSelector(state => state.reservations);
-
+    const { advanceSearch } = useSelector(state => state.search);
+    const dispatch = useDispatch();
     const allReservations = [...list, ...customList, ...transferList];
 
     const navigate = useNavigate();
+
 
     const details = (id) => {
         navigate(`/dashboard/reservations/${id}`);
@@ -28,12 +32,12 @@ export const ReservationList = () => {
     /**
      * Listado de noticias
      */
-     const [news, setNews] = useState(allReservations);
+     const [news, setNews] = useState(allReservations && advanceSearch);
 
      /**
       * El limite es el numero de elementos que se mostraran en la lista
       */
-     const [limit, setLimit] = useState(7);
+     const [limit, setLimit] = useState(4);
  
      /**
       * Total de paginas a motrar
@@ -80,23 +84,57 @@ export const ReservationList = () => {
     const handleNext = () => {
         handlePage(currentPage + 1);
     }
-
+    
     const selectedLiStyle = {color: 'red'};
+    
+    const cleanSearch = ()=>{
+        dispatch({
+            type:types.reservationCleanSearch
+        })
+    }
 
   return (
       <>
         <AdvanceSearchForm/>
         <div className='mt-5 table-responsive'>
-            <h2>Reservas</h2>
-            <ReservationTableList
-            allReservations={allReservations}
-            details={details}
-            customDetails={customDetails}
-            transferDetails={transferDetails}
-            limit={limit}
-            currentPage={currentPage}
-            />
+            {
+                advanceSearch.length === 0
+                &&
+                <h3>Reservas <span>{convertDate(today(),'DD-MM-YYYY')}</span></h3>
+            }
             
+            {
+                advanceSearch.length === 0
+                &&
+                <ReservationTableList
+                allReservations={allReservations}
+                details={details}
+                customDetails={customDetails}
+                transferDetails={transferDetails}
+                limit={limit}
+                currentPage={currentPage}
+                />
+            }
+
+            {
+            advanceSearch.length > 0
+            &&
+            <div>
+                <h3>Reservas encontradas <button onClick={()=>{cleanSearch()}} className='btn btn-warning btn-sm'>Limpiar búsqueda</button></h3>
+            </div>
+            }
+
+            {
+                advanceSearch.data &&
+                <ReservationTableList
+                allReservations={advanceSearch.data}
+                details={details}
+                customDetails={customDetails}
+                transferDetails={transferDetails}
+                limit={limit}
+                currentPage={currentPage}
+                />
+            }
             <div>
             <Paginator
                 pages={pages}

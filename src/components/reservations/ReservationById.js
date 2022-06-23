@@ -12,9 +12,11 @@ import { reservationStatus} from './reservationStatus';
 export const ReservationById = () => {
 
   const { list } = useSelector(state => state.reservations);
+  const {advanceSearch} = useSelector(state => state.search);
   const {id} = useParams();
  
-  const reservation = list.find(reservation => reservation.id === id);
+  const reservation = list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   

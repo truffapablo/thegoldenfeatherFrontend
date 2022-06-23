@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
@@ -10,17 +9,22 @@ import { removeError, setError} from '../../actions/ui';
 import { validateReservation } from '../../helpers/reservationHelper';
 import { useForm } from '../../hooks/useForm';
 import { convertDate } from '../../helpers/convertDate';
-import { eventPriceHasChanged } from '../../helpers/eventPriceHasChanged';
-export const ReservationFormEdit = () => {
-    const { msgError } = useSelector(state => state.ui);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const {list} = useSelector(state => state.events);
-    
-    const reList  = useSelector(state => state.reservations);
-    const {id} = useParams();
+import { today } from '../../helpers/today';
+import moment from 'moment';
+import { types } from '../../types/types';
 
-    const reservation = reList.list.find(reservation => reservation.id === id);
+
+export const ReservationFormEdit = () => {
+    const { msgError }          = useSelector(state => state.ui);
+    const {list}                = useSelector(state => state.events);
+    const {advanceSearch}       = useSelector(state => state.search);
+    const reList                = useSelector(state => state.reservations);
+    const dispatch              = useDispatch();
+    const navigate              = useNavigate();
+    
+    const {id}                  = useParams();
+
+    const reservation = reList.list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
 
     const [ formValues, handleInputChange, reset ] = useForm({
     
@@ -107,8 +111,9 @@ export const ReservationFormEdit = () => {
 
             dispatch(updateReservation(id,editedReservation))
             .then(response => {
-                if(response) {
+                if(response.ok) {
 
+                    
                     Swal.fire({
                         title: 'Reserva editada',
                         text: 'La reserva se ha editado correctamente',
@@ -117,6 +122,41 @@ export const ReservationFormEdit = () => {
                     }).then(() => {
                         reset();
                         navigate('/dashboard/reservations');
+                        
+                        /**
+                         * Si la reserva cambio de fecha:
+                         */
+
+                        //Si la fecha no es de hoy hay que sacarla
+                        if(moment.utc(response.reservation.date).format('YYYY-MM-DD') !== today()){
+                            
+                            dispatch({
+                                type:types.reservationRemove,
+                                payload:response.reservation.id
+                            });
+                        }
+
+                        /**
+                         * Si la fecha fue actualizada a hoy:
+                         */
+                        
+                        //Si la fecha original es igual hoy no se agrega al array
+                        //Si la fecha original es distinta a la actualizada y es igual a hoy se agrega
+
+                        if(convertDate(reservation.date,'YYYY-MM-DD') !== moment.utc(response.reservation.date).format('YYYY-MM-DD')){
+                            
+                            if(moment.utc(response.reservation.date).format('YYYY-MM-DD') === today()){
+                                dispatch({
+                                    type: types.reservationAdd,
+                                    payload: response.reservation
+                                });
+                            }
+                            
+                        }
+
+                        
+                        
+                        
                     });
                 }else{
                     Swal.fire({

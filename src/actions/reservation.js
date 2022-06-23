@@ -1,6 +1,10 @@
 import { fetchWithToken } from "../helpers/fetch";
 import { types } from "../types/types";
 
+const moment = require('moment-timezone');
+const tz = moment().tz("America/Argentina/Buenos_Aires");
+
+
 
 export const getReservations = () => {
     return async(dispatch) => {
@@ -35,7 +39,7 @@ export const startNewReservation = (reservation) => {
                 /**
                  * Si la reserva es para el dia de hoy se pasa por el reducer de reservas
                  */
-                if (reservation.date === new Date().toISOString().split('T')[0]) {
+                if (moment(reservation.date).format('YYYY-MM-DD') === tz.format('YYYY-MM-DD')) {
                     dispatch(addReservation(data.reservation));
                 }else{
                     dispatch({
@@ -118,7 +122,8 @@ export const updateReservation = (id, reservation) => {
                 const data = await resp.json();
                 if (data.ok) {
                     dispatch(reservationUpdate(data.reservation));
-                    return true;
+
+                    return data;
                 }else{
                   return false;
                   
@@ -130,8 +135,12 @@ export const updateReservation = (id, reservation) => {
     }
 }
 
-
-
+const removeReservation = (id) =>{
+    return {
+        type:types.reservationRemove,
+        payload:id
+    }
+}
 
 
 const addReservation = (reservation) => {

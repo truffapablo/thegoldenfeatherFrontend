@@ -1,5 +1,6 @@
 import React from 'react'
 import { convertDate } from '../../helpers/convertDate'
+import { today } from '../../helpers/today'
 
 export const ReservationTableList = ({allReservations, currentPage, limit, details, customDetails, transferDetails}) => {
   return (

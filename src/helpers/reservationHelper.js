@@ -80,7 +80,8 @@ const validateRoomNumber = (roomNumber) => {
 const validateDate = (date) => {
   if(!date) return 'La fecha es requerida';
   if(!validator.isDate(date)) return 'La fecha no es válida';
-  if(date < new Date().toISOString().slice(0,10)) return 'La fecha no puede ser anterior a la fecha actual';
+  let dateFormat = new Date(date).toISOString().split('T')[0];
+  if(date < dateFormat) return 'La fecha no puede ser anterior a la fecha actual';
 }
 
 const validateTime = (time) => {

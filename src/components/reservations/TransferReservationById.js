@@ -9,11 +9,13 @@ export const TransferReservationById = () => {
 
     const {id} = useParams();
     const {transferList} = useSelector(state => state.reservations);
+    const {advanceSearch} = useSelector(state => state.search);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const transfer = transferList.find(transfer => transfer.id === id);
+    //const transfer = transferList.find(transfer => transfer.id === id);
+    const transfer = transferList.find(transfer => transfer.id === id) || advanceSearch.data.find(transfer => transfer.id === id);
 
     if(!transfer){
       <Navigate to='/'/>

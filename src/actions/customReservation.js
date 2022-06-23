@@ -1,6 +1,8 @@
 import { fetchWithToken } from "../helpers/fetch";
 import { types } from "../types/types";
 import { reservationFinishLoading, reservationStartLoading } from "./reservation";
+import moment from "moment";
+import { today } from "../helpers/today";
 
 
 
@@ -12,8 +14,17 @@ export const startCustomReservation = (reservation) => {
             const resp = await fetchWithToken('custom-reservations', reservation, 'POST');
             const data = await resp.json();
             if (data.ok) {
-                console.log('data',data);
-                dispatch(addCustomReservation(data.reservation));
+                
+                /**
+                 * Si la reserva es para el dia de hoy se pasa por el reducer de reservas
+                 */
+                 if (moment(reservation.date).format('YYYY-MM-DD') === today()) {
+                    dispatch(addCustomReservation(data.reservation));
+                }else{
+                    dispatch({
+                        type: types.reservationAddFuture,
+                    })
+                }
                 return true;
 
             }else{
@@ -54,7 +65,7 @@ export const updateCustomReservation = (id, reservation) => {
                 console.log(data);
                 if (data.ok) {
                     dispatch(reservationCustomUpdate(data.reservation));
-                    return true;
+                    return data;
                 }else{
                   return false;
                   

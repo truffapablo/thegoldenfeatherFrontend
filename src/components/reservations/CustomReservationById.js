@@ -11,9 +11,10 @@ import { convertDate } from '../../helpers/convertDate';
 export const CustomReservationById = () => {
 
   const { customList } = useSelector(state => state.reservations);
+  const {advanceSearch} = useSelector(state => state.search);
   const {id} = useParams();
   
-  const reservation = customList.find(reservation => reservation.id === id);
+  const reservation = customList.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

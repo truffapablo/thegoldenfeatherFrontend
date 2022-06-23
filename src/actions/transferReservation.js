@@ -1,4 +1,6 @@
+import moment from "moment";
 import { fetchWithToken } from "../helpers/fetch";
+import { today } from "../helpers/today";
 import { types } from "../types/types";
 
 export const getTransferReservations = () => {
@@ -27,7 +29,16 @@ export const createTransferReservation = (transfer) => {
             const resp = await fetchWithToken('transfer-reservation', transfer, 'POST');
             const data = await resp.json();
             if (data.ok) {
-                dispatch(addTransferReservation(data.transferR));
+                /**
+                 * Si la reserva es para el dia de hoy se pasa por el reducer de reservas
+                 */
+                 if (moment(transfer.date).format('YYYY-MM-DD') === today()) {
+                    dispatch(addTransferReservation(data.transferR));
+                }else{
+                    dispatch({
+                        type: types.reservationAddFuture,
+                    })
+                }
                 return true;
 
             }else{
@@ -48,7 +59,7 @@ export const editTransferReservation = (id, transfer) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(transferReservationEdit(data.transferR));
-                return true;
+                return data;
 
             }else{
                 return false;

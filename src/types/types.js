@@ -15,6 +15,7 @@ export const types = {
     reservationAdd:                     '[Reservation] Add',
     reservationAddFuture:               '[Reservation] Add Future',
     reservationDelete:                  '[Reservation] Delete',
+    reservationRemove:                  '[Reservation] Remove',
     reservationUpdate:                  '[Reservation] Update',
     reservationUpdateMany:              '[Reservation] Update Many',
     reservationCancel:                  '[Reservation] Cancel',
@@ -27,10 +28,16 @@ export const types = {
     reservationCancelCustom:            '[Custom - Reservation] Cancel Custom',
     reservationConfirmCustom:           '[Custom - Reservation] Confirm Custom',
     reservationCompleteCustom:          '[Custom - Reservation] Complete Custom',
+    reservationRemoveCustom:            '[Custom - Reservation] Remove Custom',
         
     reservationStartLoading:            '[Reservation] Start Loading',
     reservationFinishLoading:           '[Reservation] Finish Loading',
     reservationSet:                     '[Reservation] Set reservation list',
+
+    reservationStartAdvanceSearch:      '[Reservation - Search] Start Searching',
+    reservationFinishAdvanceSearch:     '[Reservation - Search] Finish Searching',
+    reservationSetAdvanceSearch:        '[Reservation - Search] Set Search',
+    reservationCleanSearch:             '[Reservation - Search] Clean Search',
         
     transferAdd:                        '[Transfer] Add',
     transferDelete:                     '[Transfer] Delete',
@@ -46,6 +53,7 @@ export const types = {
         
     transferReservationAdd:             '[Transfer - Reservation] Add',
     transferReservationDelete:          '[Transfer - Reservation] Delete',
+    transferReservationRemove:          '[Transfer - Reservation] Remove',
     transferReservationUpdate:          '[Transfer - Reservation] Update',
     transferReservationCancel:          '[Transfer - Reservation] Cancel',
     transferReservationConfirm:         '[Transfer - Reservation] Confirm',

@@ -1,7 +1,9 @@
+import { advanceSearch } from "../actions/search";
 import { types } from "../types/types";
 
 const initialState = {
     list: [],
+    advanceSearch:[],
     loading: false,
 }
 
@@ -25,6 +27,31 @@ export const searchReducer = (state = initialState, action) => {
                 list: action.payload,
             }
         
+        case types.reservationStartAdvanceSearch:
+            return {
+                ...state,
+                loading: true,
+            }
+        
+        case types.reservationFinishAdvanceSearch:
+            return {
+                ...state,
+                loading: false,
+            }
+        
+        case types.reservationSetAdvanceSearch:
+            return {
+                ...state,
+                advanceSearch: action.payload,
+            }
+        
+        case types.reservationCleanSearch:
+            return{
+                ...state,
+                advanceSearch:[]
+            }
+        
+
         default: return state;
     }
 }

@@ -9,7 +9,10 @@ import { removeError, setError} from '../../actions/ui';
 import { validateReservation } from '../../helpers/reservationHelper';
 import { useForm } from '../../hooks/useForm';
 import { convertDate } from '../../helpers/convertDate';
+import { today } from '../../helpers/today';
+import { types } from '../../types/types';
 import { updateCustomReservation } from '../../actions/customReservation';
+
 export const ReservationCustomFormEdit = () => {
 
     const { msgError } = useSelector(state => state.ui);
@@ -18,8 +21,9 @@ export const ReservationCustomFormEdit = () => {
  
 
     const {customList}  = useSelector(state => state.reservations);
+    const {advanceSearch}       = useSelector(state => state.search);
     const {id} = useParams();
-    const reservation = customList.find(reservation => reservation.id === id);
+    const reservation = customList.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
 
     const [ formValues, handleInputChange, reset ] = useForm({
     
@@ -67,7 +71,7 @@ export const ReservationCustomFormEdit = () => {
             }
             dispatch(updateCustomReservation(id,editedReservation))
             .then(response => {
-                if(response) {
+                if(response.ok) {
 
                     Swal.fire({
                         title: 'Reserva editada',
@@ -77,6 +81,40 @@ export const ReservationCustomFormEdit = () => {
                     }).then(() => {
                         reset();
                         navigate('/dashboard/reservations');
+
+                        /**
+                         * Si la reserva cambio de fecha:
+                         */
+
+                        //Si la fecha no es de hoy hay que sacarla
+                        if(moment.utc(response.reservation.date).format('YYYY-MM-DD') !== today()){
+                            
+                            dispatch({
+                                type:types.reservationRemoveCustom,
+                                payload:response.reservation.id
+                            });
+                        }
+
+                        /**
+                         * Si la fecha fue actualizada a hoy:
+                         */
+                        
+                        //Si la fecha original es igual hoy no se agrega al array
+                        //Si la fecha original es distinta a la actualizada y es igual a hoy se agrega
+
+                        if(convertDate(reservation.date,'YYYY-MM-DD') !== moment.utc(response.reservation.date).format('YYYY-MM-DD')){
+                            
+                            if(moment.utc(response.reservation.date).format('YYYY-MM-DD') === today()){
+                                dispatch({
+                                    type: types.reservationAddCustom,
+                                    payload: response.reservation
+                                });
+                            }
+                            
+                        }
+
+
+
                     });
                 }else{
                     Swal.fire({

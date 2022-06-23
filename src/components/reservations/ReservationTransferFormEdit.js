@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
+import moment from 'moment';
+import { today } from '../../helpers/today';
+import { types } from '../../types/types';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -7,7 +10,6 @@ import { removeError, setError } from '../../actions/ui';
 import { convertDate } from '../../helpers/convertDate';
 import { validateTransferReservation } from '../../helpers/reservationHelper';
 import { useForm } from '../../hooks/useForm';
-
 import { InputFormDateTime } from './InputFormDateTime';
 import { InputFormGuest } from './InputFormGuest';
 import { InputFormPeopleAndRoomNumber } from './InputFormPeopleAndRoomNumber';
@@ -22,10 +24,11 @@ export const ReservationTransferFormEdit = () => {
 
   const transferList = useSelector(state => state.transfers.list);
   const transferReservationList = useSelector(state => state.reservations.transferList);
+  const {advanceSearch} = useSelector(state => state.search);
   const {id} = useParams();
 
-  const transferR = transferReservationList.find(transferReservation => transferReservation.id === id);
-  
+  const transferR = transferReservationList.find(transferReservation => transferReservation.id === id) || advanceSearch.data.find(transferReservation => transferReservation.id === id);
+
   const { msgError } = useSelector(state => state.ui);
 
   const otherOptions = useRef(null);
@@ -107,11 +110,11 @@ export const ReservationTransferFormEdit = () => {
       const errors = validateTransferReservation(formValues);
       dispatch(setError(errors));
 
-      if(Object.keys(errors).length === 0) {
+      if(Object.keys(errors).length === 0) {  
         dispatch(editTransferReservation(id, {...formValues, transfer:null}))
         .then(response => {
-          if(response) {
-
+          if(response.ok) {
+      
               Swal.fire({
                   title: 'Transfer editado',
                   text: 'La reserva se ha editado correctamente',
@@ -120,6 +123,40 @@ export const ReservationTransferFormEdit = () => {
               }).then(() => {
                   reset();
                   navigate('/dashboard/reservations');
+                      
+                      /**
+                       * Si la reserva cambio de fecha:
+                       */
+
+                        //Si la fecha no es de hoy hay que sacarla
+                        if(moment.utc(response.transferR.date).format('YYYY-MM-DD') !== today()){
+                          console.log('REMOVE');
+                          console.log('RESPONSE',response);
+                          dispatch({
+                              type:types.transferReservationRemove,
+                              payload:response.transferR.id
+                          });
+                      }
+
+                      /**
+                       * Si la fecha fue actualizada a hoy:
+                       */
+                      
+                      //Si la fecha original es igual hoy no se agrega al array
+                      //Si la fecha original es distinta a la actualizada y es igual a hoy se agrega
+
+                      if(convertDate(transferR.date,'YYYY-MM-DD') !== moment.utc(response.transferR.date).format('YYYY-MM-DD')){
+                          
+                          if(moment.utc(response.transferR.date).format('YYYY-MM-DD') === today()){
+                              dispatch({
+                                  type: types.transferReservationAdd,
+                                  payload: response.transferR
+                              });
+                          }
+                          
+                      }
+
+
               });
           }else{
               Swal.fire({
@@ -152,7 +189,7 @@ export const ReservationTransferFormEdit = () => {
       if(Object.keys(objErrors).length === 0){
         dispatch(editTransferReservation(id, objToValidate))
         .then(response => {
-          if(response) {
+          if(response.ok) {
 
               Swal.fire({
                 title: 'Transfer editado',
@@ -162,6 +199,38 @@ export const ReservationTransferFormEdit = () => {
               }).then(() => {
                   reset();
                   navigate('/dashboard/reservations');
+
+                  /**
+                       * Si la reserva cambio de fecha:
+                       */
+
+                        //Si la fecha no es de hoy hay que sacarla
+                        if(moment.utc(response.transferR.date).format('YYYY-MM-DD') !== today()){
+                          console.log('REMOVE');
+                          console.log('RESPONSE',response);
+                          dispatch({
+                              type:types.transferReservationRemove,
+                              payload:response.transferR.id
+                          });
+                      }
+
+                      /**
+                       * Si la fecha fue actualizada a hoy:
+                       */
+                      
+                      //Si la fecha original es igual hoy no se agrega al array
+                      //Si la fecha original es distinta a la actualizada y es igual a hoy se agrega
+
+                      if(convertDate(transferR.date,'YYYY-MM-DD') !== moment.utc(response.transferR.date).format('YYYY-MM-DD')){
+                          
+                          if(moment.utc(response.transferR.date).format('YYYY-MM-DD') === today()){
+                              dispatch({
+                                  type: types.transferReservationAdd,
+                                  payload: response.transferR
+                              });
+                          }
+                          
+                      }
               });
           }else{
               Swal.fire({

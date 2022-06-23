@@ -5,6 +5,7 @@ import { useForm } from '../../hooks/useForm';
 
 export const AdvanceSearchForm = () => {
 
+
     const [ formValues, handleInputChange, reset ] = useForm({
         confirmation: '',
         date: '',
@@ -26,12 +27,15 @@ export const AdvanceSearchForm = () => {
             event: event || null,
             lastName: lastName || null,
         }));
+
+        //reset();
     }
 
   return (
     <>
     <div className='advanceSearchForm'>
-    <form onSubmit={handleSubmit} className="row g-3 animate__animated animate__fadeIn mt-3">
+    <h3 className='mt-3'>Buscador de reservas</h3>
+    <form onSubmit={handleSubmit} className="row g-3 animate__animated animate__fadeIn">
         <div className='form-group col-md-3'>
             <label htmlFor="confirmation">Confirmación:</label>
             <input type="text" value={confirmation} className="form-control" name="confirmation" id="confirmation" placeholder="#Confirmación" onChange={handleInputChange} />

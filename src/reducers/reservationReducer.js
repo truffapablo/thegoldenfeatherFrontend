@@ -63,6 +63,18 @@ export const reservationReducer = (state = initialState, action) => {
                 ...state,
                 list: state.list.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
             }
+
+        case types.reservationRemove:
+            return {
+                ...state,
+                list: state.list.filter(reservation => reservation.id !== action.payload),
+            }
+
+        case types.reservationRemoveCustom:
+            return {
+                ...state,
+                customList: state.customList.filter(reservation => reservation.id !== action.payload),
+            }
         
 
         case types.reservationCancelCustom:
@@ -141,6 +153,12 @@ export const reservationReducer = (state = initialState, action) => {
             return {
                 ...state,
                 transferList: state.transferList.map(reservation => reservation.id === action.payload.id ? action.payload : reservation),
+            }
+        
+        case types.transferReservationRemove:
+            return {
+                ...state,
+                transferList: state.transferList.filter(reservation => reservation.id !== action.payload),
             }
 
         case types.transferReservationConfirm:

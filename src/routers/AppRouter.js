@@ -94,10 +94,11 @@ export const AppRouter = () => {
 
           <Route path="/" exact element={<HomeView />} />
           <Route path="login" element={<LoginView />} />
-          <Route path="register" element={<RegisterView/>} />
+
 
           <Route path="/dashboard" element={<RequireAuth/>}>
-
+              
+              <Route path="register" element={<RegisterView/>} />
               <Route path="panel" element={<PanelView />} />         
               
               <Route path='reservations' element={<ReservationView/>}>       

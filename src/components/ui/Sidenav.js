@@ -54,6 +54,16 @@ export const Sidenav = () => {
                                     <NavLink className="nav-link" to="dashboard/transfers/new">Nuevo Transfer</NavLink>
                                 </nav>
                             </div>
+                            <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#usersCollapse" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div className="sb-nav-link-icon"><i className="fas fa-user"></i></div>
+                                Usuarios
+                                <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
+                            </a>
+                            <div className="collapse" id="usersCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav className="sb-sidenav-menu-nested nav">
+                                    <NavLink className="nav-link" to="dashboard/register">Registrar usuario</NavLink>
+                                </nav>
+                            </div>
                            
                         </div>
                     </div>

@@ -34,14 +34,14 @@ export const advanceSearch = (filters) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch({type:types.reservationFinishAdvanceSearch});
-                console.log(data);
+                
                 dispatch({
                     type:types.reservationSetAdvanceSearch,
                     payload:data
                 });
                 return true;
             }else{
-                console.log(data);
+                
                 dispatch({type:types.reservationFinishAdvanceSearch});
                 return false;
             }

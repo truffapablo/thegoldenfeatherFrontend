@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { registerWithEmailAndPassword } from '../../actions/auth';
+import { registerWithEmailAndPassword, startRegister } from '../../actions/auth';
 import { useForm } from '../../hooks/useForm'
 import {setError, removeError, startLoading, finishLoading} from '../../actions/ui';
 
@@ -23,11 +23,22 @@ export const RegisterForm = () => {
 
     const {name, email, password, password2} = formValues;
     /**TODO Validar */
-    const handleRegister = (e)=>{
+    const handleRegister = async (e)=>{
         e.preventDefault();
-        console.log('register');
+        if(isFormValid()){
+            
+            dispatch(startRegister({
+                name,
+                email,
+                password
+            })
+            
+            ).then(response => {
+                console.log(response);
+            });
+        }
     }
-
+    
     const isFormValid = () => {
         if(name.trim().length === 0){
             dispatch(setError('El nombre es obligatorio'));
@@ -45,8 +56,9 @@ export const RegisterForm = () => {
 
 
   return (
-    <div className='gf-auth-login mt-5'>
-        <Logo/>
+    <div className='mt-5'>
+        {/* <Logo/> */}
+        <h2>Registar usuario</h2>
         <form onSubmit={handleRegister}>
             {
                 msgError && <div className="alert alert-danger">{msgError}</div>
@@ -100,11 +112,11 @@ export const RegisterForm = () => {
             id='gf-btn-register'
             className="btn btn-primary btn-block"
             disabled={loading}
-            >Registrarse</button>
+            >Registrar</button>
             </div>
-            <div className='mt-2'>
+            {/* <div className='mt-2'>
                 <p>¿Ya tienes cuenta? <Link to='/login'>Iniciar sesión</Link> </p>
-            </div>
+            </div> */}
         </form>
 
     </div>

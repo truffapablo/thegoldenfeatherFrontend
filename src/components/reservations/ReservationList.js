@@ -16,6 +16,8 @@ export const ReservationList = () => {
     const dispatch = useDispatch();
     const allReservations = [...list, ...customList, ...transferList];
 
+    
+
     const navigate = useNavigate();
 
 
@@ -32,12 +34,12 @@ export const ReservationList = () => {
     /**
      * Listado de noticias
      */
-     const [news, setNews] = useState(allReservations && advanceSearch);
+     const [news, setNews] = useState(allReservations);
 
      /**
       * El limite es el numero de elementos que se mostraran en la lista
       */
-     const [limit, setLimit] = useState(4);
+     const [limit, setLimit] = useState(5);
  
      /**
       * Total de paginas a motrar
@@ -62,7 +64,33 @@ export const ReservationList = () => {
             prev: currentPage > 1,
             next: currentPage < pages
         });
+
     }, []);
+     
+    useEffect(() => {
+        /**
+         * Si el buscador tiene contenido hay que refrescar las paginas con el contenido del buscador
+         * 
+         */
+        
+        if(advanceSearch.data){
+            if(advanceSearch.data.length > 0) {
+                console.log('Tiene data');
+                setNews(advanceSearch.data);
+                setCurrentPage(1);
+            }
+        }
+
+
+
+    }, [advanceSearch]);
+    
+    useEffect(()=>{
+
+        setPages(Math.ceil(news.length / limit));
+
+    },[news]);
+
 
     const handlePage = (page) => {
         setCurrentPage(page);
@@ -90,7 +118,11 @@ export const ReservationList = () => {
     const cleanSearch = ()=>{
         dispatch({
             type:types.reservationCleanSearch
-        })
+        });
+
+        setNews(allReservations);
+        setCurrentPage(1);
+
     }
 
   return (

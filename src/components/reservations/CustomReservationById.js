@@ -14,9 +14,20 @@ export const CustomReservationById = () => {
   const {advanceSearch} = useSelector(state => state.search);
   const {id} = useParams();
   
-  const reservation = customList.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
+  //const reservation = customList.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
+  const [reservation, setReservation] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
+  useEffect(()=>{
+    
+    if(advanceSearch.data){
+      setReservation(customList.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id));
+    }else{
+      setReservation(customList.find(reservation => reservation.id === id));
+    }
+  },[]);
 
   if(!reservation || reservation.length == 0){
     <Navigate to='/'/>

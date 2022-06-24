@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { advanceSearch } from '../../actions/search';
 import { useForm } from '../../hooks/useForm';
@@ -20,7 +21,6 @@ export const AdvanceSearchForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
     
-        console.log(formValues);
         dispatch(advanceSearch({
             confirmation: confirmation || null,
             date: date || null,

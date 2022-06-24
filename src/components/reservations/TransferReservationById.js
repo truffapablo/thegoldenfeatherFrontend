@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -15,7 +16,17 @@ export const TransferReservationById = () => {
     const navigate = useNavigate();
 
     //const transfer = transferList.find(transfer => transfer.id === id);
-    const transfer = transferList.find(transfer => transfer.id === id) || advanceSearch.data.find(transfer => transfer.id === id);
+    //const transfer = transferList.find(transfer => transfer.id === id) || advanceSearch.data.find(transfer => transfer.id === id);
+    const [transfer, setTransfer] = useState(false)
+    useEffect(()=>{
+    
+      if(advanceSearch.data){
+        setTransfer(transferList.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id));
+      }else{
+        setTransfer(transferList.find(reservation => reservation.id === id));
+      }
+    },[]);
+
 
     if(!transfer){
       <Navigate to='/'/>

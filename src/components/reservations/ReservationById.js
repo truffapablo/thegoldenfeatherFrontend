@@ -15,15 +15,33 @@ export const ReservationById = () => {
   const {advanceSearch} = useSelector(state => state.search);
   const {id} = useParams();
  
-  const reservation = list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
+  //const reservation = list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
+  
+  const [reservation, setReservation] = useState(false)
+
+  
+  useEffect(()=>{
+    
+    if(advanceSearch.data){
+      setReservation(list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id));
+    }else{
+      setReservation(list.find(reservation => reservation.id === id));
+    }
+  },[]);
+
+  
+  
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
+
   if(!reservation){
     <Navigate to='/'/>
     return null
   }
+
+  
 
 
 

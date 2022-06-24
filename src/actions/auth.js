@@ -62,10 +62,24 @@ export const startChecking = () => {
 
         } catch (error) {
             console.log('Error',error);
+            return false
         }
     }
 }
 
+
+export const startRegister = (user) =>{
+    return async(dispatch) => {
+        try {
+            const resp = await fetchWithToken('auth/new', user, 'POST' );
+            const data = await resp.json();
+            return data;
+        } catch (error) {
+            console.log('Error',error);
+            return false
+        }
+    }
+}
 
 
 

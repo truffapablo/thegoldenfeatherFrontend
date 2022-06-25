@@ -22,8 +22,10 @@ export const MainNavbar= () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleLogOut = () => {
-        dispatch(logout());
-        navigate('/');
+        dispatch(logout()).then(resp => {
+            navigate('/');
+            window.location.reload();
+        });
 
     }
 

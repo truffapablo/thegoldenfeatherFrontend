@@ -69,8 +69,8 @@ export const Home = () => {
                                         <i className="fas fa-circle fa-stack-2x golden-text"></i>
                                         <i className="fas fa-chart-simple fa-stack-1x fa-inverse"></i>
                                     </span>
-                                    <h4 className="my-3">Reportes y estadisticas</h4>
-                                    <p className="text-muted">Cuántas reservas tengo para mañana o cuantas comisiones gané? Los reportes nos detallan todo un panorama diario, mensual y anual de las reservas e ingresos.</p>
+                                    <h4 className="my-3">Reportes y estadísticas</h4>
+                                    <p className="text-muted">¿Cuántas reservas tengo para mañana o cuantas comisiones gané? Los reportes nos detallan todo un panorama diario, mensual y anual de las reservas e ingresos.</p>
                                 </div>
                             </div>
                         </div>

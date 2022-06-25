@@ -27,8 +27,13 @@ export const authReducer = (state = initialState, action )=>{
         
         case types.register:
             return {
-                uid:    action.payload.uid,
-                name:   action.payload.name,
+                ...state,
+            }
+
+        case types.changeUserPassword:
+            return{
+                ...state,
+                changePassword:action.payload
             }
         
         default: return state;

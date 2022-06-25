@@ -18,6 +18,8 @@ export const startLogin = (email, password) => {
                 dispatch(login({
                     uid: data.uid,
                     name: data.name,
+                    email:data.email,
+                    changePassword:data.changePassword
                 }));
 
                 document.cookie = `token=${data.token}`;
@@ -51,6 +53,8 @@ export const startChecking = () => {
                     dispatch(login({
                         uid: data.uid,
                         name: data.name,
+                        email:data.email,
+                        changePassword:data.changePassword
                     }));
                 }else{
                     dispatch(checkingFinish());
@@ -73,6 +77,22 @@ export const startRegister = (user) =>{
         try {
             const resp = await fetchWithToken('auth/new', user, 'POST' );
             const data = await resp.json();
+            dispatch({
+                type:types.register
+            })
+            return data;
+        } catch (error) {
+            console.log('Error',error);
+            return false
+        }
+    }
+}
+
+export const resetPassword = (userCredentials) => {
+    return async(dispatch) => {
+        try {
+            const resp = await fetchWithToken('auth/reset-password', userCredentials, 'PUT');
+            const data = await resp.json();
             return data;
         } catch (error) {
             console.log('Error',error);
@@ -85,9 +105,14 @@ export const startRegister = (user) =>{
 
 
 export const logout = () => {
-    return (dispatch) => {
-        localStorage.clear();
-        dispatch(logoutUser());
+    return async (dispatch) => {
+        try {
+            localStorage.clear();
+            dispatch(logoutUser());
+            return true
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

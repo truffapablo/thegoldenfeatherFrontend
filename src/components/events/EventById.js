@@ -24,7 +24,7 @@ export const EventById = () => {
   const eventDelete = () => {
 
     Swal.fire({
-      title: 'Estas seguro?',
+      title: '¿Estás seguro?',
       html: `<p>
         Esta acción no se puede deshacer.
         <br/>
@@ -34,7 +34,8 @@ export const EventById = () => {
       showCancelButton: true,
       confirmButtonColor: '#263032',
       cancelButtonColor: '#C59B5F',
-      confirmButtonText: 'Si, eliminar!'
+      confirmButtonText: 'Si, eliminar!',
+      cancelButtonText:'Cancelar'
     }).then((result) => {
 
       if (result.value) {

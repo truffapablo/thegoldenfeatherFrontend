@@ -135,8 +135,8 @@ export const TransferReservationById = () => {
                         <li>Origen: {transfer.origin}</li>
                         <li>Destino: {transfer.destination}</li>
                         <hr/>
-                        <li>Nombre del huesped: {transfer.firstName} {transfer.lastName}</li>
-                        <li>Email del huesped: {transfer.email}</li>
+                        <li>Nombre del huésped: {transfer.firstName} {transfer.lastName}</li>
+                        <li>Email del huésped: {transfer.email}</li>
                         <li>Teléfono del huesped: {transfer.phone}</li>
                         <li>Número de personas: {transfer.peopleQuantity}</li>
                         <hr/>

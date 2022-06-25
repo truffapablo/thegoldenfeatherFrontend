@@ -9,7 +9,7 @@ export const ReservationTableList = ({allReservations, currentPage, limit, detai
             <thead>
             <tr>
             <th scope="col"># Confirmación</th>
-            <th scope="col">Huesped</th>
+            <th scope="col">Huésped</th>
             <th scope="col">Habitación</th>
             <th scope="col">Evento</th>
             <th scope="col">Fecha</th>

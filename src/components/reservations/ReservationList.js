@@ -155,7 +155,7 @@ export const ReservationList = () => {
                 <h3>Reservas encontradas <button onClick={()=>{cleanSearch()}} className='btn btn-warning btn-sm'>Limpiar búsqueda</button></h3>
             </div>
             }
-
+            
             {
                 advanceSearch.data &&
                 <ReservationTableList

@@ -7,6 +7,7 @@ import {setError, removeError, startLoading, finishLoading} from '../../actions/
 import validator from 'validator';
 import { Logo } from '../logo/Logo';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export const RegisterForm = () => {
 
@@ -35,6 +36,23 @@ export const RegisterForm = () => {
             
             ).then(response => {
                 console.log(response);
+                if(response.ok){
+                    Swal.fire({
+                        title: 'Usuario creado',
+                        text: 'El usuario se ha creado correctamente',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });
+
+                    reset();
+                }else{
+                    Swal.fire({
+                        title: 'Error',
+                        text: `No se pudo crear el usuario. ${response.msg}`,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                }
             });
         }
     }
@@ -58,7 +76,7 @@ export const RegisterForm = () => {
   return (
     <div className='mt-5'>
         {/* <Logo/> */}
-        <h2>Registar usuario</h2>
+        <h2>Registrar usuario</h2>
         <form onSubmit={handleRegister}>
             {
                 msgError && <div className="alert alert-danger">{msgError}</div>

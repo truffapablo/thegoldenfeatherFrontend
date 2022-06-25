@@ -48,13 +48,14 @@ import { getTransferReservations } from '../actions/transferReservation';
 import { TransferReservationById } from '../components/reservations/TransferReservationById';
 import { ReservationTransferEdit } from '../components/reservations/ReservationTransferEdit';
 import { PanelView } from '../components/panel/PanelView';
+import { ResetPassword } from '../components/register/ResetPassword';
 
 
 
 export const AppRouter = () => {
 
   const dispatch = useDispatch();
-  const {checking, uid} = useSelector(state => state.auth);
+  const {checking, uid, changePassword} = useSelector(state => state.auth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,13 +63,13 @@ export const AppRouter = () => {
     dispatch(startChecking());
 
     if(uid) {
-
-        dispatch(getReservations());
-        dispatch(getCustomReservations());
-        dispatch(getEvents());
-        dispatch(getTransfers());
-        dispatch(getTransferReservations())
-        navigate('dashboard/panel');
+        
+          dispatch(getReservations());
+          dispatch(getCustomReservations());
+          dispatch(getEvents());
+          dispatch(getTransfers());
+          dispatch(getTransferReservations())
+          navigate('dashboard/panel');
     }
 
   } , [dispatch, uid]);
@@ -94,12 +95,14 @@ export const AppRouter = () => {
 
           <Route path="/" exact element={<HomeView />} />
           <Route path="login" element={<LoginView />} />
-
+          <Route path="password-reset" element={<ResetPassword/>} />
 
           <Route path="/dashboard" element={<RequireAuth/>}>
               
               <Route path="register" element={<RegisterView/>} />
               <Route path="panel" element={<PanelView />} />         
+
+              
               
               <Route path='reservations' element={<ReservationView/>}>       
                 <Route index element={<ReservationList />}/>  

@@ -63,11 +63,11 @@ export const LoginForm = () => {
             >Iniciar sesión</button>
             </div>
             
-            <div className='mt-2'>
+            {/* <div className='mt-2'>
               <p>No tienes cuenta? <NavLink
               to='/register'
               >Registrate</NavLink> </p>
-            </div>
+            </div> */}
           
           { msgError && <div className="alert alert-danger">{msgError}</div> }
           

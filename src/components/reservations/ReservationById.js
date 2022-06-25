@@ -17,12 +17,14 @@ export const ReservationById = () => {
  
   //const reservation = list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
   
-  const [reservation, setReservation] = useState(false)
+  const [reservation, setReservation] = useState(false);
 
   
   useEffect(()=>{
     
     if(advanceSearch.data){
+      const algo = list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
+      console.log('ALGO----',algo);
       setReservation(list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id));
     }else{
       setReservation(list.find(reservation => reservation.id === id));
@@ -68,7 +70,7 @@ export const ReservationById = () => {
               ${data.map((log, index) => {
                 return `
                 <tr>
-                  <td>${log.user.name}</td>
+                  <td>${log.user && log.user.name || 'El usuario ya no existe.'}</td>
                   <td>${log.action}</td>
                   <td>${log.date}hs</td>
                 </tr>
@@ -190,7 +192,7 @@ export const ReservationById = () => {
             <li>Precio total: {(reservation.event.price + reservation.event.commission) * reservation.peopleQuantity} {reservation.event.currency}</li>
             <li>Comisión: {reservation.event.commission * reservation.peopleQuantity} </li>
             <hr/>
-            <li>Huesped: {reservation.firstName} {reservation.lastName}</li>
+            <li>Huésped: {reservation.firstName} {reservation.lastName}</li>
             <li>Habitación: #{reservation.roomNumber}</li>
             <li>Cantidad de personas: {reservation.peopleQuantity}</li>
             <br/>
@@ -198,7 +200,10 @@ export const ReservationById = () => {
             {reservation.phone ? <li>Teléfono: {reservation.phone}</li> : <li>Teléfono: sin registro</li>}
             <hr/>
             <li>Estado de la reserva: <strong>{reservation.status}</strong></li>
-            <li>Reserva realizada por: {reservation.user.name}</li>
+            {
+              reservation.user &&
+              <li>Reserva realizada por: {reservation.user.name}</li>
+            }
             <li className='mt-3'><a href='#' onClick={loadLogs}>Ver log de la reserva</a></li>
           </ul>
           </div>

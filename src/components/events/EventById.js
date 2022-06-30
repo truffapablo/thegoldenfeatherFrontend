@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { deleteEvent } from '../../actions/events';
+import { roles } from '../../types/role';
 
 export const EventById = () => {
 
   const { list } = useSelector(state => state.events);
+  const {role} = useSelector(state => state.auth);
   const {id} = useParams();
- 
   const event = list.find(event => event.id === id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,15 +38,25 @@ export const EventById = () => {
       confirmButtonText: 'Si, eliminar!',
       cancelButtonText:'Cancelar'
     }).then((result) => {
-
       if (result.value) {
         navigate(`/dashboard/events`);
-        dispatch(deleteEvent(id));
-        Swal.fire({
-          title: 'Eliminado',
-          text: 'El evento ha sido eliminado',
-          icon: 'success',
-          confirmButtonColor: '#C59B5F',
+        dispatch(deleteEvent(id)).then(response => {
+          if(response){
+            Swal.fire({
+              title: 'Eliminado',
+              text: 'El evento ha sido eliminado',
+              icon: 'success',
+              confirmButtonColor: '#C59B5F',
+            })
+          }else{
+            Swal.fire({
+              title: 'Error',
+              text: 'No se pudo eliminar el evento.',
+              icon: 'error',
+              confirmButtonColor: '#C59B5F',
+            })
+
+          }
         })
       }
     });
@@ -73,12 +84,15 @@ export const EventById = () => {
             
           </ul>
           </div>
-          <div className='col-md-2'>
-            <div className='d-grid gap-2'>
-              <button className="btn btn-reserve btn-block" onClick={edit}>Editar</button>
-              <button className="btn btn-reserve btn-block" onClick={eventDelete}>Eliminar</button>
+          {
+            role === roles.admin &&
+            <div className='col-md-2'>
+              <div className='d-grid gap-2'>
+                <button className="btn btn-reserve btn-block" onClick={edit}>Editar</button>
+                <button className="btn btn-reserve btn-block" onClick={eventDelete}>Eliminar</button>
+              </div>
             </div>
-          </div>
+          }
        </div>
     </div>
   )

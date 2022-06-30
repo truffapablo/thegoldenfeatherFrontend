@@ -1,10 +1,11 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { roles } from '../../types/role';
 
 export const Sidenav = () => {
 
-  const {name, uid} = useSelector(state => state.auth);
+  const {name, uid, role} = useSelector(state => state.auth);
   return (
     <>
     <div id="layoutSidenav_nav">
@@ -40,7 +41,10 @@ export const Sidenav = () => {
                             <div className="collapse" id="eventCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav className="sb-sidenav-menu-nested nav">
                                     <NavLink className="nav-link" to="dashboard/events/list">Lista</NavLink>
-                                    <NavLink className="nav-link" to="dashboard/events/new">Nuevo Evento</NavLink>
+                                    {
+                                        role === roles.admin &&
+                                        <NavLink className="nav-link" to="dashboard/events/new">Nuevo Evento</NavLink>
+                                    }
                                 </nav>
                             </div>
                             <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#transferCollapse" aria-expanded="false" aria-controls="collapseLayouts">
@@ -51,19 +55,28 @@ export const Sidenav = () => {
                             <div className="collapse" id="transferCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav className="sb-sidenav-menu-nested nav">
                                     <NavLink className="nav-link" to="dashboard/transfers/list">Lista</NavLink>
-                                    <NavLink className="nav-link" to="dashboard/transfers/new">Nuevo Transfer</NavLink>
+                                    {
+                                        role === roles.admin &&
+                                        <NavLink className="nav-link" to="dashboard/transfers/new">Nuevo Transfer</NavLink>
+                                    }
                                 </nav>
                             </div>
-                            <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#usersCollapse" aria-expanded="false" aria-controls="collapseLayouts">
+                            {
+                                role === roles.admin &&
+                                <>
+                                <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#usersCollapse" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div className="sb-nav-link-icon"><i className="fas fa-user"></i></div>
                                 Usuarios
                                 <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
-                            </a>
-                            <div className="collapse" id="usersCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav className="sb-sidenav-menu-nested nav">
-                                    <NavLink className="nav-link" to="dashboard/register">Registrar usuario</NavLink>
-                                </nav>
-                            </div>
+                                </a>
+                                <div className="collapse" id="usersCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                    <nav className="sb-sidenav-menu-nested nav">
+                                        <NavLink className="nav-link" to="dashboard/register">Registrar usuario</NavLink>
+                                    </nav>
+                                </div>
+                                </>
+                            }
+                            
                            
                         </div>
                     </div>

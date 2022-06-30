@@ -1,7 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { NavLink, Outlet } from 'react-router-dom'
+import { roles } from '../../types/role';
 
 export const EventView = () => {
+  const {role} = useSelector(state => state.auth);
   return (
     <div className='container-fluid mt-5'>
       <div className='row'>
@@ -11,9 +14,12 @@ export const EventView = () => {
            
               <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='list'>Lista</NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='new'>Nuevo evento</NavLink> 
-            </li>
+            {
+              role === roles.admin &&
+              <li className="nav-item">
+                <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='new'>Nuevo evento</NavLink> 
+              </li>
+            }
           </ul>
               <Outlet />   
           </div>

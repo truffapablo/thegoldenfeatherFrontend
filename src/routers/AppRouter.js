@@ -49,13 +49,14 @@ import { TransferReservationById } from '../components/reservations/TransferRese
 import { ReservationTransferEdit } from '../components/reservations/ReservationTransferEdit';
 import { PanelView } from '../components/panel/PanelView';
 import { ResetPassword } from '../components/register/ResetPassword';
+import { RequireRoleAdmin } from './RequireRoleAdmin';
 
 
 
 export const AppRouter = () => {
 
   const dispatch = useDispatch();
-  const {checking, uid, changePassword} = useSelector(state => state.auth);
+  const {checking, uid, role} = useSelector(state => state.auth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -98,11 +99,11 @@ export const AppRouter = () => {
           <Route path="password-reset" element={<ResetPassword/>} />
 
           <Route path="/dashboard" element={<RequireAuth/>}>
-              
-              <Route path="register" element={<RegisterView/>} />
-              <Route path="panel" element={<PanelView />} />         
 
-              
+              <Route element={<RequireRoleAdmin/>}>
+                <Route path="register" element={<RegisterView/>}/>
+              </Route>
+              <Route path="panel" element={<PanelView />} />         
               
               <Route path='reservations' element={<ReservationView/>}>       
                 <Route index element={<ReservationList />}/>  
@@ -119,20 +120,25 @@ export const AppRouter = () => {
               </Route>
     
               <Route path='events' element={<EventView/>}>
-                <Route index element={<EventList />}/>  
-                <Route path="new" element={<EventNew />} />
+                <Route index element={<EventList />}/>
+
+                <Route element={<RequireRoleAdmin/>}>
+                  <Route path="new" element={<EventNew />} />
+                  <Route path=":id/edit" element={<EventEdit />} />
+                </Route>
                 <Route path="list" element={<EventList />} />  
                 <Route path=":id" element={<EventById />} />
-                <Route path=":id/edit" element={<EventEdit />} />
               </Route>
 
               <Route path='search' element={<SearchView/>} />
 
               <Route path='transfers' element={<TransferView/>}>
                 <Route index element={<TransferList />}/>
-                <Route path="new" element={<TransferNew />} />
+                <Route element={<RequireRoleAdmin/>}>
+                  <Route path="new" element={<TransferNew />} />
+                  <Route path=":id/edit" element={<TransferEdit />} />
+                </Route>
                 <Route path="list" element={<TransferList />} />  
-                <Route path=":id/edit" element={<TransferEdit />} />
               </Route>
               
               <Route path="reports" element={<ReportView />} />

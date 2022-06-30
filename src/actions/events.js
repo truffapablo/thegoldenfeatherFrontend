@@ -66,7 +66,7 @@ export const deleteEvent = (id) => {
             const resp = await fetchWithToken(`events/${id}`, {}, 'DELETE');
             const data = await resp.json();
             if (data.ok) {
-                console.log(data);
+                
                 dispatch(removeEvent(id));
                 if(data.reservationsCanceled.length > 0){
                     
@@ -76,6 +76,8 @@ export const deleteEvent = (id) => {
                     });
                 }
                 return true
+            }else{
+                return false
             }
         } catch (error) {
             console.log('Error',error);

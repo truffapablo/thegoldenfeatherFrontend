@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { deleteTransfer } from '../../actions/transfer';
+import { roles } from '../../types/role';
 
 export const TransferList = () => {
 
     const navigate = useNavigate();
     const {list} = useSelector(state => state.transfers);
+    const {role} = useSelector(state => state.auth);
     const dispatch = useDispatch();
     
     const transferEdit = (id) => {
@@ -28,7 +30,8 @@ export const TransferList = () => {
                 showCancelButton: true,
                 confirmButtonColor: '#263032',
                 cancelButtonColor: '#C59B5F',
-                confirmButtonText: 'Sí, borrarlo'
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText:'Cancelar'
             }).then((result) => {
 
                 if (result.value) {
@@ -46,7 +49,9 @@ export const TransferList = () => {
                         }else{
                             Swal.fire({
                                 title: 'Error',
-                                text: 'No se ha podido borrar el transfer',
+                                text: 'No se pudo eliminar el transfer',
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
                             });
                         }
                     });
@@ -65,7 +70,10 @@ export const TransferList = () => {
                     <th>Destino</th>
                     <th>Precio Base</th>
                     <th>Comisión</th>
-                    <th>Acciones</th>
+                    {
+                        role === roles.admin &&
+                        <th>Acciones</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -77,10 +85,15 @@ export const TransferList = () => {
                                 <td>{transfer.destination}</td>
                                 <td>${transfer.price}</td>
                                 <td>${transfer.commission}</td>
-                                <td>
-                                    <a className='cpointer' onClick={()=>{transferEdit(transfer.id)}}>Editar</a> |
-                                    <a className='cpointer' onClick={()=>{transferDelete(transfer.id)}}>Eliminar</a> 
-                                </td>
+                                {
+                                    role === roles.admin &&
+                                    <>
+                                        <td>
+                                            <a className='cpointer' onClick={()=>{transferEdit(transfer.id)}}>Editar</a> |
+                                            <a className='cpointer' onClick={()=>{transferDelete(transfer.id)}}>Eliminar</a> 
+                                        </td>
+                                    </>
+                                }
                             </tr> 
                         )
                     })

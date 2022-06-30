@@ -18,8 +18,9 @@ export const startLogin = (email, password) => {
                 dispatch(login({
                     uid: data.uid,
                     name: data.name,
-                    email:data.email,
-                    changePassword:data.changePassword
+                    email: data.email,
+                    changePassword: data.changePassword,
+                    role: data.role,
                 }));
 
                 document.cookie = `token=${data.token}`;
@@ -54,7 +55,8 @@ export const startChecking = () => {
                         uid: data.uid,
                         name: data.name,
                         email:data.email,
-                        changePassword:data.changePassword
+                        changePassword:data.changePassword,
+                        role: data.role
                     }));
                 }else{
                     dispatch(checkingFinish());

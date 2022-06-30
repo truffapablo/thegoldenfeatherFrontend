@@ -1,0 +1,12 @@
+
+
+Rutas exclusivas admin
+
+Eventos - nuevo
+
+registro de usuarios
+
+
+Filtros para Employee
+
+Eventos - no puede editar ni eliminar

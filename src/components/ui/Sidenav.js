@@ -12,14 +12,14 @@ export const Sidenav = () => {
                 <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div className="sb-sidenav-menu">
                         <div className="nav">
-                            <div className="sb-sidenav-menu-heading">Core</div>
+                            <div className="sb-sidenav-menu-heading">Info</div>
                             
                             <NavLink className="nav-link" to="dashboard/panel">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                             Panel
                             </NavLink>
 
-                            <div className="sb-sidenav-menu-heading">Interface</div>
+                            <div className="sb-sidenav-menu-heading">Accesos</div>
                             <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#reservationCollapse" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div className="sb-nav-link-icon"><i className="fas fa-book-open"></i></div>
                                 Reservas

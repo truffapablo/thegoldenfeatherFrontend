@@ -2,6 +2,7 @@ import { types } from "../types/types"
 
 const initialState = {
     checking: true,
+    users:[]
 }
 
 export const authReducer = (state = initialState, action )=>{
@@ -28,14 +29,20 @@ export const authReducer = (state = initialState, action )=>{
         case types.register:
             return {
                 ...state,
+                users:[...state.users, action.payload]
             }
 
         case types.changeUserPassword:
-            return{
+            return {
                 ...state,
                 changePassword:action.payload
             }
         
+        case types.setUsers:
+            return {
+                ...state,
+                users:action.payload
+            }        
         default: return state;
     }
 

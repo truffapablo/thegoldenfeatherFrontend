@@ -50,6 +50,8 @@ import { ReservationTransferEdit } from '../components/reservations/ReservationT
 import { PanelView } from '../components/panel/PanelView';
 import { ResetPassword } from '../components/register/ResetPassword';
 import { RequireRoleAdmin } from './RequireRoleAdmin';
+import { roles } from '../types/role';
+import { getUsers } from '../actions/user';
 
 
 
@@ -65,12 +67,16 @@ export const AppRouter = () => {
 
     if(uid) {
         
-          dispatch(getReservations());
-          dispatch(getCustomReservations());
-          dispatch(getEvents());
-          dispatch(getTransfers());
-          dispatch(getTransferReservations())
-          navigate('dashboard/panel');
+      dispatch(getEvents());
+      dispatch(getTransfers());
+      dispatch(getReservations());
+      dispatch(getCustomReservations());
+      dispatch(getTransferReservations())
+      navigate('dashboard/panel');  
+    }
+
+    if(role === roles.admin) {
+      dispatch(getUsers());
     }
 
   } , [dispatch, uid]);

@@ -51,8 +51,9 @@ export const ClientSidenav = () => {
                     {
                         !uid ? 
                         <div className="sb-sidenav-footer">
-                        <div className="small">Sistema de reservas</div>
-                        The Golden Feather
+                        <div className="small">The Golden Feather</div>
+                        <div>Sistema de reservas</div>
+                        
                         </div>
                         :
                         <div className="sb-sidenav-footer">

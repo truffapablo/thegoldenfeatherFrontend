@@ -17,7 +17,7 @@ export const PanelView = () => {
                     <div className="col-xs-12 col-sm-12 col-md-4">
                         <ReservationsDataCard
                         list={list}
-                        title='Reservas de Evento'
+                        title='Reservas de evento'
                         />
                     </div>
                     <div className="col-xs-12 col-sm-12 col-md-4">

@@ -1,8 +1,33 @@
 import React from 'react'
 import '../../styles/stylesLandingPage.scss'
 import { Logo } from '../logo/Logo'
+import authLogo from '../../assets/authLogo.png';
+import Swal from 'sweetalert2';
+import { useForm } from '../../hooks/useForm';
 
 export const Home = () => {
+
+    const [formValues, handleInputChange, reset] = useForm({
+        email:'',
+    });
+
+    const { email } = formValues;
+
+    const contact = (e) => {
+        
+        e.preventDefault();
+
+        if(!email) return false;
+
+        Swal.fire({
+            icon:'success',
+            title:'Mensaje enviado',
+            html:'<p>Gracias por contactar a The Golden Feather.<br/>Nos pondremos en contacto a la brevedad.</p>',
+        });
+
+        reset();
+    }
+
   return (
     <div>
 
@@ -85,14 +110,15 @@ export const Home = () => {
                         <div className="container">
                             <div className="row" id='contact-data'>
                                 <div className="col-lg-8 mx-auto text-center">
+                                    <img src={authLogo} alt="logo" className='gf-logo-img' />
                                     <h2 className="section-heading">Contactanos</h2>
                                     <hr className="my-4" />
-                                    <p className="mb-5">Si quieres saber más déjanos tu email para ponernos en contacto.</p>
+                                    <p className="mb-5">Si queres saber más dejanos tu email para ponernos en contacto.</p>
                                 </div>
                                 <div className="col-lg-8 mx-auto text-center">
-                                    <form name="sentMessage" id="contactForm" noValidate="novalidate">
+                                    <form name="sentMessage" id="contactForm" onSubmit={contact}>
                                         <div className="input-group mb-3">
-                                        <input type="email" className="form-control" placeholder="E-mail" aria-label="email" aria-describedby="email" />
+                                        <input type="email" value={ email } name="email" className="form-control" placeholder="E-mail" aria-label="email" aria-describedby="email" onChange={handleInputChange}/>
                                         <button className="btn btn-reserve" type="submit" id="submit">Enviar</button>
                                         </div>
                                     </form>

@@ -22,7 +22,6 @@ export const getReservations = () => {
             dispatch(reservationFinishLoading());
         }
         
-
     }   
 }
 

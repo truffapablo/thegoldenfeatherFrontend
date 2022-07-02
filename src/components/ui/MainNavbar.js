@@ -67,7 +67,7 @@ export const MainNavbar= () => {
     <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             
             
-            <NavLink className="navbar-brand ps-3" to="/">The Golden Feather</NavLink>
+            <NavLink className="navbar-brand ps-3" to="/">The Golden Feather <img src={logo} className='nav-logo'/></NavLink>
             
             <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!" onClick={handleMenu}><i className="fas fa-bars"></i></button>
             {
@@ -75,7 +75,7 @@ export const MainNavbar= () => {
             <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" onSubmit={search}>
                 <div ref={buscador} className="input-group" title={placeholder}>
                     <input className="form-control me-1 inputSearch" type="text" name="searchValue" value={searchValue} onChange={handleInputSearch} placeholder={placeholder} aria-label="Buscar por..." aria-describedby="btnNavbarSearch" />
-                    <button className="btn btn-primary" id="btnNavbarSearch" type="submit"><i className="fas fa-search"></i></button>
+                    <button className="btn gold-bg white" id="btnNavbarSearch" type="submit"><i className="fas fa-search"></i></button>
                 </div>
             </form>
             }
@@ -83,12 +83,12 @@ export const MainNavbar= () => {
                 uid &&
             <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i className="fas fa-user fa-fw"></i></a>
+                    <a className="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i className="fas fa-user fa-fw gold"></i></a>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         {/* <li><a className="dropdown-item" href="#!">Settings</a></li>
                         <li><a className="dropdown-item" href="#!">Activity Log</a></li>
                         <li><hr className="dropdown-divider" /></li> */}
-                        <li><a className="dropdown-item" href="#!" onClick={handleLogOut}>Cerrar sesión</a></li>
+                        <li><a className="dropdown-item" href="#!" id="btn-logout" onClick={handleLogOut}>Cerrar sesión</a></li>
                     </ul>
                 </li>
             </ul>

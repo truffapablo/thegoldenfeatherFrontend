@@ -10,6 +10,7 @@ import './styles/fonts.scss';
 import './styles/styles.scss';
 import './styles/stylesReservations.scss';
 import './styles/stylesSearch.scss';
+import './styles/stylesPanel.scss';
 
 
 console.log(process.env);

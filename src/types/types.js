@@ -4,6 +4,7 @@ export const types = {
     logout:                             '[Auth] Logout',
     register:                           '[Auth] Register',
     changeUserPassword:                 '[Auth] Change User Password',
+    setUsers:                           '[Auth] Set user list',
     
     authFinishChecking:                 '[Auth] Finish checking login state',
     

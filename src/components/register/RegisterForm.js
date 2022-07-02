@@ -35,7 +35,7 @@ export const RegisterForm = () => {
             })
             
             ).then(response => {
-                console.log(response);
+                
                 if(response.ok){
                     Swal.fire({
                         title: 'Usuario creado',
@@ -77,7 +77,7 @@ export const RegisterForm = () => {
     <div className='mt-5'>
         {/* <Logo/> */}
         <h2>Registrar usuario</h2>
-        <form onSubmit={handleRegister}>
+        <form onSubmit={handleRegister} className="mt-2 row g-3 animate__animated animate__fadeIn">
             {
                 msgError && <div className="alert alert-danger">{msgError}</div>
             }

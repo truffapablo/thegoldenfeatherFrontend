@@ -52,7 +52,6 @@ export const eventReducer = (state = initialState, action) => {
                 active: action.payload,
             }
 
-
         default: return state;
     }
 }

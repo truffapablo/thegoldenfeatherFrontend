@@ -79,9 +79,12 @@ export const startRegister = (user) =>{
         try {
             const resp = await fetchWithToken('auth/new', user, 'POST' );
             const data = await resp.json();
-            dispatch({
-                type:types.register
-            })
+            if(data.ok){
+                dispatch({
+                    type:types.register,
+                    payload:data.user
+                })
+            }
             return data;
         } catch (error) {
             console.log('Error',error);

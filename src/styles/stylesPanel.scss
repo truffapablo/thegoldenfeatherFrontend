@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+$white: #fff;
+$google-blue: #4285f4;
+$button-active-blue: #1669f2;
+
+$goldenFeatherBlue: #263032;
+$goldenFeatherGold: #C59B5F;
+$goldenFeatherWhite:#FDF9F6;
+
+.panel-card {
+    background-color: $goldenFeatherBlue;
+    color:$goldenFeatherWhite
+}
+
+.white {
+    color: $goldenFeatherWhite
+}
+
+.gold {
+    color:$goldenFeatherGold
+}
+.gold-bg {
+    background-color:$goldenFeatherGold
+}
+
+.gold-border {
+    border:2px solid $goldenFeatherGold;
+}
+
+.panel-card hr {    
+    height: 1px;
+}
+
+#navbarDropdown::after {
+    color:$goldenFeatherGold;
+}
+
+#btn-logout:hover {
+    color:$goldenFeatherBlue;
+    background: none!important;
+}

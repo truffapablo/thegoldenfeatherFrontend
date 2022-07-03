@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { getLogsByReservationId } from '../../actions/logs';
 import { cancelReservation, completeReservation, confirmReservation } from '../../actions/reservation';
 import { convertDate } from '../../helpers/convertDate';
+import { EmailNotificationButton } from './EmailNotificationButton';
 import { reservationStatus} from './reservationStatus';
 
 
@@ -184,28 +185,30 @@ export const ReservationById = () => {
        <h2>Reserva #{reservation.confirmation}</h2>
        <div className='row'>
           <div className='col-md-10'>
-          <ul>
-            <li>Evento: {reservation.event.title}</li>
-            <li>Fecha: {convertDate(reservation.date)}</li>
-            <li>Horario: {reservation.event.start}hs</li>
-            <li>Precio por persona: {reservation.event.price + reservation.event.commission} {reservation.event.currency}</li>
-            <li>Precio total: {(reservation.event.price + reservation.event.commission) * reservation.peopleQuantity} {reservation.event.currency}</li>
-            <li>Comisión: {reservation.event.commission * reservation.peopleQuantity} </li>
-            <hr/>
-            <li>Huésped: {reservation.firstName} {reservation.lastName}</li>
-            <li>Habitación: #{reservation.roomNumber}</li>
-            <li>Cantidad de personas: {reservation.peopleQuantity}</li>
-            <br/>
-            {reservation.email ? <li>Email: {reservation.email}</li> : <li>Email: sin registro</li>}
-            {reservation.phone ? <li>Teléfono: {reservation.phone}</li> : <li>Teléfono: sin registro</li>}
-            <hr/>
-            <li>Estado de la reserva: <strong>{reservation.status}</strong></li>
-            {
-              reservation.user &&
-              <li>Reserva realizada por: {reservation.user.name}</li>
-            }
-            <li className='mt-3'><a href='#' onClick={loadLogs}>Ver log de la reserva</a></li>
-          </ul>
+            <div className='reservationID'>
+              <ul>
+                <li>Evento: {reservation.event.title}</li>
+                <li>Fecha: {convertDate(reservation.date)}</li>
+                <li>Horario: {reservation.event.start}hs</li>
+                <li>Precio por persona: {reservation.event.price + reservation.event.commission} {reservation.event.currency}</li>
+                <li>Precio total: {(reservation.event.price + reservation.event.commission) * reservation.peopleQuantity} {reservation.event.currency}</li>
+                <li>Comisión: {reservation.event.commission * reservation.peopleQuantity} </li>
+                <hr/>
+                <li>Huésped: {reservation.firstName} {reservation.lastName}</li>
+                <li>Habitación: #{reservation.roomNumber}</li>
+                <li>Cantidad de personas: {reservation.peopleQuantity}</li>
+                <br/>
+                {reservation.email ? <li>Email: {reservation.email} <EmailNotificationButton email={reservation.email}/></li> : <li>Email: sin registro</li>}
+                {reservation.phone ? <li>Teléfono: {reservation.phone}</li> : <li>Teléfono: sin registro</li>}
+                <hr/>
+                <li>Estado de la reserva: <strong>{reservation.status}</strong></li>
+                {/* {
+                  reservation.user &&
+                  <li>Reserva realizada por: {reservation.user.name}</li>
+                } */}
+                <li className='mt-3'><a href='#' onClick={loadLogs}>Ver log de la reserva</a></li>
+              </ul>
+            </div>
           </div>
           {
             reservation.status !== reservationStatus.reservationCancelled &&

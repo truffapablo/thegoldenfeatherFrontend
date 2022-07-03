@@ -11,16 +11,16 @@ export const ReservationView = () => {
           <div className='col-md-12'>
           <ul className="nav nav-tabs">
             <li className="nav-item">
-              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='list'>Lista</NavLink>
+              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='list'>Lista</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='new'>Reservar evento</NavLink> 
+              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='new'>Reservar evento</NavLink> 
             </li>
             <li className="nav-item">
-              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='custom'>Reserva personalizada</NavLink> 
+              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='custom'>Reserva personalizada</NavLink> 
             </li>
             <li className="nav-item">
-              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='transfer'>Reserva de Transfer</NavLink> 
+              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='transfer'>Reserva de Transfer</NavLink> 
             </li>
           </ul> 
               <Outlet />   

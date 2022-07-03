@@ -69,6 +69,7 @@ export const EventById = () => {
        <h2>Evento {event.title}</h2>
        <div className='row'>
           <div className='col-md-10'>
+          <div className='eventID'>
           <ul>
             <li>Evento: {event.title}</li>
             <li>Descripción: {event.description}</li>
@@ -83,6 +84,7 @@ export const EventById = () => {
             <li>Ciudad: {event.city}</li>
             
           </ul>
+          </div>
           </div>
           {
             role === roles.admin &&

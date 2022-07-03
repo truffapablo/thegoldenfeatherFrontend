@@ -5,6 +5,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { cancelTransferReservation, completeTransferReservation, confirmTransferReservation } from "../../actions/transferReservation";
 import { convertDate } from "../../helpers/convertDate";
+import { EmailNotificationButton } from "./EmailNotificationButton";
 import { reservationStatus} from './reservationStatus';
 export const TransferReservationById = () => {
 
@@ -129,6 +130,7 @@ export const TransferReservationById = () => {
             <h2>Transfer #{transfer.confirmation}</h2>
             <div className='row'>
                 <div className='col-md-10'>
+                <div className='reservationID'>
                     <ul>
                         <li>Fecha de la reserva: {convertDate(transfer.date)}</li>
                         <li>Horario de la reserva: {transfer.time}hs</li>
@@ -136,14 +138,17 @@ export const TransferReservationById = () => {
                         <li>Destino: {transfer.destination}</li>
                         <hr/>
                         <li>Nombre del huésped: {transfer.firstName} {transfer.lastName}</li>
-                        <li>Email del huésped: {transfer.email}</li>
+                        {
+                          transfer.email? <li>Email del huésped: {transfer.email} <EmailNotificationButton email={transfer.email}/><button>Notificar por email</button></li> : <li>Email del huésped: sin registro</li>
+                        }
                         <li>Teléfono del huesped: {transfer.phone}</li>
                         <li>Número de personas: {transfer.peopleQuantity}</li>
                         <hr/>
                         <li>Precio: ${transfer.price + transfer.commission}</li>
                         <li>Comisión: ${transfer.commission}</li>
-                        <li>Estado: {transfer.status}</li>
+                        <li>Estado: <strong>{transfer.status}</strong></li>
                     </ul>
+                </div>
                 </div>
                 {
             transfer.status !== reservationStatus.reservationCancelled &&

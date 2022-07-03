@@ -5,7 +5,7 @@ import { today } from '../../helpers/today'
 export const ReservationTableList = ({allReservations, currentPage, limit, details, customDetails, transferDetails}) => {
   return (
     <>
-    <table className="table table-striped animate__animated animate__fadeIn" >
+    <table className="table animate__animated animate__fadeIn" >
             <thead>
             <tr>
             <th scope="col"># Confirmación</th>
@@ -24,15 +24,15 @@ export const ReservationTableList = ({allReservations, currentPage, limit, detai
                   <tr key={index}>
                         {
                           reservation.pattern === 'EVENT_RESERVATION' &&
-                          <th scope="row"><a className='cpointer' onClick={()=>{details(reservation.id)}}>{reservation.confirmation}</a></th>
+                          <th scope="row"><a className='cpointer gold' onClick={()=>{details(reservation.id)}}>{reservation.confirmation}</a></th>
                         }
                         {
                           reservation.pattern === 'CUSTOM_RESERVATION' &&
-                          <th scope="row"><a className='cpointer' onClick={()=>{customDetails(reservation.id)}}>{reservation.confirmation}</a></th>
+                          <th scope="row"><a className='cpointer gold' onClick={()=>{customDetails(reservation.id)}}>{reservation.confirmation}</a></th>
                         }
                         {
                           reservation.pattern === 'TRANSFER_RESERVATION' &&
-                          <th scope="row"><a className='cpointer' onClick={()=>{transferDetails(reservation.id)}}>{reservation.confirmation}</a></th>
+                          <th scope="row"><a className='cpointer gold' onClick={()=>{transferDetails(reservation.id)}}>{reservation.confirmation}</a></th>
                         }
                         <td>{reservation.firstName} {reservation.lastName}</td>
                         <td>#{reservation.roomNumber}</td>

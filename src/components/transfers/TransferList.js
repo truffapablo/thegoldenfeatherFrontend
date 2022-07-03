@@ -63,7 +63,7 @@ export const TransferList = () => {
   return (
     <div className='mt-5 table-responsive animate__animated animate__fadeIn'>
     <h2>Transfers</h2>
-        <table className="table table-striped">
+        <table className="table">
             <thead>
                 <tr>
                     <th>Origen</th>
@@ -89,8 +89,8 @@ export const TransferList = () => {
                                     role === roles.admin &&
                                     <>
                                         <td>
-                                            <a className='cpointer' onClick={()=>{transferEdit(transfer.id)}}>Editar</a> |
-                                            <a className='cpointer' onClick={()=>{transferDelete(transfer.id)}}>Eliminar</a> 
+                                            <a className='cpointer' onClick={()=>{transferEdit(transfer.id)}}><button className='btn btn-sm btn-reserve'>Editar</button></a>&nbsp;
+                                            <a className='cpointer' onClick={()=>{transferDelete(transfer.id)}}><button className='btn btn-sm btn-reserve'>Eliminar</button></a> 
                                         </td>
                                     </>
                                 }

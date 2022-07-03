@@ -1,5 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { convertDate } from "../../helpers/convertDate";
+import { today } from "../../helpers/today";
 import { AchievedIncome } from "./AchievedIncome";
 import { EspectedIncome } from "./EspectedIncome";
 import { ReservationChart } from "./ReservationChart";
@@ -11,7 +13,7 @@ export const PanelView = () => {
     return (
         <div className='container-fluid px-4 custom-view'>
             <div className='row mt-5'>
-            <h1 className="mb-3">Panel</h1>
+            <h1 className="mb-3">Panel <small>{convertDate(today(),'DD-MM-YYYY')}</small></h1>
             <div className='col-md-12'>
                 <div className="row">
                     <div className="col-xs-12 col-sm-12 col-md-4">

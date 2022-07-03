@@ -12,12 +12,12 @@ export const EventView = () => {
           <ul className="nav nav-tabs">
             <li className="nav-item">
            
-              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='list'>Lista</NavLink>
+              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='list'>Lista</NavLink>
             </li>
             {
               role === roles.admin &&
               <li className="nav-item">
-                <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active':'')  }  to='new'>Nuevo evento</NavLink> 
+                <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='new'>Nuevo evento</NavLink> 
               </li>
             }
           </ul>

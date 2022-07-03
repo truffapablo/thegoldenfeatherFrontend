@@ -8,6 +8,7 @@ import validator from 'validator';
 import { Logo } from '../logo/Logo';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { validateRegister } from '../../helpers/validateRegister';
 
 export const RegisterForm = () => {
 
@@ -26,7 +27,10 @@ export const RegisterForm = () => {
     /**TODO Validar */
     const handleRegister = async (e)=>{
         e.preventDefault();
+        dispatch(removeError());
+        
         if(isFormValid()){
+            
             
             dispatch(startRegister({
                 name,
@@ -58,18 +62,13 @@ export const RegisterForm = () => {
     }
     
     const isFormValid = () => {
-        if(name.trim().length === 0){
-            dispatch(setError('El nombre es obligatorio'));
-            return false;
-        }else if(!validator.isEmail( email )){
-            dispatch(setError('El email no es valido'));
-            return false;
-        }else if(password !== password2 || password.trim().length < 6){
-            dispatch(setError('Las contraseñas no coinciden o son incorrectas'));
-            return false;
+        const errors = validateRegister(formValues);
+        dispatch(setError(errors));
+
+        if(Object.keys(errors).length === 0){
+            dispatch(removeError());
+            return true;
         }
-        dispatch(removeError());
-        return true;
     }
 
 
@@ -78,9 +77,6 @@ export const RegisterForm = () => {
         {/* <Logo/> */}
         <h2>Registrar usuario</h2>
         <form onSubmit={handleRegister} className="mt-2 row g-3 animate__animated animate__fadeIn">
-            {
-                msgError && <div className="alert alert-danger">{msgError}</div>
-            }
             <div className="mb-3">
                 <input 
                 type="text"
@@ -91,6 +87,7 @@ export const RegisterForm = () => {
                 value={ name }
                 onChange={ handleInputChange }
                 />
+                { msgError!==null && msgError.name && <small className="form-text text-danger">{msgError.name}</small> }
             </div>
             <div className="mb-3">
                 <input 
@@ -102,6 +99,7 @@ export const RegisterForm = () => {
                 value={ email }
                 onChange={ handleInputChange }
                 />
+                { msgError!==null && msgError.email && <small className="form-text text-danger">{msgError.email}</small> }
             </div>
 
             <div className="mb-3">
@@ -113,6 +111,7 @@ export const RegisterForm = () => {
                 value={ password }
                 onChange={ handleInputChange } 
                 />
+                { msgError!==null && msgError.password && <small className="form-text text-danger">{msgError.password}</small> }
             </div>
             <div className="mb-3">
                 <input 
@@ -123,6 +122,7 @@ export const RegisterForm = () => {
                 value={ password2 }
                 onChange={ handleInputChange } 
                 />
+                { msgError!==null && msgError.password2 && <small className="form-text text-danger">{msgError.password2}</small> }
             </div>
             <div className='d-grid gap-2'>
             <button 

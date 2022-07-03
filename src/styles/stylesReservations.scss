@@ -2,6 +2,9 @@ $goldenFeatherBlue: #263032;
 $goldenFeatherGold: #C59B5F;
 $goldenFeatherWhite:#FDF9F6;
 
+.gf-white {
+    color: $goldenFeatherWhite
+  }
 
 .sidebarlink{
     background-color: $goldenFeatherBlue;
@@ -28,4 +31,67 @@ $goldenFeatherWhite:#FDF9F6;
 
 .cpointer {
     cursor: pointer;
+}
+
+.reservation-tab-active {
+    color: $goldenFeatherWhite!important;
+    background-color: $goldenFeatherGold!important;
+    border-bottom: 1px solid $goldenFeatherGold!important;
+}
+
+.reservation-tab-inactive {
+    color: $goldenFeatherBlue!important;
+}
+
+
+/*************TABLAS*****************/
+
+table thead tr {
+    background: $goldenFeatherBlue;
+} 
+
+table thead tr th {
+    color: $goldenFeatherWhite;
+}
+
+table tbody tr th a:hover {
+    color: $goldenFeatherBlue;
+}
+
+
+
+
+/*************PAGINDAOR*************/
+
+#pagination button:hover{
+    background: $goldenFeatherGold;
+    color: $goldenFeatherBlue;
+}
+
+#pagination li color {
+    color: $goldenFeatherGold!important;
+}
+
+
+
+/**************RESERVAS ID ************/
+
+.reservationID, .eventID {
+    border: 1px solid $goldenFeatherGold;
+    padding: 1em;
+}
+
+.reservationID ul li, .eventID ul li {
+    list-style: square;
+}
+
+.reservationID ul li a, .eventID ul li a {
+    color : $goldenFeatherBlue
+}
+
+
+/**************EVENTS****************/
+
+.event-card {
+    border: 1px solid $goldenFeatherGold
 }

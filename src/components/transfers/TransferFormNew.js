@@ -62,22 +62,22 @@ export const TransferFormNew = () => {
         <div className="form-group col-md-6">
             <label htmlFor="origin">Origen:</label>
             <input type="text" className="form-control" name="origin" value={origin} id="origin" placeholder="Origen" onChange={handleInputChange}/>
-            { msgError!==null && msgError.origin && <div className="alert alert-danger">{msgError.origin}</div> }
+            { msgError!==null && msgError.origin && <small className="form-text text-danger">{msgError.origin}</small> }
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="destination">Destino:</label>
             <input type="text" className="form-control" name="destination" value={destination} id="destination" placeholder="Destino" onChange={handleInputChange}/>
-            { msgError!==null && msgError.destination && <div className="alert alert-danger">{msgError.destination}</div> }
+            { msgError!==null && msgError.destination && <small className="form-text text-danger">{msgError.destination}</small> }
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="price">Precio base:</label>
             <input type="number" className="form-control" name="price" value={price} id="price" placeholder="Precio base" onChange={handleInputChange}/>
-            { msgError!==null && msgError.price && <div className="alert alert-danger">{msgError.price}</div> }
+            { msgError!==null && msgError.price && <small className="form-text text-danger">{msgError.price}</small> }
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="commission">Comisión:</label>
             <input type="number" className="form-control" name="commission" value={commission} id="commission" placeholder="Comisión" onChange={handleInputChange}/>
-            { msgError!==null && msgError.commission && <div className="alert alert-danger">{msgError.commission}</div> }
+            { msgError!==null && msgError.commission && <small className="form-text text-danger">{msgError.commission}</small> }
         </div>
         <button type="submit" className="btn btn-primary btn-reserve">Crear Transfer</button>
     </form>

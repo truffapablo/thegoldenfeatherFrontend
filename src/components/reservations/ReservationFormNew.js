@@ -152,43 +152,43 @@ export const ReservationFormNew = () => {
         <div className="form-group col-md-6">
             <label htmlFor="firstName">Nombre:</label>
             <input type="text" className="form-control" name="firstName" value={firstName} id="firstName" placeholder="Nombre" onChange={handleInputChange}/>
-            { msgError!==null && msgError.firstName && <div className="alert alert-danger">{msgError.firstName}</div> }
+            { msgError!==null && msgError.firstName && <small className="form-text text-danger">{msgError.firstName}</small> }
         </div>
         
         <div className="form-group col-md-6">
             <label htmlFor="lastName">Apellido:</label>
             <input type="text" className="form-control" name="lastName" value={lastName} id="lastName" placeholder="Apellido" onChange={handleInputChange}/>
-            { msgError!==null && msgError.lastName && <div className="alert alert-danger">{msgError.lastName}</div> }
+            { msgError!==null && msgError.lastName && <small className="form-text text-danger">{msgError.lastName}</small> }
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="email">Email:</label>
             <input type="email" className="form-control" name="email" value={email} id="email" placeholder="Email" onChange={handleInputChange}/>
-            { msgError!==null && msgError.email && <div className="alert alert-danger">{msgError.email}</div> }
+            { msgError!==null && msgError.email && <small className="form-text text-danger">{msgError.email}</small> }
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="phone">Teléfono:</label>
             <input type="text" className="form-control" name="phone" value={phone} id="phone" placeholder="Teléfono" onChange={handleInputChange}/>
-            { msgError!==null && msgError.phone && <div className="alert alert-danger">{msgError.phone}</div> }
+            { msgError!==null && msgError.phone && <small className="form-text text-danger">{msgError.phone}</small> }
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="date">Fecha</label>
             <input type="date" className="form-control" name="date" value={date} id="date" placeholder="Fecha" onChange={handleInputChange}/>
-            { msgError!==null && msgError.date && <div className="alert alert-danger">{msgError.date}</div> }
+            { msgError!==null && msgError.date && <small className="form-text text-danger">{msgError.date}</small> }
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="time">Horario</label>
             <input type="time" disabled className="form-control" name="time" value={time} id="time" placeholder="Horario" onChange={handleInputChange}/>
-            { msgError!==null && msgError.time && <div className="alert alert-danger">{msgError.time}</div> }
+            { msgError!==null && msgError.time && <small className="form-text text-danger">{msgError.time}</small> }
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="peopleQuantity">Cantidad de personas:</label>
             <input type="number" className="form-control" name="peopleQuantity" value={peopleQuantity} id="peopleQuantity" placeholder="Cantidad de personas" onChange={handleInputChange}/>
-            { msgError!==null && msgError.peopleQuantity && <div className="alert alert-danger">{msgError.peopleQuantity}</div> }
+            { msgError!==null && msgError.peopleQuantity && <small className="form-text text-danger">{msgError.peopleQuantity}</small> }
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="roomNumber">Número de habitación</label>
             <input type="text" className="form-control" name="roomNumber" value={roomNumber} id="roomNumber" placeholder="Número de habitación" onChange={handleInputChange}/>
-            { msgError!==null && msgError.roomNumber && <div className="alert alert-danger">{msgError.roomNumber}</div> }
+            { msgError!==null && msgError.roomNumber && <small className="form-text text-danger">{msgError.roomNumber}</small> }
         </div>
         <button type="submit" className="btn btn-primary btn-reserve">Reservar</button>
         

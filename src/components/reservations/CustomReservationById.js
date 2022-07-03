@@ -6,6 +6,7 @@ import { cancelCustomReservation, completeCustomReservation, confirmCustomReserv
 import { getLogsByReservationId } from '../../actions/logs';
 import { reservationStatus} from './reservationStatus';
 import { convertDate } from '../../helpers/convertDate';
+import { EmailNotificationButton } from './EmailNotificationButton';
 
 
 export const CustomReservationById = () => {
@@ -173,6 +174,7 @@ export const CustomReservationById = () => {
        <h2>Reserva # {reservation.confirmation}</h2>
        <div className='row'>
           <div className='col-md-10'>
+          <div className='reservationID'>
           <ul>
             <li>Evento: {reservation.event}</li>
             <li>Fecha: {convertDate(reservation.date)}</li>
@@ -185,16 +187,17 @@ export const CustomReservationById = () => {
             <li>Habitación: #{reservation.roomNumber}</li>
             <li>Cantidad de personas: {reservation.peopleQuantity}</li>
             <br/>
-            {reservation.email ? <li>Email: {reservation.email}</li> : <li>Email: sin registro</li>}
+            {reservation.email ? <li>Email: {reservation.email} <EmailNotificationButton email={reservation.email}/></li> : <li>Email: sin registro</li>}
             {reservation.phone ? <li>Teléfono: {reservation.phone}</li> : <li>Teléfono: sin registro</li>}
             <hr/>
             <li>Estado de la reserva: <strong>{reservation.status}</strong></li>
-            {
+            {/* {
               reservation.user &&
               <li>Reserva realizada por: {reservation.user.name}</li>
-            }
+            } */}
             <li className='mt-3'><a href='#' onClick={loadLogs}>Ver log de la reserva</a></li>
           </ul>
+          </div>
           </div>
           <div className='col-md-2'>
             <div className='d-grid gap-2'>

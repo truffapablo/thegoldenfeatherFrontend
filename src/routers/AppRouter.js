@@ -1,6 +1,6 @@
 import React, {useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Routes, Route, useNavigate} from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation} from "react-router-dom";
 
 import { EventView } from '../components/events/EventView';
 import { LoginView } from '../components/login/LoginView';
@@ -52,6 +52,7 @@ import { ResetPassword } from '../components/register/ResetPassword';
 import { RequireRoleAdmin } from './RequireRoleAdmin';
 import { roles } from '../types/role';
 import { getUsers } from '../actions/user';
+import { types } from "../types/types";
 
 
 
@@ -59,7 +60,18 @@ export const AppRouter = () => {
 
   const dispatch = useDispatch();
   const {checking, uid, role} = useSelector(state => state.auth);
+  const {msgError} = useSelector(state => state.ui);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(()=>{
+    if(msgError){
+      if(Object.keys(msgError)){
+        dispatch({type:types.uiRemoveError});
+      }
+      
+    }
+  },[location]);
 
   useEffect(() => {
 

@@ -101,7 +101,7 @@ export const ReservationCustomFormNew = () => {
         <div className="form-group col-md-12">
             <label htmlFor="event">Reserva:</label>
             <input type="text" className="form-control" name="event" value={event} id="event" placeholder="Reserva" onChange={handleInputChange}/>
-            { msgError!==null && msgError.event && <div className="alert alert-danger">{msgError.event}</div> }
+            { msgError!==null && msgError.event && <small className="form-text text-danger">{msgError.event}</small> }
         </div>
         <InputFormDataReservation
             formValues={formValues}

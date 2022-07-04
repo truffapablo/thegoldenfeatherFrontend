@@ -76,16 +76,16 @@ table tbody tr th a:hover {
 
 /**************RESERVAS ID ************/
 
-.reservationID, .eventID {
+.reservationID, .eventID, .userID {
     border: 1px solid $goldenFeatherGold;
     padding: 1em;
 }
 
-.reservationID ul li, .eventID ul li {
+.reservationID ul li, .eventID ul li, .userID ul li {
     list-style: square;
 }
 
-.reservationID ul li a, .eventID ul li a {
+.reservationID ul li a, .eventID ul li a, .userID ul li a {
     color : $goldenFeatherBlue
 }
 

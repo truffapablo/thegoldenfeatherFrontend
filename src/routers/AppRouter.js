@@ -53,6 +53,8 @@ import { RequireRoleAdmin } from './RequireRoleAdmin';
 import { roles } from '../types/role';
 import { getUsers } from '../actions/user';
 import { types } from "../types/types";
+import { UserListView } from '../components/users/UserListView';
+import { UserById } from '../components/users/UserById';
 
 
 
@@ -101,7 +103,6 @@ export const AppRouter = () => {
 
   return (
     <div className="App">
-       
        <MainNavbar/>
 
         <div id="layoutSidenav">
@@ -120,6 +121,8 @@ export const AppRouter = () => {
 
               <Route element={<RequireRoleAdmin/>}>
                 <Route path="register" element={<RegisterView/>}/>
+                <Route path="registered-users" element={<UserListView/>}/>
+                <Route path="registered-users/:id" element={<UserById/>}/>
               </Route>
               <Route path="panel" element={<PanelView />} />         
               
@@ -169,10 +172,6 @@ export const AppRouter = () => {
             <Footer/>
         </div>
         </div>
-      
-      
-        
-
     </div>
   )
 }

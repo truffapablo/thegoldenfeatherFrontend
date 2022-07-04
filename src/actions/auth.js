@@ -56,7 +56,8 @@ export const startChecking = () => {
                         name: data.name,
                         email:data.email,
                         changePassword:data.changePassword,
-                        role: data.role
+                        role: data.role,
+                        access:data.access
                     }));
                 }else{
                     dispatch(checkingFinish());
@@ -97,6 +98,59 @@ export const resetPassword = (userCredentials) => {
     return async(dispatch) => {
         try {
             const resp = await fetchWithToken('auth/reset-password', userCredentials, 'PUT');
+            const data = await resp.json();
+            return data;
+        } catch (error) {
+            console.log('Error',error);
+            return false
+        }
+    }
+}
+
+
+export const grantUserAccess = (id) => {
+    return async(dispatch) => {
+        try {
+            const resp = await fetchWithToken(`auth/grant-access/${id}`, {}, 'PATCH');
+            const data = await resp.json();
+            return data;
+        } catch (error) {
+            console.log('Error',error);
+            return false
+        }
+    }
+}
+
+export const denyUserAccess = (id) => {
+    return async(dispatch) => {
+        try {
+            const resp = await fetchWithToken(`auth/deny-access/${id}`, {}, 'PATCH');
+            const data = await resp.json();
+            return data;
+        } catch (error) {
+            console.log('Error',error);
+            return false
+        }
+    }
+}
+
+export const forceUserChangePassword = (id) => {
+    return async(dispatch) => {
+        try {
+            const resp = await fetchWithToken(`auth/force-change-password/${id}`, {}, 'PATCH');
+            const data = await resp.json();
+            return data;
+        } catch (error) {
+            console.log('Error',error);
+            return false
+        }
+    }
+}
+
+export const createTemporaryPassword = (id, password) => {
+    return async(dispatch) => {
+        try {
+            const resp = await fetchWithToken(`auth/temporary-password/${id}`, {password}, 'PUT');
             const data = await resp.json();
             return data;
         } catch (error) {

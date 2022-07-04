@@ -20,7 +20,7 @@ export const ReservationView = () => {
               <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='custom'>Reserva personalizada</NavLink> 
             </li>
             <li className="nav-item">
-              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='transfer'>Reserva de Transfer</NavLink> 
+              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='transfer'>Reserva de transfer</NavLink> 
             </li>
           </ul> 
               <Outlet />   

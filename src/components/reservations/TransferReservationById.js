@@ -139,7 +139,7 @@ export const TransferReservationById = () => {
                         <hr/>
                         <li>Nombre del huésped: {transfer.firstName} {transfer.lastName}</li>
                         {
-                          transfer.email? <li>Email del huésped: {transfer.email} <EmailNotificationButton email={transfer.email}/><button>Notificar por email</button></li> : <li>Email del huésped: sin registro</li>
+                          transfer.email? <li>Email del huésped: {transfer.email} <EmailNotificationButton email={transfer.email}/></li> : <li>Email del huésped: sin registro</li>
                         }
                         <li>Teléfono del huesped: {transfer.phone}</li>
                         <li>Número de personas: {transfer.peopleQuantity}</li>

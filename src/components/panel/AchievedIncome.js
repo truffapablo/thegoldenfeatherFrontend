@@ -39,7 +39,7 @@ export const AchievedIncome = () => {
       }
 
     useEffect(()=>{
-        setAchievedListIncome(getAchievedCustomListIncome(list));
+        setAchievedListIncome(getAchievedListIncome(list));
     },[list]);
 
     useEffect(()=>{

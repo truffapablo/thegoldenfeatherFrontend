@@ -77,7 +77,11 @@ export const Sidenav = () => {
                                 </div>
                                 </>
                             }
-                            
+                            <div className="sb-sidenav-menu-heading">DATA</div>
+                            <NavLink className="nav-link" to="dashboard/reports">
+                            <div className="sb-nav-link-icon"><i className="fa-solid fa-chart-simple"></i></div>
+                            Reportes
+                            </NavLink>
                            
                         </div>
                     </div>

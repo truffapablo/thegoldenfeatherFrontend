@@ -56,7 +56,7 @@ export const UserById = () => {
                     dispatch(getUsers());
                     Swal.fire({
                         title: 'Acceso concedido',
-                        html: `El usuario <strong>${selected.email}</strong> tiene acceso al sistema.`,
+                        html: `El usuario <strong>${selected.email}</strong> ya tiene acceso al sistema.`,
                         icon: 'success',
                         confirmButtonColor: '#263032',
                     });
@@ -79,7 +79,7 @@ export const UserById = () => {
  const denyAccess = (id) => {
     Swal.fire({
         title: '¿Estás seguro?',
-        html: `Estas por denegar acceso a <strong>${selected.email}</strong>`,
+        html: `Estas por denegar acceso al sistema a <strong>${selected.email}</strong>`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#263032',
@@ -94,7 +94,7 @@ export const UserById = () => {
                     dispatch(getUsers());
                     Swal.fire({
                         title: 'Acceso denegado',
-                        html: `El usuario <strong>${selected.email}</strong> no tiene acceso al sistema.`,
+                        html: `El usuario <strong>${selected.email}</strong> ya no tiene acceso al sistema.`,
                         icon: 'success',
                         confirmButtonColor: '#263032',
                     });
@@ -115,7 +115,7 @@ export const UserById = () => {
  const whitelistPassword = (id) => {
     Swal.fire({
         title: '¿Estás seguro?',
-        html: `Estas por forzar un blanqueo de contraseña a <strong>${selected.email}.</strong> <br/> Esta acción hará que el usuario tenga que cambiar su contraseña.`,
+        html: `Estas por forzar un blanqueo de contraseña a <strong>${selected.email}.</strong> <br/> Esta acción hará que el usuario tenga que cambiar su contraseña actual.`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#263032',
@@ -197,7 +197,7 @@ const handleSubmit = (e) =>{
           <div className='col-md-6 userID'>
             <ul>
                 <li>Email: {selected.email}</li>
-                <li>Rol: {selected.role}</li>
+                <li>Rol: {selected.role === 'EMPLOYEE'?  'Empleado':'Admin'}</li>
                 <li>Requiere blanqueo de contraseña: {selected.changePassword ? 'Si':'No'}</li>
                 <li>Acceso: {selected.access? 'Permitido':'Denegado'}</li>
             </ul>

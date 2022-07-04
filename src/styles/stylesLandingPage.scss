@@ -52,22 +52,11 @@ $goldenFeatherWhite:#FDF9F6;
     color: #FDF9F6!important;
 }
 
-#about {
-    width: 100%;
-    min-height: 100vh;
-    margin-top: 5em;
-}
-
-#about p {
-    text-align: left;
-    align-self: center;
-}
-
 .goldenPattern {
-    height: 50vh;
+    height: 10vh;
     width: 100%;
     background:
-    url('../../public/assets/img/pattern3.png') repeat center center fixed;
+    url('../../public/assets/img/pattern3.png') repeat center center;
     clear: both;
 }
 
@@ -77,17 +66,57 @@ $goldenFeatherWhite:#FDF9F6;
 }
 
 
-#servicesData h2, #about h2 {
+#servicesData h2{
     font-size: 3em;
     color: $goldenFeatherGold;
     text-align: center;
 }
 
-#servicesData h3, #about h3 {
+#servicesData h3{
     font-size: 2em;
     text-align: center;
 }
 
+#about {
+    width: 100%;
+    min-height: 100vh;
+    background: $goldenFeatherBlue;
+}
+
+#about p {
+    font-size: 1.1em;
+    color: $goldenFeatherWhite;
+}
+
+#about h2 {
+    font-size: 2.5em;
+    color: $goldenFeatherGold;
+}
+
+#about h3 {
+    font-size: 2em;
+    color: $goldenFeatherWhite;
+}
+
+#gf-logo {
+    transform: translateY(0px);
+    animation: float 6s ease-in-out infinite;
+    
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
 
 
 #contact {

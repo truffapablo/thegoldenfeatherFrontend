@@ -43,20 +43,23 @@ export const Home = () => {
                 </div>
 
                 <div className='col-md-12' id='about'>
-                    <section className="page-section mt-5">
+                <section className="page-section mt-5">
                         <div className="container">
-                            <div className="row text-center">
-                                <div className="text-center mb-5">
-                                    <h2 className="section-heading text-uppercase mb-4 mt-4">¿Que es The Golden Feather?</h2>
-                                    <h3 className="section-subheading text-muted">Te contamos todo lo que necesitas saber.</h3>
-                                </div>
-                                <div className="col-sm-12 col-md-6 text-center">
+                            <div className="row mt-5">
+                                
+                                
+                                <div className="col-sm-12 col-md-7">
+                                    <h2 className="section-heading text-uppercase mb-4 mt-4">¿Qué es <br/> The Golden Feather?</h2>
+                                    <h3 className="section-subheading mb-4 mt-4">Te contamos todo lo que necesitas saber.</h3>
                                     <p>The Golden Feather "La Pluma Dorada" es una herramienta para turismo y hotelería orientada al servicio de los huéspedes de un hotel.</p>
                                     <p>La plataforma permite a los hoteles y hoteleros ofrecer un servicio de reservas de eventos y así poder llevar un seguimiento de las mismas.</p>
-                                    <p>La plataforma es un CRM (Client Relationship Management ) y parte de sus funcionalidades es ofrecer la mayor cantidad de información a los usuarios y clientes de los eventos en proceso.</p>
+                                    <p>La plataforma es un CRM (Client Relationship Management) y parte de sus funcionalidades es ofrecer la mayor cantidad de información a los usuarios y clientes de los eventos en proceso.</p>
+                                    <a className="btn btn-gold btn-xl text-uppercase" href="#services">Servicios</a>
                                 </div>
-                                <div className="col-sm-12 col-md-6 text-center">
-                                    <div className='goldenPattern'></div>
+                                <div className="col-sm-12 col-md-5 text-center">
+                                    {/* <Logo className="big-logo"/> */}
+                                    <img src={authLogo} id="gf-logo"/>
+                                    
                                 </div>
                             </div>
                             

@@ -124,7 +124,10 @@ export const AppRouter = () => {
                 <Route path="registered-users" element={<UserListView/>}/>
                 <Route path="registered-users/:id" element={<UserById/>}/>
               </Route>
-              <Route path="panel" element={<PanelView />} />         
+              
+              <Route path="panel" element={<PanelView />} />
+
+              <Route path="reports" element={<ReportView/>} />      
               
               <Route path='reservations' element={<ReservationView/>}>       
                 <Route index element={<ReservationList />}/>  

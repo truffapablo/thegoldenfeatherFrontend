@@ -55,6 +55,9 @@ export const updateTransfer  = (id, transfer) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(editTransfer(data.transfer));
+                socket.emit('update-transfer', data.transfer, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 return true;
 
             }else{
@@ -70,17 +73,27 @@ export const updateTransfer  = (id, transfer) => {
 export const deleteTransfer = (id) => {
     return async (dispatch) => {
         try {
-            console.log('ID---->',id);
+            
             const resp = await fetchWithToken(`transfer/${id}`, {}, 'DELETE');
             const data = await resp.json();
             if (data.ok) {
                 dispatch(transferDelete(id));
+
+                socket.emit('delete-transfer', id, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 
                 if(data.transferReservationsCanceled.length > 0){
                     dispatch({
                         type: types.transferUpdateMany,
                         payload: data.transferReservationsCanceled
                     });
+
+                    socket.emit('update-many-transfer-reservations', data.transferReservationsCanceled, serverCallback =>{
+                        console.log(serverCallback);
+                    });
+
+
                 }
                 
                 return true;

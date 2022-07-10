@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import { fetchWithToken } from "../helpers/fetch";
 import { types } from "../types/types";
+import socket from '../sockets/config';
 
 
 export const getEvents = () => {
@@ -31,6 +32,9 @@ export const createEvent = (event) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(addEvent(data.event));
+                socket.emit('new-event', data.event, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 return true
             }
         } catch (error) {
@@ -49,6 +53,9 @@ export const updateEvent = (id, event) => {
                 const data = await resp.json();
                 if (data.ok) {
                     dispatch(editEvent(data.event));
+                    socket.emit('update-event', data.event, serverCallback =>{
+                        console.log(serverCallback);
+                    });
                     return true
                 }
             } catch (error) {
@@ -68,11 +75,17 @@ export const deleteEvent = (id) => {
             if (data.ok) {
                 
                 dispatch(removeEvent(id));
+                socket.emit('delete-event', id, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 if(data.reservationsCanceled.length > 0){
                     
                     dispatch({
                         type: types.reservationUpdateMany,
                         payload: data.reservationsCanceled
+                    });
+                    socket.emit('update-many-event-reservations', data.reservationsCanceled, serverCallback =>{
+                        console.log(serverCallback);
                     });
                 }
                 return true

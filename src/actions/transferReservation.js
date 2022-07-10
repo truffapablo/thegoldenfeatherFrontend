@@ -2,6 +2,7 @@ import moment from "moment";
 import { fetchWithToken } from "../helpers/fetch";
 import { today } from "../helpers/today";
 import { types } from "../types/types";
+import socket from '../sockets/config';
 
 export const getTransferReservations = () => {
     return async (dispatch) => {
@@ -34,6 +35,9 @@ export const createTransferReservation = (transfer) => {
                  */
                  if (moment(transfer.date).format('YYYY-MM-DD') === today()) {
                     dispatch(addTransferReservation(data.transferR));
+                    socket.emit('new-transfer-reservation', data.transferR, serverCallback =>{
+                        console.log(serverCallback);
+                    });
                 }else{
                     dispatch({
                         type: types.reservationAddFuture,
@@ -59,6 +63,9 @@ export const editTransferReservation = (id, transfer) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(transferReservationEdit(data.transferR));
+                socket.emit('update-transfer-reservation', data.transferR, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 return data;
 
             }else{
@@ -78,6 +85,9 @@ export const cancelTransferReservation = (id) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(transferReservationCancel(data.transferR));
+                socket.emit('cancel-transfer-reservation', data.transferR, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 return true;
             }else{
                 return false;
@@ -98,6 +108,9 @@ export const confirmTransferReservation = (id) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(transferReservationConfirm(data.transferR));
+                socket.emit('confirm-transfer-reservation', data.transferR, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 return true;
             }else{
                 return false;
@@ -118,6 +131,9 @@ export const completeTransferReservation = (id) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(transferReservationComplete(data.transferR));
+                socket.emit('complete-transfer-reservation', data.transferR, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 return true;
             }else{
                 return false;

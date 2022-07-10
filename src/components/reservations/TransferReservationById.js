@@ -143,6 +143,13 @@ export const TransferReservationById = () => {
                         }
                         <li>Teléfono del huesped: {transfer.phone}</li>
                         <li>Número de personas: {transfer.peopleQuantity}</li>
+                        {
+                          transfer.information &&
+                          <>
+                          <hr/>
+                          <li>Información: {transfer.information}</li>
+                          </>
+                        }
                         <hr/>
                         <li>Precio: ${transfer.price + transfer.commission}</li>
                         <li>Comisión: ${transfer.commission}</li>

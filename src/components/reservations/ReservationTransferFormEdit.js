@@ -15,6 +15,8 @@ import { InputFormGuest } from './InputFormGuest';
 import { InputFormPeopleAndRoomNumber } from './InputFormPeopleAndRoomNumber';
 import { TransferReservationOtherInputs } from './TransferReservationOtherInputs';
 import { TransferReservationSelect } from './TransferReservationSelect';
+import socket from '../../sockets/config';
+
 
 export const ReservationTransferFormEdit = () => {
 
@@ -136,6 +138,10 @@ export const ReservationTransferFormEdit = () => {
                               type:types.transferReservationRemove,
                               payload:response.transferR.id
                           });
+
+                          socket.emit('remove-transfer-reservation', response.transferR.id, serverCallback =>{
+                            console.log(serverCallback);
+                          });
                       }
 
                       /**
@@ -151,6 +157,9 @@ export const ReservationTransferFormEdit = () => {
                               dispatch({
                                   type: types.transferReservationAdd,
                                   payload: response.transferR
+                              });
+                              socket.emit('new-transfer-reservation', response.transferR, serverCallback =>{
+                                console.log(serverCallback);
                               });
                           }
                           
@@ -212,6 +221,9 @@ export const ReservationTransferFormEdit = () => {
                               type:types.transferReservationRemove,
                               payload:response.transferR.id
                           });
+                          socket.emit('remove-transfer-reservation', response.transferR.id, serverCallback =>{
+                            console.log(serverCallback);
+                          });
                       }
 
                       /**
@@ -227,6 +239,9 @@ export const ReservationTransferFormEdit = () => {
                               dispatch({
                                   type: types.transferReservationAdd,
                                   payload: response.transferR
+                              });
+                              socket.emit('new-transfer-reservation', response.transferR, serverCallback =>{
+                                console.log(serverCallback);
                               });
                           }
                           

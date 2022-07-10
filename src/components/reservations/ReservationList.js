@@ -75,7 +75,7 @@ export const ReservationList = () => {
         
         if(advanceSearch.data){
             if(advanceSearch.data.length > 0) {
-                console.log('Tiene data');
+                
                 setNews(advanceSearch.data);
                 setCurrentPage(1);
             }

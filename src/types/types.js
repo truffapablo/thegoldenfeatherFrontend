@@ -70,7 +70,7 @@ export const types = {
     eventDelete:                        '[Event] Delete',
     eventCancelReservation:             '[Event] Cancel Reservations',
     eventUpdate:                        '[Event] Update',
-    eventCancel:                        '[Event] Update',
+    eventCancel:                        '[Event] Cancel',
     eventSetActive:                     '[Event] Set active event',
     
     eventStartLoading:                  '[Event] Start Loading',

@@ -3,6 +3,7 @@ import { types } from "../types/types";
 import { reservationFinishLoading, reservationStartLoading } from "./reservation";
 import moment from "moment";
 import { today } from "../helpers/today";
+import socket from '../sockets/config';
 
 
 

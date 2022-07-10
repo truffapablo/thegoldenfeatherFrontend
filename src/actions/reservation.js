@@ -1,5 +1,6 @@
 import { fetchWithToken } from "../helpers/fetch";
 import { types } from "../types/types";
+import socket from '../sockets/config';
 
 const moment = require('moment-timezone');
 const tz = moment().tz("America/Argentina/Buenos_Aires");
@@ -40,6 +41,9 @@ export const startNewReservation = (reservation) => {
                  */
                 if (moment(reservation.date).format('YYYY-MM-DD') === tz.format('YYYY-MM-DD')) {
                     dispatch(addReservation(data.reservation));
+                    socket.emit('new-event-reservation', data.reservation, serverCallback =>{
+                        console.log(serverCallback);
+                    });
                 }else{
                     dispatch({
                         type: types.reservationAddFuture,
@@ -65,6 +69,9 @@ export const cancelReservation = ({id}) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(reservationcancel(data.reservation));
+                socket.emit('cancel-event-reservation', data.reservation, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 return true;
             }else{
                 return false;
@@ -84,6 +91,9 @@ export const confirmReservation = ({id}) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(reservationConfirm(data.reservation));
+                socket.emit('confirm-event-reservation', data.reservation, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 return true;
             }else{
                 return false;
@@ -102,6 +112,9 @@ export const completeReservation = ({id}) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(reservationComplete(data.reservation));
+                socket.emit('complete-event-reservation', data.reservation, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 return true;
             }else{
                 return false;
@@ -121,6 +134,9 @@ export const updateReservation = (id, reservation) => {
                 const data = await resp.json();
                 if (data.ok) {
                     dispatch(reservationUpdate(data.reservation));
+                    socket.emit('update-event-reservation', data.reservation, serverCallback =>{
+                        console.log(serverCallback);
+                    });
 
                     return data;
                 }else{

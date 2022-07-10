@@ -55,16 +55,20 @@ import { getUsers } from '../actions/user';
 import { types } from "../types/types";
 import { UserListView } from '../components/users/UserListView';
 import { UserById } from '../components/users/UserById';
-
-
+import { listenSockets } from '../sockets/controller';
+import socket from '../sockets/config';
 
 export const AppRouter = () => {
-
+  
   const dispatch = useDispatch();
   const {checking, uid, role} = useSelector(state => state.auth);
   const {msgError} = useSelector(state => state.ui);
   const navigate = useNavigate();
   const location = useLocation();
+  
+  useEffect(()=>{
+    listenSockets(dispatch);
+  },[]);
 
   useEffect(()=>{
     if(msgError){
@@ -76,7 +80,7 @@ export const AppRouter = () => {
   },[location]);
 
   useEffect(() => {
-
+    
     dispatch(startChecking());
 
     if(uid) {
@@ -99,6 +103,8 @@ export const AppRouter = () => {
     return <h5>Espere...</h5>
   }
 
+
+ 
 
 
   return (

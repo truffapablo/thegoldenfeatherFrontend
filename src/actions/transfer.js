@@ -1,5 +1,6 @@
 import { fetchWithToken } from "../helpers/fetch";
 import { types } from "../types/types";
+import socket from '../sockets/config';
 
 
 export const getTransfers = () => {
@@ -29,6 +30,11 @@ export const createTransfer  = (transfer) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(addTransfer(data.transfer));
+
+                socket.emit('new-transfer', data.transfer, serverCallback =>{
+                    console.log(serverCallback);
+                });
+
                 return true;
 
             }else{

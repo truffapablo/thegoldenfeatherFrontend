@@ -21,7 +21,8 @@ export const RegisterForm = () => {
         email:'',
         password:'',
         password2:''
-  })
+  });
+  
 
     const {name, email, password, password2} = formValues;
     /**TODO Validar */

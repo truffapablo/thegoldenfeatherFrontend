@@ -13,8 +13,6 @@ import './styles/stylesSearch.scss';
 import './styles/stylesPanel.scss';
 
 
-//console.log(process.env);
-
 ReactDOM.render(
     <Provider store={store}>
       <ProyectoFinalApp/>

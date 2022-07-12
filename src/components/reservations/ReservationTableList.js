@@ -1,25 +1,116 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useState } from 'react'
 import { convertDate } from '../../helpers/convertDate'
-import { today } from '../../helpers/today'
+import { fnSortByConfirmation, fnSortByDate, fnSortByEvent, fnSortByGuestName, fnSortByRoomNumber, fnSortByStatus, fnSortByTime } from '../../helpers/sortReservations';
 
-export const ReservationTableList = ({allReservations, currentPage, limit, details, customDetails, transferDetails}) => {
+export const ReservationTableList = ({allReservations, setAllReservations, currentPage, limit, details, customDetails, transferDetails}) => {
+  
+  
+  const [allRe, setAllRe] = useState(allReservations);
+  const [filters, setFilters] = useState({
+    confirmation:false,
+    roomNumber:false,
+    guest:false,
+    time:false,
+    status:false,
+    event:false,
+  });
+
+  const sortByRoomNumber = () => {
+
+    const sortedByRoomNumber = fnSortByRoomNumber(allReservations, false);
+    setAllRe(sortedByRoomNumber);
+    setFilters({
+      confirmation:false,
+      roomNumber:true,
+      guest:false,
+      time:false,
+      status:false,
+      event:false,
+    });
+  }
+
+  const sortByConfirmation = () => {
+    const sortedByConfirmation = fnSortByConfirmation(allReservations, false);
+    setAllRe(sortedByConfirmation);
+    setFilters({
+      confirmation:true,
+    });
+  }
+
+  const sortByGuestName = () =>{
+    const sortedByGuestName = fnSortByGuestName(allReservations, true);
+    setAllRe(sortedByGuestName);
+    setFilters({
+      guest:true,
+    });
+  }
+  
+  const sortByTime = () => {
+    const sortedByTime = fnSortByTime(allReservations, false); 
+    setAllRe(sortedByTime);
+    setFilters({
+      time:true,
+    });
+    
+  }
+
+  const sortByEvent = () => {
+    const sortedByEvent = fnSortByEvent(allReservations, true);
+    setAllRe(sortedByEvent);
+    setFilters({
+      event:true,
+    });
+  }
+
+  const sortByStatus = () => {
+    const sortedByStatus = fnSortByStatus(allReservations, false);
+    setAllRe(sortedByStatus);
+    setFilters({
+      status:true,
+    });
+  }
+
+  const sortByDate = () =>{
+    const sortedByDate = fnSortByDate(allReservations, true);
+    setAllRe(sortedByDate);
+    setFilters({
+      date:true
+    });
+  }
+
+  
+
+  useEffect(()=>{
+
+    setAllRe(allReservations);
+    filters.roomNumber && sortByRoomNumber();
+    filters.confirmation && sortByConfirmation();
+    filters.guest && sortByGuestName();
+    filters.time && sortByTime();
+    filters.event && sortByEvent();
+    filters.status && sortByStatus();
+    filters.date && sortByDate();
+
+  },[allReservations])
+
   return (
     <>
     <table className="table animate__animated animate__fadeIn" >
             <thead>
             <tr>
-            <th scope="col"># Confirmación</th>
-            <th scope="col">Huésped</th>
-            <th scope="col">Habitación</th>
-            <th scope="col">Evento</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Horario</th>
-            <th scope="col">Estado</th>
+            <th scope="col"><a className='gf-re-list' href='#' onClick={sortByConfirmation}># Confirmación</a></th>
+            <th scope="col"><a className='gf-re-list' href='#' onClick={sortByGuestName}>Huésped</a></th>
+            <th scope="col"><a className='gf-re-list' href='#' onClick={sortByRoomNumber}>Habitación</a></th>
+            <th scope="col"><a className='gf-re-list' href='#' onClick={sortByEvent}>Evento</a></th>
+            <th scope="col"><a className='gf-re-list' href='#' onClick={sortByDate}>Fecha</a></th>
+            <th scope="col"><a className='gf-re-list' href='#' onClick={sortByTime}>Horario</a></th>
+            <th scope="col"><a className='gf-re-list' href='#' onClick={sortByStatus}>Estado</a></th>
             </tr>
             </thead>
             <tbody>
               {
-                allReservations.slice((currentPage -1) * limit, currentPage * limit).map((reservation, index) => {
+                allRe.slice((currentPage -1) * limit, currentPage * limit).map((reservation, index) => {
                   return (
                   <tr key={index}>
                         {

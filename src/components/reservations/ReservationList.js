@@ -14,10 +14,11 @@ export const ReservationList = () => {
     const { list, customList, transferList } = useSelector(state => state.reservations);
     const { advanceSearch } = useSelector(state => state.search);
     const dispatch = useDispatch();
+    
     const allReservations = [...list, ...customList, ...transferList];
 
     
-
+    
     const navigate = useNavigate();
 
 

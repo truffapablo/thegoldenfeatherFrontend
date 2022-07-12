@@ -172,6 +172,58 @@ export const listenSockets = (dispatch) => {
         
     });
 
+    /**
+     * CUSTOM RESERVATION
+     */
+
+
+     socket.on('custom-reservation-created', payload => {
+        dispatch({
+            type: types.reservationAddCustom,
+            payload: payload
+        });
+        
+    });
+
+    socket.on('custom-reservation-updated', payload => {
+        dispatch({
+            type: types.reservationUpdateCustom,
+            payload: payload
+        });
+        
+    });
+
+    socket.on('custom-reservation-canceled', payload => {
+        dispatch({
+            type: types.reservationCancelCustom,
+            payload: payload
+        });
+        
+    });
+
+    socket.on('custom-reservation-completed', payload => {
+        dispatch({
+            type: types.reservationCompleteCustom,
+            payload: payload
+        });
+        
+    });
+
+    socket.on('custom-reservation-confirmed', payload => {
+        dispatch({
+            type: types.reservationCompleteCustom,
+            payload: payload
+        });
+        
+    });
+    
+    socket.on('custom-reservation-removed', payload => {
+        dispatch({
+            type: types.reservationRemoveCustom,
+            payload: payload
+        });
+        
+    });
 
 
 

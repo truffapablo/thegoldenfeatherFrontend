@@ -12,6 +12,7 @@ import { convertDate } from '../../helpers/convertDate';
 import { today } from '../../helpers/today';
 import { types } from '../../types/types';
 import { updateCustomReservation } from '../../actions/customReservation';
+import socket from '../../sockets/config';
 
 export const ReservationCustomFormEdit = () => {
 
@@ -93,6 +94,9 @@ export const ReservationCustomFormEdit = () => {
                                 type:types.reservationRemoveCustom,
                                 payload:response.reservation.id
                             });
+                            socket.emit('remove-custom-reservation', response.reservation.id, serverCallback =>{
+                                console.log(serverCallback);
+                            });
                         }
 
                         /**
@@ -108,6 +112,9 @@ export const ReservationCustomFormEdit = () => {
                                 dispatch({
                                     type: types.reservationAddCustom,
                                     payload: response.reservation
+                                });
+                                socket.emit('new-custom-reservation', response.reservation, serverCallback =>{
+                                    console.log(serverCallback);
                                 });
                             }
                             

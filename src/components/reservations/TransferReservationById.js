@@ -36,14 +36,14 @@ export const TransferReservationById = () => {
     const complete = (e) => {
         
         Swal.fire({
-            title: '¿Queres completar la reserva?',
+            title: '¿Querés completar la reserva?',
             text: "No podrás revertir esto",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#263032',
             cancelButtonColor: '#C59B5F',
-            confirmButtonText: 'Sí, completar!',
-          cancelButtonText: 'Abortar!',
+            confirmButtonText: 'Sí, completar',
+          cancelButtonText: 'Cancelar',
         }).then((result) => {
           if (result.value) {
             dispatch(completeTransferReservation(id)).then(data => {
@@ -73,8 +73,8 @@ export const TransferReservationById = () => {
           showCancelButton: true,
           confirmButtonColor: '#263032',
           cancelButtonColor: '#C59B5F',
-          confirmButtonText: 'Sí, cancelar!',
-          cancelButtonText: 'Abortar!',
+          confirmButtonText: 'Sí, cancelar',
+          cancelButtonText: 'Abortar acción',
         }).then((result) => {
           if (result.value) {
             dispatch(cancelTransferReservation(id)).then(data => {
@@ -94,14 +94,14 @@ export const TransferReservationById = () => {
       }
     const confirm = (e) => {
       Swal.fire({
-        title: '¿Queres confirmar esta reserva?',
+        title: '¿Querés confirmar esta reserva?',
         text: "Confirmar una reserva sirve para garantizar la misma.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#263032',
         cancelButtonColor: '#C59B5F',
-        confirmButtonText: 'Sí, confirmar!',
-        cancelButtonText: 'Abortar!',
+        confirmButtonText: 'Sí, confirmar',
+        cancelButtonText: 'Cancelar',
       }).then((result) => {
         if (result.value) {
           dispatch(confirmTransferReservation(id)).then(data => {

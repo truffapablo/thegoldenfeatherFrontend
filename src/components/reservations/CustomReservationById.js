@@ -15,7 +15,7 @@ export const CustomReservationById = () => {
   const {advanceSearch} = useSelector(state => state.search);
   const {id} = useParams();
   
-  //const reservation = customList.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
+  
   const [reservation, setReservation] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export const CustomReservationById = () => {
     }
   },[]);
 
-  if(!reservation || reservation.length == 0){
+  if((!reservation || reservation.length === 0)){
     <Navigate to='/'/>
     return null
   }
@@ -73,7 +73,6 @@ export const CustomReservationById = () => {
         })
         
       }
-      
     }
 
     const cancel = () => {
@@ -84,8 +83,8 @@ export const CustomReservationById = () => {
         showCancelButton: true,
         confirmButtonColor: '#263032',
         cancelButtonColor: '#C59B5F',
-        confirmButtonText: 'Sí, cancelar!',
-        cancelButtonText: 'Abortar!',
+        confirmButtonText: 'Sí, cancelar',
+        cancelButtonText: 'Abortar acción',
       }).then((result) => {
         if (result.value) {
 
@@ -112,14 +111,14 @@ export const CustomReservationById = () => {
 
     const confirm = () => {
       Swal.fire({
-        title: '¿Queres confirmar esta reserva?',
+        title: '¿Querés confirmar esta reserva?',
         text: "Confirmar una reserva sirve para garantizar la misma.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#263032',
         cancelButtonColor: '#C59B5F',
-        confirmButtonText: 'Sí, confirmar!',
-        cancelButtonText: 'Cancelar!',
+        confirmButtonText: 'Sí, confirmar',
+        cancelButtonText: 'Cancelar',
       }).then((result) => {
         if (result.value) {
         
@@ -142,18 +141,18 @@ export const CustomReservationById = () => {
     
     const complete = () => {
       Swal.fire({
-        title: '¿Queres completar la reserva?',
+        title: '¿Querés completar la reserva?',
         text: "No podrás revertir esto",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#263032',
         cancelButtonColor: '#C59B5F',
-        confirmButtonText: 'Sí, completar!',
-        cancelButtonText: 'Abortar!',
+        confirmButtonText: 'Sí, completar',
+        cancelButtonText: 'Cancelar',
       }).then((result) => {
         if (result.value) {
           dispatch(completeCustomReservation({id})).then(data => {
-            if (data) {
+            if (data.ok) {
               Swal.fire({
                 title: 'Reserva completada',
                 text: 'La reserva ha sido completada',
@@ -161,6 +160,13 @@ export const CustomReservationById = () => {
                 confirmButtonColor: '#263032',
               })
               navigate('/dashboard/reservations');
+            }else{
+              Swal.fire({
+                title: 'Error',
+                text: data.message,
+                icon: 'error',
+                confirmButtonColor: '#263032',
+              });
             }
           });
         }

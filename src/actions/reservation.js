@@ -115,9 +115,9 @@ export const completeReservation = ({id}) => {
                 socket.emit('complete-event-reservation', data.reservation, serverCallback =>{
                     console.log(serverCallback);
                 });
-                return true;
+                return data;
             }else{
-                return false;
+                return data;
             }
         } catch (error) {
             console.log('Error',error);

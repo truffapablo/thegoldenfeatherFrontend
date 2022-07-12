@@ -21,6 +21,9 @@ export const startCustomReservation = (reservation) => {
                  */
                  if (moment(reservation.date).format('YYYY-MM-DD') === today()) {
                     dispatch(addCustomReservation(data.reservation));
+                    socket.emit('new-custom-reservation', data.reservation, serverCallback =>{
+                        console.log(serverCallback);
+                    });
                 }else{
                     dispatch({
                         type: types.reservationAddFuture,
@@ -48,6 +51,7 @@ export const getCustomReservations = () => {
             if (data.ok) {
                 dispatch(setCustomReservations(data.reservations));
                 dispatch(reservationFinishLoading());
+                
             }
         } catch (error) {
             console.log('Error',error);
@@ -66,6 +70,9 @@ export const updateCustomReservation = (id, reservation) => {
                 console.log(data);
                 if (data.ok) {
                     dispatch(reservationCustomUpdate(data.reservation));
+                    socket.emit('update-custom-reservation', data.reservation, serverCallback =>{
+                        console.log(serverCallback);
+                    });
                     return data;
                 }else{
                   return false;
@@ -87,6 +94,9 @@ export const cancelCustomReservation = ({id}) => {
             if (data.ok) {
                 console.log('data',data);
                 dispatch(reservationCancelCustom(data.reservation));
+                socket.emit('cancel-custom-reservation', data.reservation, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 return true;
             }else{
                 return false;
@@ -106,6 +116,9 @@ export const confirmCustomReservation = ({id}) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(reservationCustomConfirm(data.reservation));
+                socket.emit('confirm-custom-reservation', data.reservation, serverCallback =>{
+                    console.log(serverCallback);
+                });
                 return true;
             }else{
                 return false;
@@ -124,9 +137,12 @@ export const completeCustomReservation = ({id}) => {
             const data = await resp.json();
             if (data.ok) {
                 dispatch(reservationCustomComplete(data.reservation));
-                return true;
+                socket.emit('complete-custom-reservation', data.reservation, serverCallback =>{
+                    console.log(serverCallback);
+                });
+                return data;
             }else{
-                return false;
+                return data;
             }
         } catch (error) {
             console.log('Error',error);

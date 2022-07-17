@@ -2,7 +2,7 @@
 export const fetchWithOutToken = async (endpoint, data, method = 'GET') => {
     
     const url = `${process.env.REACT_APP_API_URL}/${endpoint}`;
-
+    
     if(method === 'GET'){
         return fetch(url);
     } else{

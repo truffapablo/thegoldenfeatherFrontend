@@ -56,7 +56,7 @@ import { types } from "../types/types";
 import { UserListView } from '../components/users/UserListView';
 import { UserById } from '../components/users/UserById';
 import { listenSockets } from '../sockets/controller';
-import socket from '../sockets/config';
+
 
 export const AppRouter = () => {
   
@@ -65,6 +65,8 @@ export const AppRouter = () => {
   const {msgError} = useSelector(state => state.ui);
   const navigate = useNavigate();
   const location = useLocation();
+
+  //console.log('Corriendo en process:',process.env);
   
   useEffect(()=>{
     listenSockets(dispatch);
@@ -90,7 +92,7 @@ export const AppRouter = () => {
       dispatch(getReservations());
       dispatch(getCustomReservations());
       dispatch(getTransferReservations())
-      navigate('dashboard/panel');  
+      navigate('dashboard/panel');    
     }
 
     if(role === roles.admin) {

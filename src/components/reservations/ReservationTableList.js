@@ -2,97 +2,106 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { convertDate } from '../../helpers/convertDate'
 import { fnSortByConfirmation, fnSortByDate, fnSortByEvent, fnSortByGuestName, fnSortByRoomNumber, fnSortByStatus, fnSortByTime } from '../../helpers/sortReservations';
+import { reservationStatus } from './reservationStatus';
 
 export const ReservationTableList = ({allReservations, setAllReservations, currentPage, limit, details, customDetails, transferDetails}) => {
   
   
   const [allRe, setAllRe] = useState(allReservations);
   const [filters, setFilters] = useState({
-    confirmation:false,
-    roomNumber:false,
-    guest:false,
-    time:false,
-    status:false,
-    event:false,
+    confirmation  :false,
+    roomNumber    :true,
+    guest         :false,
+    time          :false,
+    status        :false,
+    event         :false,
+    date          :false,
   });
 
   const sortByRoomNumber = () => {
 
-    const sortedByRoomNumber = fnSortByRoomNumber(allReservations, false);
+    const sortedByRoomNumber = fnSortByRoomNumber(allReservations, filters.roomNumber);
     setAllRe(sortedByRoomNumber);
     setFilters({
-      confirmation:false,
-      roomNumber:true,
-      guest:false,
-      time:false,
-      status:false,
-      event:false,
+      roomNumber:!filters.roomNumber,
     });
   }
 
   const sortByConfirmation = () => {
-    const sortedByConfirmation = fnSortByConfirmation(allReservations, false);
+    const sortedByConfirmation = fnSortByConfirmation(allReservations, filters.confirmation);
     setAllRe(sortedByConfirmation);
     setFilters({
-      confirmation:true,
+      confirmation:!filters.confirmation,
     });
   }
 
   const sortByGuestName = () =>{
-    const sortedByGuestName = fnSortByGuestName(allReservations, true);
+    const sortedByGuestName = fnSortByGuestName(allReservations, filters.guest);
     setAllRe(sortedByGuestName);
     setFilters({
-      guest:true,
+      guest:!filters.guest,
     });
   }
   
   const sortByTime = () => {
-    const sortedByTime = fnSortByTime(allReservations, false); 
+    const sortedByTime = fnSortByTime(allReservations, filters.time); 
     setAllRe(sortedByTime);
     setFilters({
-      time:true,
+      time:!filters.time,
     });
     
   }
 
   const sortByEvent = () => {
-    const sortedByEvent = fnSortByEvent(allReservations, true);
+    const sortedByEvent = fnSortByEvent(allReservations, filters.event);
     setAllRe(sortedByEvent);
     setFilters({
-      event:true,
+      event:!filters.event,
     });
   }
 
   const sortByStatus = () => {
-    const sortedByStatus = fnSortByStatus(allReservations, false);
+    const sortedByStatus = fnSortByStatus(allReservations, filters.status);
     setAllRe(sortedByStatus);
     setFilters({
-      status:true,
+      status:!filters.status,
     });
   }
 
   const sortByDate = () =>{
-    const sortedByDate = fnSortByDate(allReservations, true);
+    const sortedByDate = fnSortByDate(allReservations, filters.date);
     setAllRe(sortedByDate);
     setFilters({
-      date:true
+      date:!filters.date
     });
   }
 
   
 
+  const uiStatus = (status) => {
+    switch (status) {
+      case reservationStatus.reservationConfirmed: return <span className="badge bg-primary">{reservationStatus.reservationConfirmed}</span>
+      case reservationStatus.reservationCompleted: return <span className="badge bg-success">{reservationStatus.reservationCompleted}</span>
+      case reservationStatus.reservationCancelled: return <span className="badge bg-danger">{reservationStatus.reservationCancelled}</span>
+      case reservationStatus.reservationPending:   return <span className="badge bg-warning text-dark">{reservationStatus.reservationPending}</span>
+      default:
+        break;
+    }
+  }
+  
+
   useEffect(()=>{
-
+    
     setAllRe(allReservations);
-    filters.roomNumber && sortByRoomNumber();
-    filters.confirmation && sortByConfirmation();
-    filters.guest && sortByGuestName();
-    filters.time && sortByTime();
-    filters.event && sortByEvent();
-    filters.status && sortByStatus();
-    filters.date && sortByDate();
+    filters.roomNumber    && sortByRoomNumber();
+    filters.confirmation  && sortByConfirmation();
+    filters.guest         && sortByGuestName();
+    filters.time          && sortByTime();
+    filters.event         && sortByEvent();
+    filters.status        && sortByStatus();
+    filters.date          && sortByDate();
 
-  },[allReservations])
+  },[])
 
   return (
     <>
@@ -146,7 +155,7 @@ export const ReservationTableList = ({allReservations, setAllReservations, curre
                           :
                           <td>{reservation.time}</td>
                         }
-                        <td>{reservation.status}</td>
+                        <td>{uiStatus(reservation.status)}</td>
 
                     </tr>
                   )

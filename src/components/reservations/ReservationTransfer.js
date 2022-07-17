@@ -1,5 +1,4 @@
 import React from 'react'
-import { PruebaUseState } from './PruebaUseState'
 import { ReservationTransferFormNew } from './ReservationTransferFormNew'
 
 

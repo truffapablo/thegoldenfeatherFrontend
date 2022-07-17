@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { authReducer } from '../reducers/authReducer';
 import { eventReducer } from '../reducers/eventReducer';
 import { logReducer } from '../reducers/logReducer';
+import { notificationReducer } from '../reducers/notificationReducer';
 import { reservationReducer } from '../reducers/reservationReducer';
 import { searchReducer } from '../reducers/searchReducer';
 import { transferReducer } from '../reducers/transferReducer';
@@ -16,5 +17,6 @@ export const store = configureStore({
     transfers: transferReducer,
     logs: logReducer,
     search: searchReducer,
+    notifications: notificationReducer
   },
 });

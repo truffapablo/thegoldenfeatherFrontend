@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 import { types } from "../types/types";
 import socket from "./config";
 
@@ -8,12 +7,15 @@ export const listenSockets = (dispatch) => {
      * TRANSFER SOCKET
      */
 
+    socket.on('user-connected', payload => {
+        console.log(payload);
+    });
+
     socket.on('transfer-created', payload => {
         dispatch({
             type: types.transferAdd,
             payload: payload
         });
-        
     });
     
     socket.on('transfer-deleted', payload => {
@@ -48,6 +50,16 @@ export const listenSockets = (dispatch) => {
             type: types.transferReservationAdd,
             payload: payload
         });
+
+        dispatch({
+            type: types.notificationAdd,
+            payload: {
+                title:'Nueva reserva de transfer',
+                confirmation: payload.confirmation,
+                id: payload.id,
+                pattern:payload.pattern
+            }
+         });
         
     });
 
@@ -92,7 +104,6 @@ export const listenSockets = (dispatch) => {
             type: types.eventAdd,
             payload: payload
         });
-        
     });
     
     socket.on('event-deleted', payload => {
@@ -124,12 +135,21 @@ export const listenSockets = (dispatch) => {
      * EVENT RESERVATION
      */
 
-    socket.on('event-reservation-created', payload => {
+    socket.on('event-reservation-created', eventReservation => {
+        
         dispatch({
             type: types.reservationAdd,
-            payload: payload
+            payload: eventReservation
         });
-        
+        dispatch({
+            type: types.notificationAdd,
+            payload: {
+                title:'Nueva reserva de evento',
+                confirmation: eventReservation.confirmation,
+                id: eventReservation.id,
+                pattern:eventReservation.pattern
+            }
+         });
     });
 
     socket.on('event-reservation-updated', payload => {
@@ -182,6 +202,15 @@ export const listenSockets = (dispatch) => {
             type: types.reservationAddCustom,
             payload: payload
         });
+        dispatch({
+            type: types.notificationAdd,
+            payload: {
+                title:'Nueva reserva personalizada',
+                confirmation: payload.confirmation,
+                id: payload.id,
+                pattern:payload.pattern
+            }
+         });
         
     });
 

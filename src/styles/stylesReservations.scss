@@ -6,6 +6,14 @@ $goldenFeatherWhite:#FDF9F6;
     color: $goldenFeatherWhite
   }
 
+.gf-link-blue {
+    color: $goldenFeatherBlue!important
+  }
+
+.gf-no-decoration {
+    text-decoration: none!important;
+}
+
 .sidebarlink{
     background-color: $goldenFeatherBlue;
     color: $goldenFeatherWhite!important;

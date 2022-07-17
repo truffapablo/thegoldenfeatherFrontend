@@ -86,5 +86,12 @@ export const types = {
     navBarStartSearching:               '[Navbar] Start searching',
     navBarFinishSearching:              '[Navbar] Finish searching',
     navBarSetSearch:                    '[Navbar] Set search',
+
+
+
+    notificationAdd:                    '[Notification] Add',
+    notificationRemove:                 '[Notification] Remove',
+    notificationClearAll:               '[Notification] ClearAll',
+
     
 }   

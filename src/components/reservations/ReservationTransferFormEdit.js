@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import Spinner from 'react-bootstrap/Spinner';
 import moment from 'moment';
 import { today } from '../../helpers/today';
 import { types } from '../../types/types';
@@ -23,6 +24,7 @@ export const ReservationTransferFormEdit = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const transferList = useSelector(state => state.transfers.list);
   const transferReservationList = useSelector(state => state.reservations.transferList);
@@ -104,7 +106,7 @@ export const ReservationTransferFormEdit = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+    setLoading(true);
     dispatch(removeError());
     
     if(transfer === 'other'){
@@ -115,6 +117,7 @@ export const ReservationTransferFormEdit = () => {
       if(Object.keys(errors).length === 0) {  
         dispatch(editTransferReservation(id, {...formValues, transfer:null}))
         .then(response => {
+          setLoading(false);
           if(response.ok) {
       
               Swal.fire({
@@ -168,6 +171,7 @@ export const ReservationTransferFormEdit = () => {
 
               });
           }else{
+              setLoading(false);
               Swal.fire({
                   title: 'Error',
                   text: 'No se ha podido editar la reserva',
@@ -176,6 +180,8 @@ export const ReservationTransferFormEdit = () => {
               });
           }
       })
+      }else{
+        setLoading(false);
       }
 
     }else{
@@ -198,6 +204,7 @@ export const ReservationTransferFormEdit = () => {
       if(Object.keys(objErrors).length === 0){
         dispatch(editTransferReservation(id, objToValidate))
         .then(response => {
+          setLoading(false);
           if(response.ok) {
 
               Swal.fire({
@@ -248,6 +255,7 @@ export const ReservationTransferFormEdit = () => {
                       }
               });
           }else{
+              setLoading(false);
               Swal.fire({
                   title: 'Error',
                   text: 'No se ha podido editar la reserva',
@@ -256,7 +264,9 @@ export const ReservationTransferFormEdit = () => {
               });
           }
       })
-      } 
+      } else{
+        setLoading(false);
+      }
     }
 
     
@@ -312,7 +322,26 @@ export const ReservationTransferFormEdit = () => {
             <textarea name='information' className="form-control" value={information} placeholder="Información adicional" onChange={handleInputChange}></textarea>
             {msgError !== null && msgError.information && <small className="form-text text-danger">{msgError.information}</small>}
         </div>
-        <button type="submit" className="btn btn-primary btn-reserve">Editar Transfer</button>
+        {
+            loading && <button 
+            type="submit" 
+            className="btn btn-reserve"
+            disabled
+            >
+            <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                />
+                {' '}
+                Editando transfer</button>
+        }
+        {
+
+            !loading && <button type="submit" className="btn btn-reserve">Editar transfer</button>
+        }
     </form>
     </>
   )

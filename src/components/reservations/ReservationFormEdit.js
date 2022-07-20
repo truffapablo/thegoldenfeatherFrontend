@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
@@ -26,7 +27,7 @@ export const ReservationFormEdit = () => {
     const {id}                  = useParams();
 
     const reservation = reList.list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
-
+    const [loading, setLoading] = useState(false);
     const [ formValues, handleInputChange, reset ] = useForm({
     
     firstName: reservation.firstName,
@@ -99,7 +100,7 @@ export const ReservationFormEdit = () => {
 
   const handleSubmit = (e) => {
         e.preventDefault();
-
+        setLoading(true);
         dispatch(removeError());
         const errors = validateReservation(formValues);
         dispatch(setError(errors));
@@ -112,6 +113,7 @@ export const ReservationFormEdit = () => {
 
             dispatch(updateReservation(id,editedReservation))
             .then(response => {
+                setLoading(false);
                 if(response.ok) {
 
                     
@@ -177,7 +179,7 @@ export const ReservationFormEdit = () => {
   
 
         }else{
-            console.log(errors);
+            setLoading(false);
         }
 
         
@@ -239,7 +241,26 @@ export const ReservationFormEdit = () => {
             <input type="text" className="form-control" name="roomNumber" value={roomNumber} id="roomNumber" placeholder="Número de habitación" onChange={handleInputChange}/>
             { msgError!==null && msgError.roomNumber && <div className="alert alert-danger">{msgError.roomNumber}</div> }
         </div>
-        <button type="submit" className="btn btn-primary btn-reserve">Editar</button>
+        {
+            loading && <button 
+            type="submit" 
+            className="btn btn-reserve"
+            disabled
+            >
+            <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                />
+                {' '}
+                Editando</button>
+        }
+        {
+
+            !loading && <button type="submit" className="btn btn-reserve">Editar</button>
+        }
         
     </form>
     </div>

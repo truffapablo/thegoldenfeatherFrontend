@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -18,6 +19,8 @@ export const ReservationTransferFormNew = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(false);
 
   const transferList = useSelector(state => state.transfers.list);
 
@@ -62,7 +65,7 @@ export const ReservationTransferFormNew = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+    setLoading(true);
     dispatch(removeError());
     
     if(transfer === 'other'){
@@ -73,6 +76,7 @@ export const ReservationTransferFormNew = () => {
       if(Object.keys(errors).length === 0) {
         dispatch(createTransferReservation({...formValues, transfer:null}))
         .then(response => {
+          setLoading(false);
           if(response) {
 
               Swal.fire({
@@ -93,6 +97,8 @@ export const ReservationTransferFormNew = () => {
               });
           }
       })
+      }else{
+        setLoading(false);
       }
 
     }else{
@@ -113,6 +119,7 @@ export const ReservationTransferFormNew = () => {
       if(Object.keys(objErrors).length === 0){
         dispatch(createTransferReservation(objToValidate))
         .then(response => {
+          setLoading(false);
           if(response) {
 
               Swal.fire({
@@ -133,7 +140,9 @@ export const ReservationTransferFormNew = () => {
               });
           }
       })
-      } 
+      }else{
+        setLoading(false);
+      }
     }
 
     
@@ -207,7 +216,26 @@ export const ReservationTransferFormNew = () => {
             <textarea name='information' className="form-control" value={information} placeholder="Información adicional" onChange={handleInputChange}></textarea>
             {msgError !== null && msgError.information && <small className="form-text text-danger">{msgError.information}</small>}
         </div>
-        <button type="submit" className="btn btn-primary btn-reserve">Reservar Transfer</button>
+        {
+            loading && <button 
+            type="submit" 
+            className="btn btn-reserve"
+            disabled
+            >
+            <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                />
+                {' '}
+                Reservando transfer</button>
+        }
+        {
+
+            !loading && <button type="submit" className="btn btn-reserve">Reservar transfer</button>
+        }
     </form>
     </>
   )

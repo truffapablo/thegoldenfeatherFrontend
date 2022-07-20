@@ -9,12 +9,12 @@ const tz = moment().tz("America/Argentina/Buenos_Aires");
 
 export const getReservations = () => {
     return async(dispatch) => {
-        
         try {
             dispatch(reservationStartLoading());
             const resp = await fetchWithToken('reservations');
             const data = await resp.json();
             if (data.ok) {
+                console.log('SERVER DATA', data);
                 dispatch(setReservations(data.reservations));
                 dispatch(reservationFinishLoading());
             }
@@ -94,6 +94,7 @@ export const confirmReservation = ({id}) => {
                 socket.emit('confirm-event-reservation', data.reservation, serverCallback =>{
                     console.log(serverCallback);
                 });
+
                 return true;
             }else{
                 return false;

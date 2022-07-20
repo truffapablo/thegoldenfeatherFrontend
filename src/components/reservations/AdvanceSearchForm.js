@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Spinner from 'react-bootstrap/Spinner';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { advanceSearch } from '../../actions/search';
 import { useForm } from '../../hooks/useForm';
+import { types } from '../../types/types';
 
 export const AdvanceSearchForm = () => {
 
-
+    const [loading, setLoading] = useState(false);
     const [ formValues, handleInputChange, reset ] = useForm({
         confirmation: '',
         date: '',
@@ -14,22 +16,50 @@ export const AdvanceSearchForm = () => {
         lastName: '',
     });
 
+    const [btnenabled, setBtnEnabled] = useState(false);
+
     const { confirmation, date, event, lastName } = formValues;
 
     const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
+        if(!confirmation && !date && !event && !lastName){return false}
+        
+        setLoading(true);
         dispatch(advanceSearch({
             confirmation: confirmation || null,
             date: date || null,
             event: event || null,
             lastName: lastName || null,
-        }));
+        })).then(rta => {
+            
+            setLoading(false);
+            dispatch({type:types.reservationFinishAdvanceSearch});
+            if(rta.ok){
+                dispatch({
+                    type:types.reservationCleanSearch
+                  });
+                dispatch({
+                    type:types.reservationSetAdvanceSearch,
+                    payload:rta
+                });
+            }{
+                setLoading(false); 
+            }
+        });
 
         //reset();
     }
+
+    useEffect(()=>{
+        if(!confirmation && !date && !event && !lastName){
+            setBtnEnabled(false);
+        }else{
+            setBtnEnabled(true);
+        }
+    },[formValues])
 
   return (
     <>
@@ -53,7 +83,26 @@ export const AdvanceSearchForm = () => {
             <input type="text" value={lastName} className="form-control" name="lastName" id="lastName" placeholder="Apellido" onChange={handleInputChange}/>
         </div>
         <div className='d-grid gap-2'>
-            <button type="submit" className="btn btn-primary btn-reserve">Buscar</button>
+        {
+            loading && <button 
+            type="submit" 
+            className="btn btn-reserve"
+            disabled
+            >
+            <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                />
+                {' '}
+                Buscando</button>
+        }
+        {
+
+            !loading && <button type="submit" className="btn btn-reserve" disabled={!btnenabled} >Buscar</button>
+        }
         </div>
     </form>
     </div>

@@ -13,5 +13,5 @@ export const validateCustomReservation = (reservation) => {
 
     return errors
 
-    
+
 }

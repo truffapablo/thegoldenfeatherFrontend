@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
+import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
@@ -15,7 +16,7 @@ export const ReservationFormNew = () => {
     const navigate = useNavigate();
     const { msgError } = useSelector(state => state.ui);
     const dispatch = useDispatch();
-
+    const [loading, setLoading] = useState(false);
     const {list} = useSelector(state => state.events);
   
     const [ formValues, handleInputChange, reset ] = useForm({
@@ -84,7 +85,7 @@ export const ReservationFormNew = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formValues);
+        setLoading(true)
         
         dispatch(removeError());
         const errors = validateReservation(formValues);
@@ -108,6 +109,7 @@ export const ReservationFormNew = () => {
             
             dispatch(startNewReservation(newReservation))
             .then(response => {
+                setLoading(false);
                 if(response) {
 
                     Swal.fire({
@@ -130,6 +132,8 @@ export const ReservationFormNew = () => {
             })
             
 
+        }else{
+            setLoading(false);
         }
 
         
@@ -190,7 +194,26 @@ export const ReservationFormNew = () => {
             <input type="text" className="form-control" name="roomNumber" value={roomNumber} id="roomNumber" placeholder="Número de habitación" onChange={handleInputChange}/>
             { msgError!==null && msgError.roomNumber && <small className="form-text text-danger">{msgError.roomNumber}</small> }
         </div>
-        <button type="submit" className="btn btn-primary btn-reserve">Reservar</button>
+        {
+            loading && <button 
+            type="submit" 
+            className="btn btn-reserve"
+            disabled
+            >
+            <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                />
+                {' '}
+                Reservando</button>
+        }
+        {
+
+            !loading && <button type="submit" className="btn btn-reserve">Reservar</button>
+        }
         
     </form>
   )

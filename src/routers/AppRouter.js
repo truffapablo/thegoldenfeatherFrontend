@@ -63,10 +63,10 @@ export const AppRouter = () => {
   const dispatch = useDispatch();
   const {checking, uid, role} = useSelector(state => state.auth);
   const {msgError} = useSelector(state => state.ui);
+  const {advanceSearch} = useSelector(state => state.search)
   const navigate = useNavigate();
   const location = useLocation();
-
-  //console.log('Corriendo en process:',process.env);
+  
   
   useEffect(()=>{
     listenSockets(dispatch);
@@ -79,6 +79,15 @@ export const AppRouter = () => {
       }
       
     }
+
+    if(advanceSearch.length > 0){
+      dispatch({
+        type:types.reservationCleanSearch
+      });
+
+    }
+
+    
   },[location]);
 
   useEffect(() => {

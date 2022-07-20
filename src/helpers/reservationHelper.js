@@ -57,7 +57,8 @@ const validateLastName = (lastName) => {
 }
 
 const validateEmail = (email) => {
-  if(email && !validator.isEmail(email)) return 'El email no es válido';
+  //if(email && !validator.isEmail(email)) return 'El email no es válido';
+  if(!validator.isEmail(email)) return 'El email no es válido';
 }
 
 const validatePhone = (phone) => {

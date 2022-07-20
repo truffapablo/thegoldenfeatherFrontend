@@ -24,6 +24,7 @@ export const startLogin = (email, password) => {
                 }));
 
                 document.cookie = `token=${data.token}`;
+                return true;
 
             } else {
                 Swal.fire({
@@ -32,6 +33,7 @@ export const startLogin = (email, password) => {
                     icon: 'error',
                     confirmButtonText: 'Ok'
                 })
+                return false
             }
             
         } catch (error) {

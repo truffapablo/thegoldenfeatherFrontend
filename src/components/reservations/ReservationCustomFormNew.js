@@ -1,4 +1,5 @@
 import moment from 'moment';
+import Spinner from 'react-bootstrap/Spinner';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
@@ -15,7 +16,7 @@ import { InputFormPriceAndCommision } from './InputFormPriceAndCommision';
 
 export const ReservationCustomFormNew = () => {
   
-
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { msgError } = useSelector(state => state.ui);
     const dispatch = useDispatch();
@@ -41,6 +42,7 @@ export const ReservationCustomFormNew = () => {
     const handleSubmit = (e) => {
         
         e.preventDefault();
+        setLoading(true);
         dispatch(removeError());
         const errors = validateCustomReservation(formValues);
         dispatch(setError(errors));
@@ -65,6 +67,7 @@ export const ReservationCustomFormNew = () => {
             
             dispatch(startCustomReservation(newReservation))
             .then(response => {
+                setLoading(false);
                 if(response) {
 
                     Swal.fire({
@@ -87,13 +90,13 @@ export const ReservationCustomFormNew = () => {
             })
             
 
+        }else{
+            setLoading(false);
         }
-
-        
 
     }   
       
-
+  
   return (
 
     <form onSubmit={handleSubmit} className="row g-3 animate__animated animate__fadeIn">
@@ -107,7 +110,26 @@ export const ReservationCustomFormNew = () => {
             formValues={formValues}
             handleInputChange={handleInputChange}  
         />
-        <button type="submit" className="btn btn-primary btn-reserve">Reservar</button>
+        {
+            loading && <button 
+            type="submit" 
+            className="btn btn-reserve"
+            disabled
+            >
+            <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                />
+                {' '}
+            Reservando</button>
+        }
+        {
+
+            !loading && <button type="submit" className="btn btn-reserve">Reservar</button>
+        }
         
     </form>
   )

@@ -15,7 +15,7 @@ export const ReservationById = () => {
   const { list } = useSelector(state => state.reservations);
   const {advanceSearch} = useSelector(state => state.search);
   const {id} = useParams();
- 
+
   //const reservation = list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
   
   const [reservation, setReservation] = useState(false);
@@ -205,7 +205,18 @@ export const ReservationById = () => {
                 <li>Habitación: #{reservation.roomNumber}</li>
                 <li>Cantidad de personas: {reservation.peopleQuantity}</li>
                 <br/>
-                {reservation.email ? <li>Email: {reservation.email} <EmailNotificationButton email={reservation.email}/></li> : <li>Email: sin registro</li>}
+                {
+                reservation.email ? 
+                    <li>Email: {reservation.email} 
+                    <EmailNotificationButton 
+                    email={reservation.email} 
+                    reservation={reservation} 
+                    />
+                    
+                    </li> 
+                    : 
+                    <li>Email: sin registro</li>
+                }
                 {reservation.phone ? <li>Teléfono: {reservation.phone}</li> : <li>Teléfono: sin registro</li>}
                 <hr/>
                 <li>Estado de la reserva: <strong>{reservation.status}</strong></li>

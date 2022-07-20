@@ -1,4 +1,5 @@
-import React , { useEffect }from 'react';
+import React , { useEffect, useState }from 'react';
+import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { startLogin } from '../../actions/auth';
@@ -7,6 +8,8 @@ import { useForm } from '../../hooks/useForm';
 import {Logo} from '../logo/Logo';
 
 export const LoginForm = () => {
+
+  const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch();
   const { msgError} = useSelector( state => state.ui);
@@ -18,12 +21,15 @@ export const LoginForm = () => {
   const {email, password} = formValues;
 
   const handleLogin = (e)=>{
+    setLoading(true)
     e.preventDefault();
     const {isValid, errors} = validateLogin(email,password);
     if(!isValid){
       return false;
     }
-    dispatch(startLogin(email, password));
+    dispatch(startLogin(email, password)).then(rta=>{
+      setLoading(false)
+    });
   }
   
 
@@ -56,11 +62,35 @@ export const LoginForm = () => {
                 />
             </div>
             <div className='d-grid gap-2'>
-            <button
-            id='gf-btn-login'
-            type="submit" 
-            className="btn btn-primary btn-block"
-            >Iniciar sesión</button>
+            {
+              !loading && 
+              <button
+              id='gf-btn-login'
+              type="submit" 
+              className="btn btn-primary btn-block"
+              >Iniciar sesión
+              </button>
+            }
+            {
+              loading && 
+              <button
+              id='gf-btn-login'
+              type="submit" 
+              className="btn btn-primary btn-block"
+              disabled
+              >
+                <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+                {' '} Iniciar sesión
+              </button>
+            }
+            
+            
             </div>
             
             {/* <div className='mt-2'>

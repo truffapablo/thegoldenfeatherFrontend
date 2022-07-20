@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
+import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
@@ -19,7 +20,7 @@ export const ReservationCustomFormEdit = () => {
     const { msgError } = useSelector(state => state.ui);
     const dispatch = useDispatch();
     const navigate = useNavigate();
- 
+    const [loading, setLoading] = useState(false);
 
     const {customList}  = useSelector(state => state.reservations);
     const {advanceSearch}       = useSelector(state => state.search);
@@ -48,7 +49,7 @@ export const ReservationCustomFormEdit = () => {
   
   const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formValues);
+        setLoading(true);
         dispatch(removeError());
         const errors = validateReservation(formValues);
         dispatch(setError(errors));
@@ -72,6 +73,7 @@ export const ReservationCustomFormEdit = () => {
             }
             dispatch(updateCustomReservation(id,editedReservation))
             .then(response => {
+                setLoading(false);
                 if(response.ok) {
 
                     Swal.fire({
@@ -124,6 +126,7 @@ export const ReservationCustomFormEdit = () => {
 
                     });
                 }else{
+                    setLoading(false);
                     Swal.fire({
                         title: 'Error',
                         text: 'No se ha podido editar la reserva',
@@ -135,6 +138,7 @@ export const ReservationCustomFormEdit = () => {
             
 
         }else{
+            setLoading(false);
             console.log(errors);
         }
 
@@ -202,8 +206,26 @@ export const ReservationCustomFormEdit = () => {
             <input type="text" className="form-control" name="commission" value={commission} id="commission" placeholder="Comisión" onChange={handleInputChange}/>
             { msgError!==null && msgError.commission && <div className="alert alert-danger">{msgError.commission}</div> }
         </div>
-        <button type="submit" className="btn btn-primary btn-reserve">Editar</button>
-        
+        {
+            loading && <button 
+            type="submit" 
+            className="btn btn-reserve"
+            disabled
+            >
+            <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                />
+                {' '}
+                Editando</button>
+        }
+        {
+
+            !loading && <button type="submit" className="btn btn-reserve">Editar</button>
+        }
     </form>
   )
 }   

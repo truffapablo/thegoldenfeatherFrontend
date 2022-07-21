@@ -15,10 +15,14 @@ export const ReservationList = () => {
     const { advanceSearch } = useSelector(state => state.search);
     const dispatch = useDispatch();
     
-    const allReservations = [...list, ...customList, ...transferList];
+    //const allReservations = [...list, ...customList, ...transferList];
 
+    const [allReservations, setAllReservations] = useState([...list, ...customList, ...transferList])
     
-    
+    useEffect(()=>{
+        setAllReservations([...list, ...customList, ...transferList])
+    },[list, customList, transferList])
+
     const navigate = useNavigate();
 
 
@@ -91,7 +95,6 @@ export const ReservationList = () => {
         setPages(Math.ceil(news.length / limit));
 
     },[news]);
-
 
     const handlePage = (page) => {
         setCurrentPage(page);

@@ -63,6 +63,10 @@ export const EventById = () => {
     
   }
 
+  const reserveEvent = (id) => {
+    navigate(`/dashboard/reservations/new/${id}`);
+  }
+
 
   return (
     <div className='container mt-5 animate__animated animate__fadeIn'>
@@ -84,6 +88,7 @@ export const EventById = () => {
             <li>Ciudad: {event.city}</li>
             
           </ul>
+          <button className='btn btn-reserve mt-2' onClick={()=>{reserveEvent(event.id)}}>Reservar</button>
           </div>
           </div>
           {

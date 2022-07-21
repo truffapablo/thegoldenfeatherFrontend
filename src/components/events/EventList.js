@@ -7,7 +7,12 @@ export const EventList = () => {
   const {list} = useSelector(state => state.events);
   const details = (id) => {
     navigate(`/dashboard/events/${id}`);
-} 
+  }
+
+  const reserveEvent = (id) => {
+    navigate(`/dashboard/reservations/new/${id}`);
+  }
+  
   return (
         <div className='animate__animated animate__fadeIn'>
             {
@@ -24,6 +29,8 @@ export const EventList = () => {
                                 <p className="card-text">{event.description}</p>
                                 <p className="card-text"><small className="text-muted">Días: {event.schedule}</small></p>
                                 <a className='cpointer' onClick={()=>{details(event.id)}}><button className='btn btn-reserve'>Ver detalles</button></a>
+                                {' '}
+                                <a className='cpointer' onClick={()=>{reserveEvent(event.id)}}><button className='btn btn-reserve'>Reservar</button></a>
                             </div>
                         </div>
                         </div>

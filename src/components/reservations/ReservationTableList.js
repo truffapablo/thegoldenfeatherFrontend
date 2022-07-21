@@ -18,6 +18,17 @@ export const ReservationTableList = ({allReservations, setAllReservations, curre
     date          :false,
   });
 
+  useEffect(()=>{
+    setAllRe(allReservations);
+    filters.roomNumber    && sortByRoomNumber();
+    filters.confirmation  && sortByConfirmation();
+    filters.guest         && sortByGuestName();
+    filters.time          && sortByTime();
+    filters.event         && sortByEvent();
+    filters.status        && sortByStatus();
+    filters.date          && sortByDate();
+  },[allReservations])
+
   const sortByRoomNumber = () => {
 
     const sortedByRoomNumber = fnSortByRoomNumber(allReservations, filters.roomNumber);

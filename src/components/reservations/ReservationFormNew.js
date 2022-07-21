@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 
 import { startNewReservation } from '../../actions/reservation';
@@ -12,7 +12,7 @@ import { useForm } from '../../hooks/useForm';
 import { SelectEvent } from './SelectEvent';
 export const ReservationFormNew = () => {
   
-
+    const {id} = useParams();
     const navigate = useNavigate();
     const { msgError } = useSelector(state => state.ui);
     const dispatch = useDispatch();
@@ -31,6 +31,7 @@ export const ReservationFormNew = () => {
     event: '',
   });
 
+  
 
   const { event, firstName, lastName, date, peopleQuantity, roomNumber, time, email, phone} = formValues;
 
@@ -45,19 +46,45 @@ export const ReservationFormNew = () => {
          });
          navigate('/dashboard/events/new');
     }else{
+        /**
+         * Si no hay params seteo el primer evento por defecto.
+         */
+        if(!id){
+            handleInputChange({
+                target: {
+                    name: 'time',
+                    value: list[0].start
+                }
+            });
+            handleInputChange({
+                target: {
+                    name: 'event',
+                    value: list[0].id
+                }
+            });
 
-        handleInputChange({
-            target: {
-                name: 'time',
-                value: list[0].start
+        }else{
+            const selectedByParams = list.find(ev => ev.id === id);
+            if(selectedByParams) {
+                
+                const index = list.indexOf(selectedByParams)
+    
+                handleInputChange({
+                    target: {
+                        name: 'time',
+                        value: list[index].start
+                    }
+                });
+                handleInputChange({
+                    target: {
+                        name: 'event',
+                        value: list[index].id
+                    }
+                });
             }
-        });
-        handleInputChange({
-            target: {
-                name: 'event',
-                value: list[0].id
-            }
-        });
+
+        }
+
      
     }
    

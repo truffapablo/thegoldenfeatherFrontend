@@ -107,7 +107,6 @@ export const AppRouter = () => {
     if(role === roles.admin) {
       dispatch(getUsers());
     }
-
   } , [dispatch, uid]);
   
   if(checking){
@@ -149,6 +148,7 @@ export const AppRouter = () => {
               <Route path='reservations' element={<ReservationView/>}>       
                 <Route index element={<ReservationList />}/>  
                 <Route path="new" element={<ReservationNew />} />
+                <Route path="new/:id" element={<ReservationNew />} />
                 <Route path="custom" element={<ReservationCustom />} />
                 <Route path="transfer" element={<ReservationTransfer />} />
                 <Route path="list" element={<ReservationList />} />  

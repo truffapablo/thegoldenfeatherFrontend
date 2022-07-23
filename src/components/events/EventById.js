@@ -1,9 +1,11 @@
 import React from 'react'
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { deleteEvent } from '../../actions/events';
 import { roles } from '../../types/role';
+import { firstLetterToUpperCase } from '../../helpers/firstLetterToUpperCase';
 
 export const EventById = () => {
 
@@ -79,7 +81,22 @@ export const EventById = () => {
             <li>Descripción: {event.description}</li>
             <li>Precio: ${event.price} {event.currency}</li>
             <li>Comisión: ${event.commission} {event.currency}</li>
-            <li>Cronograma: {event.schedule}</li>
+            {
+              event.schedule &&
+              <li>Cronograma: {event.schedule.map((day, index)=>{
+                return(
+                  <span key={index}>
+                    {event.schedule.length !== index + 1 ? `${firstLetterToUpperCase(moment().day(day).format('dddd'))}, `:` ${firstLetterToUpperCase(moment().day(day).format('dddd'))}.`}
+                  </span>
+                )
+              })}</li>
+            }
+            {
+              event.date &&
+              <li>
+                Fecha: {moment.utc(event.date).format('DD-MM-YYYY')}
+              </li>
+            }
             <li>Empieza: {event.start}hs</li>
             <li>Termina: {event.end}hs</li>
             <hr/>

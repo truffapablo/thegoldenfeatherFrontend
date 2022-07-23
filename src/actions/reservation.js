@@ -14,7 +14,7 @@ export const getReservations = () => {
             const resp = await fetchWithToken('reservations');
             const data = await resp.json();
             if (data.ok) {
-                console.log('SERVER DATA', data);
+                //console.log('SERVER DATA', data);
                 dispatch(setReservations(data.reservations));
                 dispatch(reservationFinishLoading());
             }

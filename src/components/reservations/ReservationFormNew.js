@@ -1,8 +1,11 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { addDays } from "date-fns";
 import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 
 import { startNewReservation } from '../../actions/reservation';
@@ -19,104 +22,97 @@ export const ReservationFormNew = () => {
     const [loading, setLoading] = useState(false);
     const {list} = useSelector(state => state.events);
   
-    const [ formValues, handleInputChange, reset ] = useForm({
+const [ formValues, handleInputChange, reset ] = useForm({
     firstName: '',
     lastName: '',
     email:'',
     phone: '',
-    date: '',
-    time: '',
     peopleQuantity: '',
     roomNumber: '',
-    event: '',
   });
 
   
 
-  const { event, firstName, lastName, date, peopleQuantity, roomNumber, time, email, phone} = formValues;
+const {firstName, lastName, peopleQuantity, roomNumber, email, phone} = formValues;
 
-  useEffect(() => {
-    if(list.length == 0 || list === undefined || list === null) {
+const [date, setDate] = useState('')
+const [time, setTime] = useState('')
+const [event, setEvent] = useState('')
+
+
+const [disableDate, setDisableDate] = useState(false);
+
+
+useEffect(()=>{
+
+    if(list.length === 0 || list === undefined || list === null){
+        return <Navigate to="/"/>
+    }
+
+    if(id){
+        const eventByParamsId = list.find(event => event.id === id);
+        if(eventByParamsId){
+
+            setEvent(eventByParamsId.id)
+
+            setTime(eventByParamsId.start)
         
-        Swal.fire({
-             title: 'No hay eventos',
-             text: 'No se puede crear una reserva de evento sin eventos. Por favor, cree un evento.',
-             icon: 'info',
-             confirmButtonText: 'Aceptar'
-         });
-         navigate('/dashboard/events/new');
-    }else{
-        /**
-         * Si no hay params seteo el primer evento por defecto.
-         */
-        if(!id){
-            handleInputChange({
-                target: {
-                    name: 'time',
-                    value: list[0].start
-                }
-            });
-            handleInputChange({
-                target: {
-                    name: 'event',
-                    value: list[0].id
-                }
-            });
-
-        }else{
-            const selectedByParams = list.find(ev => ev.id === id);
-            if(selectedByParams) {
-                
-                const index = list.indexOf(selectedByParams)
-    
-                handleInputChange({
-                    target: {
-                        name: 'time',
-                        value: list[index].start
-                    }
-                });
-                handleInputChange({
-                    target: {
-                        name: 'event',
-                        value: list[index].id
-                    }
-                });
+            if(eventByParamsId.date){
+                setDate(moment.utc(eventByParamsId.date).format('YYYY-MM-DD'))
+                setDisableDate(true)
+            }else{
+                setDate('')
+                setDisableDate(false)
             }
-
         }
 
-     
-    }
-   
-
-  } , [list]);
-
-  useEffect(() => {
-      if(list && list.length > 0) {
-    
-        let eventExists = list.find(ev => ev.id === event);
+    }else{
         
-        if(eventExists){
-            handleInputChange({
-                target: {
-                    name: 'time',
-                    value: eventExists.start
-                }
-            });
-            
+        setEvent(list[0].id);
+
+        setTime(list[0].start)
+        if(list[0].date){
+            setDate(moment.utc(list[0].date).format('YYYY-MM-DD'))
+            setDisableDate(true)
         }
     }
 
-  } , [event]);
+},[])
+
+useEffect(()=>{
+    
+    const eventChange = list.find(item => item.id === event)
+    if(eventChange){
+        setTime(eventChange.start)
+        
+        if(eventChange.date){
+            setDate(moment.utc(eventChange.date).format('YYYY-MM-DD'))
+            setDisableDate(true)
+        }else{
+            setDate('')
+            setDisableDate(false)
+        }
+    }
+},[event])
+
+
+  
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
         setLoading(true)
         
         dispatch(removeError());
-        const errors = validateReservation(formValues);
+        const errors = validateReservation({
+            ...formValues,
+            date,
+            time,
+            event
+        });
         dispatch(setError(errors));
+
 
         if(Object.keys(errors).length === 0) {
 
@@ -166,18 +162,32 @@ export const ReservationFormNew = () => {
         
 
     }   
-      
 
+    const changeDate = (e) =>  {
+        const eventChange = list.find(item => item.id === event)
+        if(eventChange.schedule){
+            const selectedDay = moment.utc(e.target.value).day()
+            if(eventChange.schedule.includes(selectedDay)){
+                alert('No podes elegir esa fecha')
+            }else{
+                setDate(e.target.value)
+            }
+
+        }else{
+            setDate(e.target.value)
+        }
+    }
+      
+    const [startDate, setStartDate] = useState(new Date());
   return (
 
     <form onSubmit={handleSubmit} className="row g-3 animate__animated animate__fadeIn">
-        
         <div className="form-group">
         <label htmlFor="event">Evento:</label>
             <SelectEvent 
                 event={event}
                 list={list}
-                handleInputChange={handleInputChange}
+                setEvent={setEvent}
             />
         </div>
         <div className="form-group col-md-6">
@@ -203,12 +213,29 @@ export const ReservationFormNew = () => {
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="date">Fecha</label>
-            <input type="date" className="form-control" name="date" value={date} id="date" placeholder="Fecha" onChange={handleInputChange}/>
+            <input 
+            type="date" 
+            className="form-control" 
+            name="date" 
+            value={date} 
+            id="date" 
+            placeholder="Fecha" 
+            disabled={disableDate}
+            onChange={(e)=>{changeDate(e)}}
+            
+            />
+            {/* <DatePicker 
+                selected={startDate} 
+                onChange={(date:Date) => setStartDate(date)} 
+                excludeDates={[addDays(new Date(),3)]}
+                
+                
+                /> */}
             { msgError!==null && msgError.date && <small className="form-text text-danger">{msgError.date}</small> }
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="time">Horario</label>
-            <input type="time" disabled className="form-control" name="time" value={time} id="time" placeholder="Horario" onChange={handleInputChange}/>
+            <input type="time" disabled className="form-control" name="time" value={time} id="time" placeholder="Horario" onChange={(e)=>{setTime(e.target.value)}}/>
             { msgError!==null && msgError.time && <small className="form-text text-danger">{msgError.time}</small> }
         </div>
         <div className="form-group col-md-6">

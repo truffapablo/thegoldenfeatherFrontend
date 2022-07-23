@@ -3,14 +3,13 @@ import validator from 'validator';
 
 export function validateEvent(event){
     const errors = {};
-    const {title, description, price, commission, currency, schedule, start, end, location, address, city} = event;
+    const {title, description, price, commission, currency, schedule, date, start, end, location, address, city} = event;
 
     if(!title) errors.title = 'El título es obligatorio';
     if(!description) errors.description = 'La descripción es obligatoria';
     if(!price) errors.price = 'El precio es obligatorio';
     if(!commission) errors.commission = 'La comisión es obligatoria';
     if(!currency) errors.currency = 'La moneda es obligatoria';
-    if(!schedule) errors.schedule = 'El horario es obligatorio';
     if(!start) errors.start = 'La fecha de inicio es obligatoria';
     if(!end) errors.end = 'La fecha de fin es obligatoria';
     if(!location) errors.location = 'La ubicación es obligatoria';
@@ -22,7 +21,24 @@ export function validateEvent(event){
     if(typeof parseFloat(price) !== 'number') errors.price = 'El precio debe ser un número';
     if(typeof parseFloat(commission) !== 'number') errors.commission = 'La comisión debe ser un número';
     if(currency.length < 3 || currency.length > 50 ) errors.currency = 'La moneda debe tener entre 3 y 50 caracteres';
-    if(schedule.length < 3 || schedule.length > 5000 ) errors.schedule = 'El horario debe tener entre 3 y 5000 caracteres';
+    
+    if(schedule){
+        if(schedule.length === 0){
+            errors.schedule = 'Debes seleccionar un día como mínimo.'
+        }
+    }
+
+    if(date) {
+        if(!date) errors.date = 'La fecha es obligatoria';
+        if(!validator.isDate(date)) errors.date =  'La fecha no es válida';
+    }
+
+    if(!date && !schedule) {
+        errors.date = 'La fecha es obligatoria';
+        errors.schedule = 'Debes seleccionar un día como mínimo.'
+    }
+    
+    //if(schedule.length < 3 || schedule.length > 5000 ) errors.schedule = 'El horario debe tener entre 3 y 5000 caracteres';
     if(location.length < 3 || location.length > 300 ) errors.location = 'La ubicación debe tener entre 3 y 300 caracteres';
     if(address.length < 3 || address.length > 300 ) errors.address = 'La dirección debe tener entre 3 y 300 caracteres';
     if(city.length < 3 || city.length > 300 ) errors.city = 'La ciudad debe tener entre 3 y 300 caracteres';

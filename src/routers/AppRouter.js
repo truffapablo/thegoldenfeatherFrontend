@@ -101,7 +101,8 @@ export const AppRouter = () => {
       dispatch(getReservations());
       dispatch(getCustomReservations());
       dispatch(getTransferReservations())
-      navigate('dashboard/panel');    
+      //navigate('dashboard/panel');    
+      navigate('dashboard/reservations/new');    
     }
 
     if(role === roles.admin) {

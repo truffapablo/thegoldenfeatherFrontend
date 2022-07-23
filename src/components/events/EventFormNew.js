@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -11,13 +11,72 @@ export const EventFormNew = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { msgError } = useSelector(state => state.ui);
+
+  const [dateOptions, setDateOptions] = React.useState([
+    'Fecha específica',
+    'Fecha abierta',
+  ]);
+
+  const [selectedDateType, setSelectedDateType] = React.useState({
+    specific: false,
+    open: true,
+  });
+
+  const [specificDate, setSpecificDate] = useState('');
+
+  useEffect(()=>{
+    setSelectedDateType({
+        specific: true,
+        open: false,
+      });
+  },[])
+
+  const handelSelectDateOption = (e) => {
+    if (e.target.value === 'Fecha específica') {
+        setDaySchedule([])
+        setSelectedDateType({
+          specific: true,
+          open: false,
+        });
+      } else {
+        setSelectedDateType({
+          specific: false,
+          open: true,
+        });
+      }
+  }
+
+  const {specific, open} = selectedDateType;
+
+  const availableDays = [
+    'Domingo',
+    'Lunes',
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado',
+  ];
+
+  const [daySchedule, setDaySchedule] = React.useState([]);
+
+  const handleDaySchedule = (e) => {
+    if (daySchedule.includes(e.target.value)) {
+      //console.log('existe en el array...hay q quitarlo');
+      const days = daySchedule.filter((days) => days !== e.target.value);
+      setDaySchedule(days);
+    } else {
+      //console.log('NO existe en el array...hay q agregarlo');
+      setDaySchedule([...daySchedule, e.target.value]);
+    }
+  };
+
   const [formValues, handleInputChange, reset] = useForm({
       title: '',
       description: '',
       price:'',
       commission:'',
       currency:'',
-      schedule:'',
       start:'',
       end:'',
       location:'',
@@ -26,22 +85,39 @@ export const EventFormNew = () => {
 
   });
 
-  const {title, description, price, commission, currency, schedule, start, end, location, address, city} = formValues;
+  const {title, description, price, commission, currency, start, end, location, address, city} = formValues;
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let data = null;
+    if(selectedDateType.specific){
+        data = {
+            ...formValues,
+            schedule:null,
+            date:specificDate
+        }
+    }else{
 
+        data = {
+            ...formValues,
+            schedule:daySchedule,
+            date:null
+        }
+    }
+    
+    
     dispatch(removeError());
-    const errors = validateEvent(formValues);
+    const errors = validateEvent(data);
     dispatch(setError(errors));
-
+    
     if(Object.keys(errors).length === 0) {
       dispatch(removeError());
       
-      const newEvent =  {
+      /* const newEvent =  {
         ...formValues,
-      }
-      dispatch(createEvent(newEvent))
+      } */
+      //dispatch(createEvent(newEvent))
+      dispatch(createEvent(data))
       .then((response) => {
         if(response) {
 
@@ -68,6 +144,16 @@ export const EventFormNew = () => {
 
     }
   }
+
+  useEffect(()=>{
+    /**
+     * Aca realizamos el sort
+     */
+    
+    let copy  = daySchedule;
+    copy.sort()
+    setDaySchedule(copy)
+  },[daySchedule])
 
 
   return (
@@ -113,10 +199,72 @@ export const EventFormNew = () => {
             { msgError!==null && msgError.currency && <small className="form-text text-danger">{msgError.currency}</small> }
         </div>
         <div className="form-group col-md-12">
+        <label htmlFor="selectDateOption">Seleccionar Fecha:</label>
+        <select
+          id="selectDateOption"
+          className="form-select mb-3"
+          aria-label="Default select example"
+          onChange={handelSelectDateOption}
+        >
+            {dateOptions.map((opt, index) => {
+            return (
+              <option key={index} value={opt}>
+                {opt}
+              </option>
+            );
+          })}
+
+        </select>
+        {specific && (
+          <div className="col">
+            <input 
+            type="date" 
+            className="form-control mb-3" 
+            name="date"
+            value={specificDate}
+            onChange={(e)=>{setSpecificDate(e.target.value)}}
+            />
+          </div>
+          
+        )}
+        { specific && msgError!==null && msgError.schedule && <small className="form-text text-danger">{/* msgError.schedule */ 'La fecha es obligatoria.'}</small> }
+        {open &&
+          <div>
+          <p>Seleccionar días hábiles:</p>  
+          
+          {
+            
+          availableDays.map((day, index) => {
+            return (
+              <div className="form-check form-check-inline mb-3" key={index}>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value={index}
+                  id={index}
+                  name={day}
+                  onChange={handleDaySchedule}
+                />
+                <label className="form-check-label" htmlFor={index}>
+                  {day}
+                </label>
+              </div>
+              
+            );
+            
+          })}
+          
+          </div>
+          
+          }
+          { open && msgError!==null && msgError.schedule && <small className="form-text text-danger">{msgError.schedule}</small> }
+        </div>
+
+        {/* <div className="form-group col-md-12">
             <label htmlFor="schedule">Cronograma:</label>
             <textarea name='schedule' className="form-control" value={schedule} placeholder="Cronograma" onChange={handleInputChange}></textarea>
             { msgError!==null && msgError.schedule && <small className="form-text text-danger">{msgError.schedule}</small> }
-        </div>
+        </div> */}
         <div className="form-group col-md-6">
             <label htmlFor="start">Empieza:</label>
             <input type="time" className="form-control" name="start" value={start} id="start" placeholder="Empieza" onChange={handleInputChange}/>

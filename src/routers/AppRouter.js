@@ -80,12 +80,12 @@ export const AppRouter = () => {
       
     }
 
-    if(advanceSearch.length > 0){
+    /* if(advanceSearch.length > 0){
       dispatch({
         type:types.reservationCleanSearch
       });
 
-    }
+    } */
 
     
   },[location]);
@@ -101,8 +101,8 @@ export const AppRouter = () => {
       dispatch(getReservations());
       dispatch(getCustomReservations());
       dispatch(getTransferReservations())
-      //navigate('dashboard/panel');    
-      navigate('dashboard/reservations/new');    
+      navigate('dashboard/panel');    
+      //navigate('dashboard/reservations/new');    
     }
 
     if(role === roles.admin) {

@@ -25,7 +25,7 @@ export const ReservationById = () => {
     
     if(advanceSearch.data){
       const algo = list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
-      console.log('ALGO----',algo);
+      
       setReservation(list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id));
     }else{
       setReservation(list.find(reservation => reservation.id === id));

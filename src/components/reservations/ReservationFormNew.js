@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { addDays } from "date-fns";
+import { addDays, getDay, subDays } from "date-fns";
 import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate, useParams } from "react-router-dom";
@@ -39,6 +39,8 @@ const [date, setDate] = useState('')
 const [time, setTime] = useState('')
 const [event, setEvent] = useState('')
 
+const [availableDates, setAvailableDates] = useState([0,1,2,3,4,5,6]);
+
 
 const [disableDate, setDisableDate] = useState(false);
 
@@ -60,20 +62,25 @@ useEffect(()=>{
             if(eventByParamsId.date){
                 setDate(moment.utc(eventByParamsId.date).format('YYYY-MM-DD'))
                 setDisableDate(true)
+                setAvailableDates([0,1,2,3,4,5,6]);
             }else{
                 setDate('')
                 setDisableDate(false)
+                setAvailableDates(eventByParamsId.schedule);
             }
         }
 
     }else{
-        
         setEvent(list[0].id);
 
         setTime(list[0].start)
+
         if(list[0].date){
             setDate(moment.utc(list[0].date).format('YYYY-MM-DD'))
             setDisableDate(true)
+            setAvailableDates([0,1,2,3,4,5,6]);
+        }else{
+            setAvailableDates(list[0].schedule);
         }
     }
 
@@ -87,16 +94,15 @@ useEffect(()=>{
         
         if(eventChange.date){
             setDate(moment.utc(eventChange.date).format('YYYY-MM-DD'))
-            setDisableDate(true)
+            setDisableDate(true);
+            setAvailableDates([0,1,2,3,4,5,6]);
         }else{
             setDate('')
-            setDisableDate(false)
+            setDisableDate(false);
+            setAvailableDates(eventChange.schedule);
         }
     }
 },[event])
-
-
-  
 
 
     const handleSubmit = (e) => {
@@ -113,7 +119,6 @@ useEffect(()=>{
         });
         dispatch(setError(errors));
 
-
         if(Object.keys(errors).length === 0) {
 
             dispatch(removeError());
@@ -126,7 +131,7 @@ useEffect(()=>{
                 roomNumber,
                 email,
                 phone,
-                date,
+                date:moment.utc(date).format('YYYY-MM-DD'),
                 time: moment(time, 'HH:mm').format('HH:mm'),
             }
             
@@ -162,23 +167,17 @@ useEffect(()=>{
         
 
     }   
-
-    const changeDate = (e) =>  {
-        const eventChange = list.find(item => item.id === event)
-        if(eventChange.schedule){
-            const selectedDay = moment.utc(e.target.value).day()
-            if(eventChange.schedule.includes(selectedDay)){
-                alert('No podes elegir esa fecha')
-            }else{
-                setDate(e.target.value)
-            }
-
-        }else{
-            setDate(e.target.value)
-        }
-    }
-      
-    const [startDate, setStartDate] = useState(new Date());
+    
+    const isWeekday = (date) => {
+        
+        const day = getDay(date);
+        let copyAvailableDates = [];
+        availableDates.map(item => {
+            copyAvailableDates.push(parseInt(item))
+        });
+        return copyAvailableDates.includes(day);
+       
+    };
   return (
 
     <form onSubmit={handleSubmit} className="row g-3 animate__animated animate__fadeIn">
@@ -211,7 +210,9 @@ useEffect(()=>{
             <input type="text" className="form-control" name="phone" value={phone} id="phone" placeholder="Teléfono" onChange={handleInputChange}/>
             { msgError!==null && msgError.phone && <small className="form-text text-danger">{msgError.phone}</small> }
         </div>
-        <div className="form-group col-md-6">
+        {
+            disableDate &&
+            <div className="form-group col-md-6">
             <label htmlFor="date">Fecha</label>
             <input 
             type="date" 
@@ -220,19 +221,22 @@ useEffect(()=>{
             value={date} 
             id="date" 
             placeholder="Fecha" 
-            disabled={disableDate}
-            onChange={(e)=>{changeDate(e)}}
-            
+            disabled
             />
-            {/* <DatePicker 
-                selected={startDate} 
-                onChange={(date:Date) => setStartDate(date)} 
-                excludeDates={[addDays(new Date(),3)]}
-                
-                
-                /> */}
-            { msgError!==null && msgError.date && <small className="form-text text-danger">{msgError.date}</small> }
-        </div>
+            </div>
+        }{
+            !disableDate &&
+            <div className="form-group col-md-6 animate__animated animate__fadeIn">
+                <label htmlFor="date">Fecha</label>
+                <DatePicker
+                    onChange={(date) => setDate(date)} 
+                    filterDate={isWeekday}
+                    minDate={subDays(new Date(), 0)}
+                    inline
+                />
+                { msgError!==null && msgError.date && <small className="form-text text-danger">{msgError.date}</small> }
+            </div>
+        }
         <div className="form-group col-md-6">
             <label htmlFor="time">Horario</label>
             <input type="time" disabled className="form-control" name="time" value={time} id="time" placeholder="Horario" onChange={(e)=>{setTime(e.target.value)}}/>

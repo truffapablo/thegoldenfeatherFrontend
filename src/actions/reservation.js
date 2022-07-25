@@ -141,7 +141,7 @@ export const updateReservation = (id, reservation) => {
 
                     return data;
                 }else{
-                  return false;
+                  return data;
                   
                 }
             } catch (error) {

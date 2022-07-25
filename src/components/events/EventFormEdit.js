@@ -114,15 +114,12 @@ const {title, description, price, commission, currency, start, end, location, ad
                 schedule:null,
                 date:specificDate
               }
-              console.log('DATE',data.date);
             }else{
               data = {
                 ...formValues,
                 schedule:daySchedule,
                 date:null
               }
-              
-              console.log('SCHEDULE',data.schedule);
         }
       
         dispatch(removeError());

@@ -1,10 +1,15 @@
 import React from 'react'
 import { Bar, Line, Pie } from 'react-chartjs-2'
 import {Chart as ChartJS} from 'chart.js/auto';
+import moment from 'moment';
 
 
 
-export const LineChart = () => {
+export const LineChart = (month) => {
+
+  let box = Array.from(Array(moment().daysInMonth()), (_, i) => i + 1)
+
+    console.log(box);
   return (
     <>
     <Line

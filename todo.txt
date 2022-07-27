@@ -1,12 +1,64 @@
 
 
-Rutas exclusivas admin
+Reportes
+=========================================
 
-Eventos - nuevo
+[Input Fecha]
 
-registro de usuarios
+Pantalla inicial
++ Reporte del dia
+    +Ganancias
+    +Perdidas
+    +Ganancias pendientes
 
++ Detalles
 
-Filtros para Employee
+    Reservas de Eventos
+    ===================
+    +Ganancias
+    +Perdidas
+    +Ganancias pendientes
+        +Estados:
+        =========
+        +Pendientes
+        +Confirmadas
+        +Completadas
+        +Canceladas
 
-Eventos - no puede editar ni eliminar
+    
+    Reservas personalizadas
+    ===================
+    +Ganancias
+    +Perdidas
+    +Ganancias pendientes
+        +Estados:
+        =========
+        +Pendientes
+        +Confirmadas
+        +Completadas
+        +Canceladas
+    
+    Reservas de transfer
+    ===================
+    +Ganancias
+    +Perdidas
+    +Ganancias pendientes
+        +Estados:
+        =========
+        +Pendientes
+        +Confirmadas
+        +Completadas
+        +Canceladas
+
++ Usuarios registrados
++ Usuarios sin acceso
+
+[Boton para imprimir las reservas del dia seleccionado]
+
+Reporte Mensual
+Reporte Anual
+
+Usuario con mayor cantidad de ventas
+    +Diaria
+    +Mensual
+    +Anual

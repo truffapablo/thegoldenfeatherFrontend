@@ -5,7 +5,7 @@ export const ReservationNew = () => {
    
     return (
 
-    <div className='mt-5'>
+    <div className='mt-3'>
         <h2>Reservar evento</h2>
         <ReservationFormNew/>
         

@@ -56,6 +56,8 @@ import { types } from "../types/types";
 import { UserListView } from '../components/users/UserListView';
 import { UserById } from '../components/users/UserById';
 import { listenSockets } from '../sockets/controller';
+import { DailyReport } from '../components/reports/DailyReport';
+import { MonthReport } from '../components/reports/MonthReport';
 
 
 export const AppRouter = () => {
@@ -101,7 +103,7 @@ export const AppRouter = () => {
       dispatch(getReservations());
       dispatch(getCustomReservations());
       dispatch(getTransferReservations())
-      navigate('dashboard/panel');    
+      navigate('dashboard/reports');    
       //navigate('dashboard/reservations/new');    
     }
 
@@ -144,7 +146,11 @@ export const AppRouter = () => {
               
               <Route path="panel" element={<PanelView />} />
 
-              <Route path="reports" element={<ReportView/>} />      
+              <Route path="reports" element={<ReportView/>}>
+                <Route index element={<DailyReport />}/>  
+                <Route path="daily" element={<DailyReport />} />  
+                <Route path="month" element={<MonthReport />} />  
+              </Route>
               
               <Route path='reservations' element={<ReservationView/>}>       
                 <Route index element={<ReservationList />}/>  

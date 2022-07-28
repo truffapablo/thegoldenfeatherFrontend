@@ -47,7 +47,7 @@ export const TransferReservationById = () => {
         }).then((result) => {
           if (result.value) {
             dispatch(completeTransferReservation(id)).then(data => {
-              if (data) {
+              if (data.ok) {
                 Swal.fire({
                   title: 'Reserva completada',
                   text: 'El transfer ha sido completado',
@@ -56,6 +56,13 @@ export const TransferReservationById = () => {
                 })
                 navigate('/dashboard/reservations');
                
+              }else{
+                Swal.fire({
+                  title: 'Error',
+                  text: data.message,
+                  icon: 'error',
+                  confirmButtonColor: '#263032',
+                })
               }
             });
           }
@@ -139,7 +146,18 @@ export const TransferReservationById = () => {
                         <hr/>
                         <li>Nombre del huésped: {transfer.firstName} {transfer.lastName}</li>
                         {
-                          transfer.email? <li>Email del huésped: {transfer.email} <EmailNotificationButton email={transfer.email} reservation={transfer}/></li> : <li>Email del huésped: sin registro</li>
+                          transfer.email? 
+                          <li>Email del huésped: {transfer.email} 
+                          {
+                              transfer.status !== reservationStatus.reservationPending &&
+                              <EmailNotificationButton 
+                              email={transfer.email} 
+                              reservation={transfer} 
+                              />
+                          }
+                          </li>
+                          :<li>Email del huésped: sin registro</li>
+                          
                         }
                         <li>Teléfono del huesped: {transfer.phone}</li>
                         <li>Número de personas: {transfer.peopleQuantity}</li>

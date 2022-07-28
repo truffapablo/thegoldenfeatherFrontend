@@ -134,9 +134,9 @@ export const completeTransferReservation = (id) => {
                 socket.emit('complete-transfer-reservation', data.transferR, serverCallback =>{
                     console.log(serverCallback);
                 });
-                return true;
+                return data;
             }else{
-                return false;
+                return data;
             }
         } catch (error) {
             console.log('Error',error);

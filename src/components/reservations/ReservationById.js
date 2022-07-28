@@ -208,10 +208,13 @@ export const ReservationById = () => {
                 {
                 reservation.email ? 
                     <li>Email: {reservation.email} 
-                    <EmailNotificationButton 
-                    email={reservation.email} 
-                    reservation={reservation} 
-                    />
+                    {
+                      reservation.status !== reservationStatus.reservationPending &&
+                      <EmailNotificationButton 
+                      email={reservation.email} 
+                      reservation={reservation} 
+                      />
+                    }
                     
                     </li> 
                     : 

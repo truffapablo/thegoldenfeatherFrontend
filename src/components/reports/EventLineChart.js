@@ -6,13 +6,14 @@ import { useState } from 'react';
 
 
 
-export const EventLineChart = ({report}) => {
+export const EventLineChart = ({report, month}) => {
 
 
-  let days = Array.from(Array(moment().daysInMonth()), (_, i) => i + 1);
+  let days = Array.from(Array(moment().month(month - 1).daysInMonth()), (_, i) => i + 1);
   const [profit, setProfit] = useState([])
   const [estimated, setEstimated] = useState([])
   const [loss, setLoss] = useState([])
+
 
   useEffect(()=>{
     let profitArray = monthArray();
@@ -22,7 +23,7 @@ export const EventLineChart = ({report}) => {
     });
     setProfit(profitArray);
 
-  },[])
+  },[report])
   
   useEffect(()=>{
     let estimatedArray = monthArray();
@@ -32,7 +33,7 @@ export const EventLineChart = ({report}) => {
     });
     setEstimated(estimatedArray);
 
-  },[])
+  },[report])
 
   useEffect(()=>{
     let lossArray = monthArray();
@@ -42,7 +43,7 @@ export const EventLineChart = ({report}) => {
     });
     setLoss(lossArray);
 
-  },[])
+  },[report])
 
   
 

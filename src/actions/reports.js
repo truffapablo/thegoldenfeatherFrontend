@@ -35,3 +35,20 @@ export const getMonthReport = ({month}) => {
     }
 }
 
+export const getReportByDate = (date) => {
+    
+    return async (dispatch) => {
+        try {
+            const resp = await fetchWithToken('reports/date',date, 'POST');
+            const data = await resp.json();
+            return data;
+        } catch (error) {
+            console.log(error);
+            return {
+                ok:false,
+                error
+            }
+        }
+    }
+}
+

@@ -1,9 +1,11 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { NavLink, Outlet } from 'react-router-dom';
+import { roles } from '../../types/role';
 
 
 export const ReportView = () => {
-
+  const {name, uid, role} = useSelector(state => state.auth);
   return (
     
     <div className='container-fluid px-4 custom-view'>
@@ -11,11 +13,20 @@ export const ReportView = () => {
           <div className='col-md-12'>
           <ul className="nav nav-tabs">
             <li className="nav-item">
-              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='daily'>Diario</NavLink>
+              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='daily'>Reporte diario</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='month'>Mensual</NavLink> 
+              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='month'>Reporte mensual</NavLink> 
             </li>
+            <li className="nav-item">
+              <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='custom'>Reporte por fecha</NavLink> 
+            </li>
+            {
+              role === roles.admin &&
+              <li className="nav-item">
+                <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='employee'>Reporte de empleados</NavLink> 
+              </li>
+            }
           </ul> 
               <Outlet />   
           </div>

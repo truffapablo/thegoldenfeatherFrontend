@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const MonthReservationsRevenue = ({revenue ,title}) => {
+export const MonthReservationsRevenue = ({revenue ,title, total=false}) => {
   return (
     <div className='mt-3 mb-3'>
-        <h5>{title}</h5>
+        <h5>{title} {total && '$' + (revenue.event + revenue.custom + revenue.transfer)}</h5>
         <ul className="list-group">
             <li className="list-group-item d-flex justify-content-between align-items-center">
                 Evento

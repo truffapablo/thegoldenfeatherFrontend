@@ -13,21 +13,65 @@ export const MonthReport = () => {
     const [loading, setLoading] = useState(false);
     const [month, setMonth] = useState(moment.utc().format('M'));
     const [report, setReport] = useState([])
+    const [monthList, setMonthList] = useState([
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre',
+    ])
     
     useEffect(()=>{
         setLoading(true);
         dispatch(getMonthReport({month}))
         .then(data => {
             setLoading(false);
-            console.log(data);
             setReport(data);
-        })
-    },[])
+        });
+    },[]);
+
+    const changeMonth = (month) =>{
+        setMonth(month);
+        setLoading(true);
+        dispatch(getMonthReport({month}))
+        .then(data => {
+            setLoading(false);
+            setReport(data);
+        });
+
+    }
+
+    useEffect(()=>{
+        
+        console.log('Nuevo Reporte -',report);
+    },[report])
+
   return (
     <div className="row g-3 animate__animated animate__fadeIn mt-2">
         <div className='row'>
             <div className='col col-sm-12'>
-                {loading?<h2>Cargando reporte...</h2>: <h2>Reporte mensual - {moment().format('[Mes de ] MMMM')}</h2>}
+                {loading?<h2>Cargando reporte...</h2>: <h2 className='animate__animated animate__fadeIn'>Reporte mensual - {moment().month(month - 1).format("MMMM").toUpperCase()}</h2>}
+            </div>
+        </div>
+        <div className='row'>
+            <div className='col col-sm-12'>
+            <select className="form-select" aria-label="Seleccionar el mes del reporte" onChange={(e)=>{changeMonth(e.target.selectedIndex)}}>
+                <option defaultValue={'Seleccionar el mes'}>Seleccionar el mes</option>
+                {
+                    monthList.map((month, index)=>{
+                        return(
+                            <option key={index} value={index +1 }>{month}</option>
+                        )
+                    })
+                }
+            </select>
             </div>
         </div>
         
@@ -47,8 +91,21 @@ export const MonthReport = () => {
                 report && report.length !==0 &&
                 <>
                     <MonthReservationsRevenue
-                    title={'Ingresos del mes'}
+                    total={true}
+                    title={'Ingresos alcanzados'}
                     revenue={report.revenue_overview.profit}
+                    />
+                </>
+                }
+            </div>
+            <div className='col col-sm-12'>
+                {
+                report && report.length !==0 &&
+                <>
+                    <MonthReservationsRevenue
+                    total={true}
+                    title={'Ingresos estimados'}
+                    revenue={report.revenue_overview.estimated_profit}
                     />
                 </>
                 }
@@ -61,10 +118,12 @@ export const MonthReport = () => {
                         <>
                         <h5 className='mb-3 mt-3'>Reservas de evento.</h5>
                         <EventLineChart
+                        month={month}
                         report={report.revenue_detail.event}
                         />
                         </>
                     }
+                    
                 </div>
                 <div className='col col-sm-12 col-md-6'>
                     {
@@ -72,6 +131,7 @@ export const MonthReport = () => {
                         <>
                         <h5 className='mb-3 mt-3'>Reservas personalizadas.</h5>
                         <EventLineChart
+                        month={month}
                         report={report.revenue_detail.custom}
                         />
                         </>
@@ -83,41 +143,14 @@ export const MonthReport = () => {
                         <>
                         <h5 className='mb-3 mt-3'>Reservas de transfer.</h5>
                         <EventLineChart
+                        month={month}
                         report={report.revenue_detail.transfer}
                         />
                         </>
                     }
                 </div>
         </div>
-            {/* <div className='col'>
-                {
-                report && report.length !==0 &&
-                <div className='row'>
-                    <div className='col'>
-
-                    <h5 className='mb-3 mt-3'>Reservas de evento.</h5>
-                    <EventLineChart
-                        report={report.revenue_detail.event}
-                        />
-                    </div>
-                    <div className='col'>
-
-                    <h5 className='mb-3 mt-3'>Reservas personalizadas.</h5>
-                    <EventLineChart
-                        report={report.revenue_detail.custom}
-                        />
-                    </div>
-                    
-                    <div className='col'>
-                    
-                    <h5 className='mb-3 mt-3'>Reservas de transfer.</h5>
-                    <EventLineChart
-                        report={report.revenue_detail.transfer}
-                        />
-                    </div>
-                </div>
-                }
-            </div> */}
+            
         
     </div>
   )

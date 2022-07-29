@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Spinner from 'react-bootstrap/Spinner';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
@@ -15,6 +16,13 @@ export const TransferReservationById = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [loadingAction, setLoadingAction] = useState({
+      any:false,
+      confirm:false,
+      complete:false,
+      cancel:false
+    });
 
     //const transfer = transferList.find(transfer => transfer.id === id);
     //const transfer = transferList.find(transfer => transfer.id === id) || advanceSearch.data.find(transfer => transfer.id === id);
@@ -45,8 +53,22 @@ export const TransferReservationById = () => {
             confirmButtonText: 'Sí, completar',
           cancelButtonText: 'Cancelar',
         }).then((result) => {
+
+          setLoadingAction({
+            ...loadingAction,
+            any:true,
+            complete:true
+          })
+
           if (result.value) {
             dispatch(completeTransferReservation(id)).then(data => {
+
+              setLoadingAction({
+                ...loadingAction,
+                any:false,
+                complete:false
+              })
+
               if (data.ok) {
                 Swal.fire({
                   title: 'Reserva completada',
@@ -83,8 +105,22 @@ export const TransferReservationById = () => {
           confirmButtonText: 'Sí, cancelar',
           cancelButtonText: 'Abortar acción',
         }).then((result) => {
+          
+          setLoadingAction({
+            ...loadingAction,
+            any:true,
+            cancel:true
+          })
+
           if (result.value) {
             dispatch(cancelTransferReservation(id)).then(data => {
+
+              setLoadingAction({
+                ...loadingAction,
+                any:false,
+                cancel:false
+              })
+
               if (data) {
                 Swal.fire({
                   title: 'Reserva cancelada',
@@ -110,8 +146,22 @@ export const TransferReservationById = () => {
         confirmButtonText: 'Sí, confirmar',
         cancelButtonText: 'Cancelar',
       }).then((result) => {
+
+        setLoadingAction({
+          ...loadingAction,
+          any:true,
+          confirm:true
+        })
+
         if (result.value) {
           dispatch(confirmTransferReservation(id)).then(data => {
+
+            setLoadingAction({
+              ...loadingAction,
+              any:false,
+              confirm:false
+            })
+
             if (data) {
               Swal.fire({
                 title: 'Reserva confirmada',
@@ -183,23 +233,73 @@ export const TransferReservationById = () => {
                   transfer.status !== reservationStatus.reservationConfirmed &&
                   transfer.status !== reservationStatus.reservationCompleted &&
                   transfer.status !== reservationStatus.reservationCancelled &&
-                  <button className="btn btn-reserve btn-block" onClick={confirm}>Confirmar</button>
+                  <button disabled={loadingAction.any} className="btn btn-reserve btn-block" onClick={confirm}>
+                    
+                    {
+                      loadingAction.confirm ?
+                      <>
+                      <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      />{' '} Confirmando
+                      </>
+                       
+                      :
+                      'Confirmar'
+                    }
+
+                    </button>
                 }
                 {
                   transfer.status !== reservationStatus.reservationConfirmed &&
                   transfer.status !== reservationStatus.reservationCompleted &&
                   transfer.status !== reservationStatus.reservationCancelled &&
-                  <button className="btn btn-reserve btn-block" onClick={edit}>Editar</button>
+                  <button disabled={loadingAction.any} className="btn btn-reserve btn-block" onClick={edit}>Editar</button>
                   
                 }
                 {
                   transfer.status == reservationStatus.reservationConfirmed &&
-                  <button className="btn btn-reserve btn-block" onClick={complete}>Completar</button>
+                  <button disabled={loadingAction.any} className="btn btn-reserve btn-block" onClick={complete}>
+                    {
+                      loadingAction.complete ?
+                      <>
+                      <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      />{' '} Completando
+                      </>
+                       
+                      :
+                      'Completar'
+                    }
+                  </button>
                 }
                 {
                   transfer.status !== reservationStatus.reservationCompleted &&
                   transfer.status !== reservationStatus.reservationCancelled &&
-                  <button className="btn btn-reserve btn-block" onClick={cancel}>Cancelar</button>
+                  <button disabled={loadingAction.any} className="btn btn-reserve btn-block" onClick={cancel}>
+                    {
+                      loadingAction.cancel ?
+                      <>
+                      <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      />{' '} Cancelando
+                      </>
+                       
+                      :
+                      'Cancelar'
+                    }
+                  </button>
                 }
                 
               </div>

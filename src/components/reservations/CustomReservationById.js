@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -19,6 +20,13 @@ export const CustomReservationById = () => {
   const [reservation, setReservation] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [loadingAction, setLoadingAction] = useState({
+    any:false,
+    confirm:false,
+    complete:false,
+    cancel:false
+  });
 
 
   useEffect(()=>{
@@ -87,7 +95,11 @@ export const CustomReservationById = () => {
         cancelButtonText: 'Abortar acción',
       }).then((result) => {
         if (result.value) {
-
+          setLoadingAction({
+            ...loadingAction,
+            any:true,
+            cancel:true,
+          })
           dispatch(cancelCustomReservation({id})).then(data => {
             if (data) {
               Swal.fire({
@@ -96,11 +108,14 @@ export const CustomReservationById = () => {
                 icon: 'success',
                 confirmButtonColor: '#263032',
               })
+              setLoadingAction({
+                ...loadingAction,
+                any:false,
+                cancel:false,
+              })
               navigate('/dashboard/reservations');
-             
             }
           })
-          navigate('/dashboard/reservations');
         }
       })
     }
@@ -121,7 +136,11 @@ export const CustomReservationById = () => {
         cancelButtonText: 'Cancelar',
       }).then((result) => {
         if (result.value) {
-        
+          setLoadingAction({
+            ...loadingAction,
+            any:true,
+            confirm:true,
+          })
           dispatch(confirmCustomReservation({id})).then(data => {
             if (data) {
               Swal.fire({
@@ -129,6 +148,11 @@ export const CustomReservationById = () => {
                 text: 'La reserva ha sido confirmada',
                 icon: 'success',
                 confirmButtonColor: '#263032',
+              })
+              setLoadingAction({
+                ...loadingAction,
+                any:false,
+                confirm:false,
               })
               navigate('/dashboard/reservations');
             }
@@ -151,6 +175,11 @@ export const CustomReservationById = () => {
         cancelButtonText: 'Cancelar',
       }).then((result) => {
         if (result.value) {
+          setLoadingAction({
+            ...loadingAction,
+            any:true,
+            complete:true,
+          })
           dispatch(completeCustomReservation({id})).then(data => {
             if (data.ok) {
               Swal.fire({
@@ -159,8 +188,18 @@ export const CustomReservationById = () => {
                 icon: 'success',
                 confirmButtonColor: '#263032',
               })
+              setLoadingAction({
+                ...loadingAction,
+                any:false,
+                complete:false,
+              })
               navigate('/dashboard/reservations');
             }else{
+              setLoadingAction({
+                ...loadingAction,
+                any:false,
+                complete:false,
+              })
               Swal.fire({
                 title: 'Error',
                 text: data.message,
@@ -225,23 +264,74 @@ export const CustomReservationById = () => {
                   reservation.status !== reservationStatus.reservationConfirmed &&
                   reservation.status !== reservationStatus.reservationCompleted &&
                   reservation.status !== reservationStatus.reservationCancelled &&
-                  <button className="btn btn-reserve btn-block" onClick={confirm}>Confirmar</button>
+                  
+                  <button disabled={loadingAction.any} className="btn btn-reserve btn-block" onClick={confirm}>
+                    
+                    {
+                      loadingAction.confirm ?
+                      <>
+                      <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      />{' '} Confirmando
+                      </>
+                       
+                      :
+                      'Confirmar'
+                    }
+
+                    </button>
                 }
                 {
                   reservation.status !== reservationStatus.reservationConfirmed &&
                   reservation.status !== reservationStatus.reservationCompleted &&
                   reservation.status !== reservationStatus.reservationCancelled &&
-                  <button className="btn btn-reserve btn-block" onClick={edit}>Editar</button>
+                  <button disabled={loadingAction.any} className="btn btn-reserve btn-block" onClick={edit}>Editar</button>
                   
                 }
                 {
                   reservation.status == reservationStatus.reservationConfirmed &&
-                  <button className="btn btn-reserve btn-block" onClick={complete}>Completar</button>
+                  <button disabled={loadingAction.any} className="btn btn-reserve btn-block" onClick={complete}>
+                    {
+                      loadingAction.complete ?
+                      <>
+                      <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      />{' '} Completando
+                      </>
+                       
+                      :
+                      'Completar'
+                    }
+                  </button>
                 }
                 {
                   reservation.status !== reservationStatus.reservationCompleted &&
                   reservation.status !== reservationStatus.reservationCancelled &&
-                  <button className="btn btn-reserve btn-block" onClick={cancel}>Cancelar</button>
+                  <button disabled={loadingAction.any} className="btn btn-reserve btn-block" onClick={cancel}>
+                    {
+                      loadingAction.cancel ?
+                      <>
+                      <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      />{' '} Cancelando
+                      </>
+                       
+                      :
+                      'Cancelar'
+                    }
+                  </button>
                 }
             </div>
           </div>

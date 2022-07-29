@@ -58,6 +58,8 @@ import { UserById } from '../components/users/UserById';
 import { listenSockets } from '../sockets/controller';
 import { DailyReport } from '../components/reports/DailyReport';
 import { MonthReport } from '../components/reports/MonthReport';
+import { DateReport } from '../components/reports/DateReport';
+import { EmployeeReport } from '../components/reports/EmployeeReport';
 
 
 export const AppRouter = () => {
@@ -103,8 +105,7 @@ export const AppRouter = () => {
       dispatch(getReservations());
       dispatch(getCustomReservations());
       dispatch(getTransferReservations())
-      navigate('dashboard/reports');    
-      //navigate('dashboard/reservations/new');    
+      navigate('dashboard/reservations');      
     }
 
     if(role === roles.admin) {
@@ -150,6 +151,10 @@ export const AppRouter = () => {
                 <Route index element={<DailyReport />}/>  
                 <Route path="daily" element={<DailyReport />} />  
                 <Route path="month" element={<MonthReport />} />  
+                <Route path="custom" element={<DateReport />} />
+                  <Route element={<RequireRoleAdmin/>}>
+                      <Route path="employee" element={<EmployeeReport />} />  
+                  </Route>
               </Route>
               
               <Route path='reservations' element={<ReservationView/>}>       

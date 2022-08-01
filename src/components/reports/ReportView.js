@@ -5,7 +5,6 @@ import { roles } from '../../types/role';
 
 
 export const ReportView = () => {
-  const {name, uid, role} = useSelector(state => state.auth);
   return (
     
     <div className='container-fluid px-4 custom-view'>
@@ -21,12 +20,6 @@ export const ReportView = () => {
             <li className="nav-item">
               <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='custom'>Reporte por fecha</NavLink> 
             </li>
-            {
-              role === roles.admin &&
-              <li className="nav-item">
-                <NavLink className= { ({isActive}) => 'nav-link ' + (isActive ? 'active reservation-tab-active':'reservation-tab-inactive')  }  to='employee'>Reporte de empleados</NavLink> 
-              </li>
-            }
           </ul> 
               <Outlet />   
           </div>

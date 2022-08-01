@@ -54,20 +54,14 @@ export const TransferReservationById = () => {
           cancelButtonText: 'Cancelar',
         }).then((result) => {
 
-          setLoadingAction({
-            ...loadingAction,
-            any:true,
-            complete:true
-          })
-
           if (result.value) {
+            setLoadingAction({
+              ...loadingAction,
+              any:false,
+              complete:false
+            })
             dispatch(completeTransferReservation(id)).then(data => {
 
-              setLoadingAction({
-                ...loadingAction,
-                any:false,
-                complete:false
-              })
 
               if (data.ok) {
                 Swal.fire({
@@ -106,13 +100,13 @@ export const TransferReservationById = () => {
           cancelButtonText: 'Abortar acción',
         }).then((result) => {
           
-          setLoadingAction({
-            ...loadingAction,
-            any:true,
-            cancel:true
-          })
-
+          
           if (result.value) {
+            setLoadingAction({
+              ...loadingAction,
+              any:true,
+              cancel:true
+            })
             dispatch(cancelTransferReservation(id)).then(data => {
 
               setLoadingAction({
@@ -147,13 +141,13 @@ export const TransferReservationById = () => {
         cancelButtonText: 'Cancelar',
       }).then((result) => {
 
-        setLoadingAction({
-          ...loadingAction,
-          any:true,
-          confirm:true
-        })
-
+        
         if (result.value) {
+          setLoadingAction({
+            ...loadingAction,
+            any:true,
+            confirm:true
+          })
           dispatch(confirmTransferReservation(id)).then(data => {
 
             setLoadingAction({

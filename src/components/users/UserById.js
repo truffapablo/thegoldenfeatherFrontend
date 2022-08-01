@@ -206,7 +206,7 @@ const handleSubmit = (e) =>{
             <div className='mb-2'>
                 <button 
                 onClick={()=>{setChangePassword(true)}}
-                className='btn btn-reserve'>Cambiar contraseña</button>
+                className='btn btn-reserve'>Crear contraseña temporal</button>
             </div>
             <div className='mb-2'>
                 <button className='btn btn-reserve' onClick={()=>{whitelistPassword(selected._id)}}>Forzar blanqueo de contraseña</button>
@@ -223,13 +223,13 @@ const handleSubmit = (e) =>{
       {
         changePassword &&
         <div className='row mt-5'>
-        <h2>Cambiar contraseña</h2>
+        <h2>Contraseña temporal</h2>
         <p>Esta acción generará una nueva contraseña <strong>temporal</strong> para el usuario <strong>"{selected.email}"</strong>.<br/>
         Luego de que el usuario acceda con la contraseña temporal, el mismo deberá blanquear su clave.
         </p>
         <form onSubmit={handleSubmit} className="row g-3 animate__animated animate__fadeIn">
             <div className="form-group col-md-6">
-                <label htmlFor="password">Nueva contraseña:</label>
+                <label htmlFor="password">Nueva contraseña temporal:</label>
                 <input type="text" className="form-control" name="password" id="password" placeholder="Contraseña" onChange={handleInputChange} value={password} />
                 <button className='btn btn-reserve mt-2'>Generar</button>
             </div>

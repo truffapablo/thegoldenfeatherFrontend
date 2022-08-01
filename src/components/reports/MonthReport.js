@@ -2,16 +2,20 @@ import React, { useEffect, useState } from 'react'
 import moment from 'moment';
 import { Bar, Line, Pie } from 'react-chartjs-2'
 import {Chart as ChartJS} from 'chart.js/auto';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getMonthReport } from '../../actions/reports';
 import { EventLineChart } from './EventLineChart';
 import { MonthReservationsByType } from './MonthReservationsByType';
 import { MonthReservationsRevenue } from './MonthReservationsRevenue';
+import { roles } from '../../types/role';
+import { SelectEmployee } from './SelectEmployee';
 export const MonthReport = () => {
 
+    const { role } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
-    const [month, setMonth] = useState(moment.utc().format('M'));
+    const [month, setMonth] = useState(moment().format('M'));
+    const [year, setYear] = useState(moment().format('YYYY'));
     const [report, setReport] = useState([])
     const [monthList, setMonthList] = useState([
         'Enero',
@@ -27,31 +31,47 @@ export const MonthReport = () => {
         'Noviembre',
         'Diciembre',
     ])
+
+    const [selectedEmployee, setSelectedEmployee] = useState({
+        select:false,
+        employee:false
+    });
     
     useEffect(()=>{
-        setLoading(true);
-        dispatch(getMonthReport({month}))
-        .then(data => {
-            setLoading(false);
-            setReport(data);
-        });
-    },[]);
+        
+        if(selectedEmployee.select){
+            if(selectedEmployee.employee === 'all'){
+                setLoading(true);
+                dispatch(getMonthReport({month, year}))
+                .then(data => {
+                    setLoading(false);
+                    setReport(data);
+                });
+            }else{
+                setLoading(true);
+                dispatch(getMonthReport({month, year}, selectedEmployee.employee))
+                .then(data => {
+                    setLoading(false);
+                    setReport(data);
+                });
+            }
+        }
+        
 
-    const changeMonth = (month) =>{
-        setMonth(month);
-        setLoading(true);
-        dispatch(getMonthReport({month}))
-        .then(data => {
-            setLoading(false);
-            setReport(data);
-        });
-
-    }
+        
+    },[month,selectedEmployee]);
 
     useEffect(()=>{
-        
-        console.log('Nuevo Reporte -',report);
-    },[report])
+        setSelectedEmployee({
+            select:true,
+            employee:'all'
+        });
+    },[])
+
+
+    const changeMonth = (selectedMonth) =>{
+        setMonth(selectedMonth + 1);
+    }
 
   return (
     <div className="row g-3 animate__animated animate__fadeIn mt-2">
@@ -62,16 +82,33 @@ export const MonthReport = () => {
         </div>
         <div className='row'>
             <div className='col col-sm-12'>
-            <select className="form-select" aria-label="Seleccionar el mes del reporte" onChange={(e)=>{changeMonth(e.target.selectedIndex)}}>
-                <option defaultValue={'Seleccionar el mes'}>Seleccionar el mes</option>
+            <div className='form-group'>
+                <label htmlFor='select-month'>Selecionar mes</label>
+            <select className="form-select" value={month} aria-label="Seleccionar el mes del reporte" onChange={(e)=>{changeMonth(e.target.selectedIndex)}}>
                 {
-                    monthList.map((month, index)=>{
+                    monthList.map((m, index)=>{
                         return(
-                            <option key={index} value={index +1 }>{month}</option>
+                            <option 
+                            //selected={index + 1 === month? true:false}
+                            key={index} 
+                            value={index +1 }>{m}</option>
                         )
                     })
                 }
             </select>
+            </div>   
+            </div>
+        </div>
+        <div className='row'>
+            <div className='col col-sm-12 mt-2'>
+                {   
+                    role === roles.admin &&
+                    <>
+                    <SelectEmployee
+                    setSelectedEmployee={setSelectedEmployee}
+                    />
+                    </>
+                }
             </div>
         </div>
         

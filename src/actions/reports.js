@@ -2,10 +2,15 @@ import { fetchWithToken } from "../helpers/fetch";
 
 
 
-export const getDailyReport = () => {
+export const getDailyReport = (user) => {
     return async (dispatch) => {
         try {
-            const resp = await fetchWithToken('reports');
+            let resp;
+            if(!user){
+                resp = await fetchWithToken('reports');
+            }else{
+                resp = await fetchWithToken(`reports?uid=${user}`);
+            }
             const data = await resp.json();
             return data;
         } catch (error) {
@@ -19,10 +24,15 @@ export const getDailyReport = () => {
 }
 
 
-export const getMonthReport = ({month}) => {
+export const getMonthReport = ({month,year}, user) => {
     return async (dispatch) => {
         try {
-            const resp = await fetchWithToken('reports/month',{month}, 'POST');
+            let resp;
+            if(!user){
+                resp = await fetchWithToken('reports/month',{month,year}, 'POST');
+            }else{
+                resp = await fetchWithToken(`reports/month?uid=${user}`,{month,year}, 'POST');
+            }
             const data = await resp.json();
             return data;
         } catch (error) {
@@ -35,11 +45,16 @@ export const getMonthReport = ({month}) => {
     }
 }
 
-export const getReportByDate = (date) => {
+export const getReportByDate = (date, user) => {
     
     return async (dispatch) => {
         try {
-            const resp = await fetchWithToken('reports/date',date, 'POST');
+            let resp;
+            if(!user){
+                resp = await fetchWithToken('reports/date',date, 'POST');
+            }else{
+                resp = await fetchWithToken(`reports/date?uid=${user}`,date, 'POST');
+            }
             const data = await resp.json();
             return data;
         } catch (error) {

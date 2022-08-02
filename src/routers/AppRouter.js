@@ -41,7 +41,7 @@ import { SearchView } from '../components/search/SearchView';
 import { TransferView } from '../components/transfers/TransferView';
 import { TransferList } from '../components/transfers/TransferList';
 import { TransferNew } from '../components/transfers/TransferNew';
-import { TransferById } from '../components/transfers/TransferById';
+
 import { TransferEdit } from '../components/transfers/TransferEdit';
 import { getTransfers } from '../actions/transfer';
 import { getTransferReservations } from '../actions/transferReservation';
@@ -54,7 +54,7 @@ import { roles } from '../types/role';
 import { getUsers } from '../actions/user';
 import { types } from "../types/types";
 import { UserListView } from '../components/users/UserListView';
-import { UserById } from '../components/users/UserById';
+import { UserById, UserList } from '../components/users/UserList';
 import { listenSockets } from '../sockets/controller';
 import { DailyReport } from '../components/reports/DailyReport';
 import { MonthReport } from '../components/reports/MonthReport';
@@ -84,13 +84,6 @@ export const AppRouter = () => {
       
     }
 
-    /* if(advanceSearch.length > 0){
-      dispatch({
-        type:types.reservationCleanSearch
-      });
-
-    } */
-
     
   },[location]);
 
@@ -105,7 +98,7 @@ export const AppRouter = () => {
       dispatch(getReservations());
       dispatch(getCustomReservations());
       dispatch(getTransferReservations())
-      navigate('dashboard/reports');      
+      navigate('dashboard/panel');      
     }
 
     if(role === roles.admin) {
@@ -116,6 +109,7 @@ export const AppRouter = () => {
   if(checking){
     return <h5>Espere...</h5>
   }
+
 
 
  
@@ -142,7 +136,6 @@ export const AppRouter = () => {
               <Route element={<RequireRoleAdmin/>}>
                 <Route path="register" element={<RegisterView/>}/>
                 <Route path="registered-users" element={<UserListView/>}/>
-                <Route path="registered-users/:id" element={<UserById/>}/>
               </Route>
               
               <Route path="panel" element={<PanelView />} />

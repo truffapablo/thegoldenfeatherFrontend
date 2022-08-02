@@ -2,16 +2,16 @@ import React, { useContext, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 
-export const RegisteredUsers = () => {
+export const RegisteredUsers = ({setSelectedId}) => {
 
   const {users} = useSelector(state => state.auth);
   const navigate = useNavigate();
   const selectUser = (id) => {
-    navigate(`/dashboard/registered-users/${id}`)
+    setSelectedId(id);
   }
 
   return (
-    <div className='mt-5'>
+    <div>
       <h2>Usuarios Registrados</h2>
       <ul className='mt-4 list-group list-group-numbered'>
           {

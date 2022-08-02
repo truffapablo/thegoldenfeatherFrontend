@@ -1,21 +1,20 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { convertDate } from '../../helpers/convertDate';
 import { today } from '../../helpers/today';
 import { types } from '../../types/types';
 import { Paginator } from '../paginator/Paginator';
 import { AdvanceSearchForm } from './AdvanceSearchForm';
 import { ReservationTableList } from './ReservationTableList';
+import { readvanceSearch } from '../../actions/search';
 
 export const ReservationList = () => {
 
     const { list, customList, transferList } = useSelector(state => state.reservations);
     const { advanceSearch } = useSelector(state => state.search);
     const dispatch = useDispatch();
-    
-    //const allReservations = [...list, ...customList, ...transferList];
 
     const [allReservations, setAllReservations] = useState([...list, ...customList, ...transferList])
     
@@ -128,6 +127,37 @@ export const ReservationList = () => {
         setCurrentPage(1);
 
     }
+
+
+    const location = useLocation();
+
+    useEffect(()=>{
+        if(advanceSearch.length > 0){
+            dispatch({
+                type:types.reservationCleanSearch
+              });
+            /* console.log('Buscar nuevamente:',advanceSearch.request[0]);
+            dispatch(readvanceSearch({
+                confirmation: advanceSearch.request[0].confirmation || null,
+                date: advanceSearch.request[0].date || null,
+                event: advanceSearch.request[0].event || null,
+                lastName: advanceSearch.request[0].lastName || null,
+            })).then(rta => {
+                
+                
+                dispatch({type:types.reservationFinishAdvanceSearch});
+                if(rta.ok){
+                    dispatch({
+                        type:types.reservationCleanSearch
+                      });
+                    dispatch({
+                        type:types.reservationSetAdvanceSearch,
+                        payload:rta
+                    });
+                }
+            }); */
+        }
+    },[location])
 
   return (
       <>

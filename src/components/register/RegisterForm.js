@@ -78,9 +78,12 @@ export const RegisterForm = () => {
         {/* <Logo/> */}
         <h2>Registrar usuario</h2>
         <form onSubmit={handleRegister} className="mt-2 row g-3 animate__animated animate__fadeIn">
-            <div className="mb-3">
+            <div className='form-group'>
+                <label htmlFor="register-name">Nombre:</label>
+                
                 <input 
                 type="text"
+                id='register-name'
                 placeholder="Nombre"
                 name="name"
                 className="form-control"
@@ -90,40 +93,54 @@ export const RegisterForm = () => {
                 />
                 { msgError!==null && msgError.name && <small className="form-text text-danger">{msgError.name}</small> }
             </div>
-            <div className="mb-3">
-                <input 
-                type="text"
-                placeholder="Email"
-                name="email"
-                className="form-control"
-                autoComplete="off"
-                value={ email }
-                onChange={ handleInputChange }
-                />
-                { msgError!==null && msgError.email && <small className="form-text text-danger">{msgError.email}</small> }
+            
+            <div className='form-group'>
+                <label htmlFor="register-email">Email:</label>
+                
+                    <input 
+                    type="text"
+                    id='register-email'
+                    placeholder="Email"
+                    name="email"
+                    className="form-control"
+                    autoComplete="off"
+                    value={ email }
+                    onChange={ handleInputChange }
+                    />
+                    { msgError!==null && msgError.email && <small className="form-text text-danger">{msgError.email}</small> }
+                
             </div>
 
-            <div className="mb-3">
-                <input 
-                type="password"
-                placeholder="Password"
-                name="password"
-                className="form-control"
-                value={ password }
-                onChange={ handleInputChange } 
-                />
-                { msgError!==null && msgError.password && <small className="form-text text-danger">{msgError.password}</small> }
+            <div className='form-group'>
+                <label htmlFor="register-password">Contraseña:</label>
+                
+                    <input 
+                    type="password"
+                    id='register-password'
+                    placeholder="Contraseña"
+                    name="password"
+                    className="form-control"
+                    value={ password }
+                    onChange={ handleInputChange } 
+                    />
+                    { msgError!==null && msgError.password && <small className="form-text text-danger">{msgError.password}</small> }
+                
             </div>
-            <div className="mb-3">
-                <input 
-                type="password"
-                placeholder="Confirmar password"
-                name="password2"
-                className="form-control"
-                value={ password2 }
-                onChange={ handleInputChange } 
-                />
-                { msgError!==null && msgError.password2 && <small className="form-text text-danger">{msgError.password2}</small> }
+
+            <div className='form-group'>
+                <label htmlFor="register-confirm-password">Confirmar contraseña:</label>
+                
+                    <input 
+                    type="password"
+                    id='register-confirm-password'
+                    placeholder="Confirmar contraseña"
+                    name="password2"
+                    className="form-control"
+                    value={ password2 }
+                    onChange={ handleInputChange } 
+                    />
+                    { msgError!==null && msgError.password2 && <small className="form-text text-danger">{msgError.password2}</small> }
+                
             </div>
             <div className='d-grid gap-2'>
             <button 

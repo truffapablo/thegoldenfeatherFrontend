@@ -47,6 +47,43 @@ export const advanceSearch = (filters) => {
 }
 
 
+export const searchByConfirmationNumber = (confirmation) =>{
+    return async(dispatch) => {
+        try {
+            dispatch(startSearching());
+            const resp = await fetchWithToken('search-reservations/confirmation', {confirmation}, 'POST');
+            const data = await resp.json();
+            dispatch(finsihSearching());
+            return data;
+            
+        } catch (error) {
+            dispatch(finsihSearching());
+            console.log(error);
+            return false
+        }
+    }
+}
+
+export const readvanceSearch = (filters) => {
+    return async (dispatch) => {
+
+        try {
+            dispatch({type:types.reservationStartAdvanceSearch});
+            const resp = await fetchWithToken('search-reservations/advanced', filters, 'POST');
+            const data = await resp.json();
+            return data;
+
+        } catch (error) {
+            console.log(error);
+            dispatch(finsihSearching());
+            return false;
+        }
+
+
+    }
+
+}
+
 const startSearching = () => {
     return {
         type: types.navBarStartSearching,

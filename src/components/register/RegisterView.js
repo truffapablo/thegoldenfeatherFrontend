@@ -10,9 +10,6 @@ export const RegisterView = () => {
           <div className='col-md-6'>
             <RegisterForm/>
           </div>
-          <div className='col-md-6'>
-            <RegisteredUsers/>
-          </div>
       </div>
     
     </div>

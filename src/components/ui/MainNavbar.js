@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { logout } from '../../actions/auth';
-import { navSearch } from '../../actions/search';
+import { navSearch, searchByConfirmationNumber } from '../../actions/search';
 import logo from './logo.png'
 export const MainNavbar= () => {
     
@@ -14,9 +14,6 @@ export const MainNavbar= () => {
     const handleInputSearch = (e) => {
         setSerchValue(e.target.value);
     }
-
-    const {list, customList, transferList} = useSelector(state => state.reservations);
-    
 
     const {uid} = useSelector(state => state.auth);
     const navigate = useNavigate();
@@ -29,7 +26,7 @@ export const MainNavbar= () => {
 
     }
 
-    const placeholder = 'confirmación, evento, huesped...';
+    const placeholder = '# Confirmación';
 
     const handleMenu = (e) => {
         e.preventDefault();
@@ -38,27 +35,10 @@ export const MainNavbar= () => {
         localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
       }
 
-    const searchByConfirmation = (searchValue) => {
-        return list.find(reservation => reservation.confirmation == searchValue) || customList.find(reservation => reservation.confirmation == searchValue);
-    }
-
     const search = (e) => {
         e.preventDefault();
-        if(!searchValue.length > 0){
-            return;
-        }
-        dispatch(navSearch(searchValue,[list, customList, transferList])).then(res => {
-            if(res){
-                navigate(`/dashboard/search`);
-            }else{
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    html: `No se encontró nada con el término "<b>${searchValue}</b>"`,
-                    })
-            }
-        }).catch(err => {
-            console.log(err);
+        dispatch(searchByConfirmationNumber(searchValue)).then(rta => {
+            console.log(rta);
         })
     }
 

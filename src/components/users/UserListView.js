@@ -1,17 +1,12 @@
 import React from 'react'
-import { RegisteredUsers } from '../register/RegisteredUsers'
-
-
+import { useParams } from 'react-router-dom';
+import { UserList } from './UserList'
 
 export const UserListView = () => {
-  
   return (
     <div className='container-fluid px-4 custom-view'>
-      <div className='row'>
-          <div className='col-md-4'>
-            <RegisteredUsers/>
-          </div>
-      </div>
+      
+     <UserList/>
     
     </div>
   )

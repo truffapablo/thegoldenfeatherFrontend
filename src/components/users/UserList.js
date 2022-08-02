@@ -6,15 +6,16 @@ import Swal from 'sweetalert2';
 import { createTemporaryPassword, denyUserAccess, forceUserChangePassword, grantUserAccess } from '../../actions/auth';
 import { getUsers } from '../../actions/user';
 import { useForm } from '../../hooks/useForm';
+import { RegisteredUsers } from '../register/RegisteredUsers';
 
-export const UserById = () => {
+export const UserList = () => {
 
- const { id } = useParams();
  const {users} = useSelector(state => state.auth);
  const dispatch = useDispatch();
  const location = useLocation();
-
- const selected = users.find(user => user._id === id);
+ 
+ const [selectedId, setSelectedId] = useState(false);
+ const [selected, setSelected] = useState(false);
 
  const [changePassword, setChangePassword] = useState(false);
 
@@ -27,6 +28,16 @@ export const UserById = () => {
  useEffect(()=>{
     setChangePassword(false);
  },[location])
+
+ useEffect(()=>{
+    if(!selectedId){
+        setSelected(users[0])
+    }else{
+        let user = users.find(user => user._id === selectedId)
+        setSelected(user);
+
+    }
+ },[selectedId, users])
 
  if(!selected || selected.length === 0 ) {
     <Navigate to='/'/>
@@ -163,7 +174,7 @@ const handleSubmit = (e) =>{
       }).then((result) => {
         if (result.value) {
 
-            dispatch(createTemporaryPassword(id, password)).then(rta => {
+            dispatch(createTemporaryPassword(selectedId, password)).then(rta => {
                 if(rta.ok){
                     dispatch(getUsers());
                     Swal.fire({
@@ -192,9 +203,15 @@ const handleSubmit = (e) =>{
   return (
     <div className='container-fluid px-4 custom-view mt-5'>
       <div className='row'>
+        <div className='col col-sm-12 col-md-4'>
+            <RegisteredUsers
+            setSelectedId={setSelectedId}
+            />
+        </div>
+        <div className='col col-sm-12 col-md-8'>
         <h2>Usuario: {selected.name}</h2>
-        <hr/>
-          <div className='col-md-6 userID'>
+        
+          <div className='userID mt-4'>
             <ul>
                 <li>Email: {selected.email}</li>
                 <li>Rol: {selected.role === 'EMPLOYEE'?  'Empleado':'Admin'}</li>
@@ -202,25 +219,27 @@ const handleSubmit = (e) =>{
                 <li>Acceso: {selected.access? 'Permitido':'Denegado'}</li>
             </ul>
           </div>
-          <div className='col-md-6'>
-            <div className='mb-2'>
+          <div className='mt-2'>
+            
                 <button 
-                onClick={()=>{setChangePassword(true)}}
-                className='btn btn-reserve'>Crear contraseña temporal</button>
-            </div>
-            <div className='mb-2'>
+                onClick={()=>{setChangePassword(!changePassword)}}
+                className='btn btn-reserve'>
+                 {
+                    !changePassword? 'Crear contraseña temporal':'Ocultar acción temporal'
+                 }   
+                </button>
+                {' '}
+            
                 <button className='btn btn-reserve' onClick={()=>{whitelistPassword(selected._id)}}>Forzar blanqueo de contraseña</button>
-            </div>
-            <div className='mb-2'>
+                {' '}
+            
             {   
                 selected.access? <button className='btn btn-reserve' onClick={()=>{denyAccess(selected._id)}}>Denegar acceso</button>: <button className='btn btn-reserve' onClick={()=>{grantAccess(selected._id)}}>Permitir acceso</button>
             }
-            </div>
+            
             
           </div>
-      </div>
-
-      {
+          {
         changePassword &&
         <div className='row mt-5'>
         <h2>Contraseña temporal</h2>
@@ -236,8 +255,11 @@ const handleSubmit = (e) =>{
         </form>
       </div>
       }
+      </div>
+
       
-    
+      
+      </div>
     </div>
   )
 }

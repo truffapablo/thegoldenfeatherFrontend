@@ -49,7 +49,6 @@ export const AdvanceSearchForm = () => {
                 setLoading(false); 
             }
         });
-
         //reset();
     }
 

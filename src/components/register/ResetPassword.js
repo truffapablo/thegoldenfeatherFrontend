@@ -59,7 +59,7 @@ export const ResetPassword = () => {
         <h1>Blanqueo de contraseña</h1>
         <form onSubmit={resetPasword}>
         <div className="form-group col-md-6">
-            <label htmlFor="oldPassword">Clave actual:</label>
+            <label htmlFor="oldPassword">Clave actual (temporal):</label>
             <input type="password" className="form-control" value={oldPassword} name="oldPassword" id="oldPassword" onChange={handleInputChange}/>
         </div>
         <div className="form-group col-md-6">

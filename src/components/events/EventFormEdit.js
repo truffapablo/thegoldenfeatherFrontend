@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import Spinner from 'react-bootstrap/Spinner';
 import { updateEvent } from '../../actions/events';
 import { removeError, setError } from '../../actions/ui';
 import { validateEvent } from '../../helpers/eventHelper';
@@ -15,7 +16,8 @@ export const EventFormEdit = () => {
   const {id} = useParams();
   const event = useSelector(state => state.events.list.find(ev => ev.id === id));
   
-  
+  const [loading, setLoading] = useState(false)
+
   const [dateOptions, setDateOptions] = React.useState([
     'Fecha específica',
     'Fecha abierta',
@@ -129,9 +131,10 @@ const {title, description, price, commission, currency, start, end, location, ad
         if(Object.keys(errors).length === 0) {
             dispatch(removeError());
 
-            
+            setLoading(true);
             dispatch(updateEvent(id, data))
             .then((response) => {
+              setLoading(false);
                 /**
                  * Si el evento se actualiza correctamente,
                  * actualizamos los datos de las reservaciones con ese evento
@@ -307,7 +310,23 @@ const {title, description, price, commission, currency, start, end, location, ad
             <input type="time" className="form-control" name="end" value={end} id="end" placeholder="Empieza" onChange={handleInputChange}/>
             { msgError!==null && msgError.end && <small className="form-text text-danger">{msgError.end}</small> }
         </div>
-        <button type="submit" className="btn btn-primary btn-reserve">Editar Evento</button>
+        <button disabled={loading} type="submit" className="btn btn-primary btn-reserve">
+          {
+            !loading && 'Editar Evento'
+          }
+          {
+            loading &&
+            <>
+            <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      /> {'Editando'}
+                      </>
+          }
+        </button>
         
     </form>
   )

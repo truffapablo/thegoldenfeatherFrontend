@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -15,6 +16,7 @@ export const EventById = () => {
   const event = list.find(event => event.id === id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
 
   if(!event){
     <Navigate to='/'/>

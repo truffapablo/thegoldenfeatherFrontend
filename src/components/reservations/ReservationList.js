@@ -136,26 +136,6 @@ export const ReservationList = () => {
             dispatch({
                 type:types.reservationCleanSearch
               });
-            /* console.log('Buscar nuevamente:',advanceSearch.request[0]);
-            dispatch(readvanceSearch({
-                confirmation: advanceSearch.request[0].confirmation || null,
-                date: advanceSearch.request[0].date || null,
-                event: advanceSearch.request[0].event || null,
-                lastName: advanceSearch.request[0].lastName || null,
-            })).then(rta => {
-                
-                
-                dispatch({type:types.reservationFinishAdvanceSearch});
-                if(rta.ok){
-                    dispatch({
-                        type:types.reservationCleanSearch
-                      });
-                    dispatch({
-                        type:types.reservationSetAdvanceSearch,
-                        payload:rta
-                    });
-                }
-            }); */
         }
     },[location])
 

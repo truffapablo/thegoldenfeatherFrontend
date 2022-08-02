@@ -12,7 +12,7 @@ export const TransferReservationById = () => {
 
     const {id} = useParams();
     const {transferList} = useSelector(state => state.reservations);
-    const {advanceSearch} = useSelector(state => state.search);
+    const {advanceSearch, listSearch} = useSelector(state => state.search);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -24,13 +24,11 @@ export const TransferReservationById = () => {
       cancel:false
     });
 
-    //const transfer = transferList.find(transfer => transfer.id === id);
-    //const transfer = transferList.find(transfer => transfer.id === id) || advanceSearch.data.find(transfer => transfer.id === id);
     const [transfer, setTransfer] = useState(false)
     useEffect(()=>{
-    
-      if(advanceSearch.data){
-        setTransfer(transferList.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id));
+      
+      if(advanceSearch.data || listSearch.length > 0){
+        setTransfer(transferList.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id) || listSearch.find(reservation => reservation.id === id));
       }else{
         setTransfer(transferList.find(reservation => reservation.id === id));
       }
@@ -57,11 +55,15 @@ export const TransferReservationById = () => {
           if (result.value) {
             setLoadingAction({
               ...loadingAction,
-              any:false,
-              complete:false
+              any:true,
+              complete:true
             })
             dispatch(completeTransferReservation(id)).then(data => {
-
+              setLoadingAction({
+                ...loadingAction,
+                any:false,
+                complete:false
+              })
 
               if (data.ok) {
                 Swal.fire({

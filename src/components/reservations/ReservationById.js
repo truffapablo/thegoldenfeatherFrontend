@@ -32,7 +32,7 @@ export const ReservationById = () => {
   useEffect(()=>{
     
     if(advanceSearch.data){
-      const algo = list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
+      //const algo = list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id);
       
       setReservation(list.find(reservation => reservation.id === id) || advanceSearch.data.find(reservation => reservation.id === id));
     }else{
@@ -201,17 +201,17 @@ export const ReservationById = () => {
           })
           dispatch(completeReservation({id})).then(data => {
             
+            setLoadingAction({
+              ...loadingAction,
+              any:false,
+              complete:false,
+            })
             if (data.ok) {
               Swal.fire({
                 title: 'Reserva completada',
                 text: 'La reserva ha sido completada',
                 icon: 'success',
                 confirmButtonColor: '#263032',
-              })
-              setLoadingAction({
-                ...loadingAction,
-                any:false,
-                complete:false,
               })
               navigate('/dashboard/reservations');
             }else{

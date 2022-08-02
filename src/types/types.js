@@ -40,6 +40,8 @@ export const types = {
     reservationFinishAdvanceSearch:     '[Reservation - Search] Finish Searching',
     reservationSetAdvanceSearch:        '[Reservation - Search] Set Search',
     reservationCleanSearch:             '[Reservation - Search] Clean Search',
+
+    reservationSetByConfirmationNumber: '[Reservation - Search] By Confirmation',
         
     transferAdd:                        '[Transfer] Add',
     transferDelete:                     '[Transfer] Delete',

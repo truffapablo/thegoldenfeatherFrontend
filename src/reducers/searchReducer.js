@@ -2,7 +2,7 @@ import { advanceSearch } from "../actions/search";
 import { types } from "../types/types";
 
 const initialState = {
-    list: [],
+    listSearch: [],
     advanceSearch:[],
     loading: false,
 }
@@ -51,6 +51,11 @@ export const searchReducer = (state = initialState, action) => {
                 advanceSearch:[]
             }
         
+        case types.reservationSetByConfirmationNumber: 
+        return {
+            ...state,
+            listSearch: [action.payload]
+        }
 
         default: return state;
     }

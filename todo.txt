@@ -1,2 +1,5 @@
 Buscardor
 ====================
+buscar por confirmaci[on]
+
+actualizar data en advanced search
